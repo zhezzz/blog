@@ -1,0 +1,18 @@
+
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>result</title>
+    </head>
+    <body>
+
+    <tr th:each="p: ${result}">
+        <td th:text="${p.getArticleId()}"></td>
+        <!--<td th:text="${p.name}"></td>-->
+        <!--<td th:text="${p.price}"></td>-->
+    </tr>
+
+
+    </body>
+    </html>

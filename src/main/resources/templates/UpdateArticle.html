@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<form id="form"> <!--th:action="@{/article/edit/{articleId}(articleId = ${article.getArticleId()})}" th:method="put">-->
+    <input type="text" name="title" th:value="${article.getTitle()}">
+    <input type="text" name="summary" th:value="${article.getSummary()}">
+    <textarea style="display:none" name="content" id="content" th:text="${article.getContent()}"></textarea>
+</form>
+<div id="editor"></div>
+<input type="hidden" id="articleId" th:value="${article.getArticleId()}">
+<button type="button" id="submit">发布</button>
+<script type="text/javascript" src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+<script type="text/javascript">
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    editor.create()
+    var content=document.getElementById('content').value;
+    editor.txt.html(content)
+
+    document.getElementById('submit').addEventListener('click', function () {
+        var content = editor.txt.html();
+        document.getElementById('content').value=content;
+    }, false)
+
+    var articleId = document.getElementById('articleId').value
+
+    $('#submit').click(function (event) {
+        $.ajax({
+            type: 'post',
+            url: '/article/edit/' + articleId,
+            data: $("#form").serialize(),
+            async: false,
+            error: function(request) {
+
+            },
+            success: function(data) {
+            }
+        });
+    });
+
+
+</script>
+</body>
+</html>
