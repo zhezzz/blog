@@ -4,11 +4,13 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 public class ArticleUtil {
 
-    public static void contentToFile(Long articleId, String content){
-        File file =new File("blog-data/article-content/"+articleId+".txt");
+    public static String contentToFile(String content){
+        String fileName = "blog-data/article-content/"+UUID.randomUUID().toString()+".txt";
+        File file =new File(fileName);
         try{
             Writer out =new FileWriter(file);
             out.write(content);
@@ -17,10 +19,11 @@ public class ArticleUtil {
         catch (IOException ex){
             System.out.println("无法写入文章内容到文件");
         }
+        return fileName;
     }
 
     public static String fileToContent(String fileName){
-        fileName = "blog-data/article-content/"+fileName;
+        fileName = fileName;
         String content = new String();
         try {
             content = new String(Files.readAllBytes(Paths.get(fileName)), StandardCharsets.UTF_8);

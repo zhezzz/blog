@@ -2,6 +2,7 @@ package com.lincz.blog.service;
 
 import com.lincz.blog.entity.Article;
 import com.lincz.blog.repository.ArticleRepository;
+import com.lincz.blog.util.ArticleUtil;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,15 @@ public class ArticleServiceImpl implements ArticleService {
         return article;
     }
 
+//    @Transactional
+//    @Override
+//    public Article postArticle(Article article) {
+//        String fileName = ArticleUtil.contentToFile(article.getContent());
+//        articleRepository.save(article);
+//        article.setContent(fileName);
+//        return article;
+//    }
+
     @Transactional
     @Override
     public Article updateArticle(Long articleId, Article formArticle) {
@@ -53,6 +63,13 @@ public class ArticleServiceImpl implements ArticleService {
     public Article getArticleByArticleId(Long articleId) {
         return articleRepository.findById(articleId).orElse(null);
     }
+
+//    @Override
+//    public Article getArticleByArticleId(Long articleId) {
+//        Article article = articleRepository.findById(articleId).orElse(null);
+//        article.setContent(ArticleUtil.fileToContent(article.getContent()));
+//        return article;
+//    }
 
     @Override
     public void increasePageView(Long articleId) {

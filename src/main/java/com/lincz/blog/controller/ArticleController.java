@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.UUID;
+
 @Controller
 @RequestMapping(value = "/article")
 /*,produces = "application/json;charset=UTF-8"*/
@@ -45,7 +47,7 @@ public class ArticleController {
     @PostMapping("/post")
     public String postArticle(Article formArticle){
         Article article = new Article(formArticle.getTitle(),formArticle.getSummary(),formArticle.getContent());
-        article.setAccount(currentBlogUser());
+        article.setAccount(currentAccount());
         articleService.postArticle(article);
         return "redirect:/article/details/"+article.getArticleId();
     }
@@ -82,7 +84,7 @@ public class ArticleController {
 
 
 
-    public Account currentBlogUser(){
+    public Account currentAccount(){
         return accountService.getAccountByUsername(((UserDetails)SecurityContextHolder
                 .getContext()
                 .getAuthentication()

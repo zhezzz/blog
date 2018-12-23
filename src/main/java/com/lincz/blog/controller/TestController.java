@@ -1,6 +1,7 @@
 package com.lincz.blog.controller;
 
 import com.lincz.blog.entity.Account;
+import com.lincz.blog.entity.Article;
 import com.lincz.blog.repository.ArticleRepository;
 import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
@@ -48,7 +49,7 @@ public class TestController
 
     }
 
-    public Account CurrentBlogUser(){
+    public Account currentAccount(){
         return accountService.getAccountByUsername(((UserDetails)SecurityContextHolder
                 .getContext()
                 .getAuthentication()

@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-//@RequestMapping("/user")
+@RequestMapping("/account")
 public class AccountController {
 
     @Autowired
@@ -20,20 +20,14 @@ public class AccountController {
     @Autowired
     private ArticleService articleService;
 
-    //注册用户
-    @PostMapping("/register")
-    public Account createBlogUser(Account formUser) throws Exception{
-        Account account = new Account(formUser.getUsername(),"default.jpg",formUser.getPassword(),formUser.getEmail(), AccountRolePermissionEnum.ROLE_2.getRoleName());
-        return accountService.createAccount(account);
-    }
 
     //修改用户邮箱密码
-    @PutMapping
-    public void updataBlogUser(Account formUser){
-        Account account = currentBlogUser();
-        account.setEmail(formUser.getEmail());
-        account.setPassword(formUser.getPassword());
-        accountService.updataAccount(account);
+    @PutMapping("/put")
+    public void updateAccount(Account formAccount){
+        Account account = currentAccount();
+        account.setEmail(formAccount.getEmail());
+        account.setPassword(formAccount.getPassword());
+        accountService.updateAccount(account);
     }
 
     //修改用头像
@@ -45,7 +39,7 @@ public class AccountController {
 
 
 
-    public Account currentBlogUser(){
+    public Account currentAccount(){
         return accountService.getAccountByUsername(((UserDetails)SecurityContextHolder
                 .getContext()
                 .getAuthentication()

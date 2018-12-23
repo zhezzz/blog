@@ -1,7 +1,9 @@
 package com.lincz.blog.controller;
 
 
+import com.lincz.blog.entity.Account;
 import com.lincz.blog.entity.Article;
+import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,6 +25,9 @@ public class MainController {
     @Autowired
     private ArticleService articleService;
 
+    @Autowired
+    private AccountService accountService;
+
     @GetMapping("/")
     public ModelAndView index(){
         return new ModelAndView("Index");
@@ -30,6 +36,13 @@ public class MainController {
     @GetMapping("/register")
     public ModelAndView register(){
         return new ModelAndView("Register");
+    }
+
+    //注册用户
+    @PostMapping("/register")
+    public Account createAccount(Account formAccount) throws Exception{
+        Account account = new Account(formAccount.getUsername(),formAccount.getPassword(),formAccount.getEmail());
+        return accountService.createAccount(account);
     }
 
 

@@ -36,7 +36,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updataAccount(Account account) {
+    public void updateAccount(Account account) {
         accountRepository.save(account);
     }
 

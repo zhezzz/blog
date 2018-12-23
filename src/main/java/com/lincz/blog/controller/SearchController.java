@@ -32,7 +32,7 @@ public class SearchController {
     private EntityManagerFactory entityManagerFactory;
 
     @GetMapping("/search")
-    public ModelAndView searchArticle(@PageableDefault(size = 10,sort = { "pageView" }, direction = Sort.Direction.DESC)Pageable pageable, @RequestParam(defaultValue = "")String keyword){
+    public ModelAndView searchArticle(@PageableDefault Pageable pageable, @RequestParam String keyword){
         Page<Article> articlePage = articleService.fullTextSearch(pageable,keyword);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();

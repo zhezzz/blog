@@ -1,6 +1,7 @@
 package com.lincz.blog.entity;
 
 
+import com.lincz.blog.enums.AccountRolePermissionEnum;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -82,16 +83,16 @@ public class Account {
     protected Account() {
     }
 
-    public Account(@NotNull String username, @NotNull String avatar, @NotNull String password, @NotNull String email, @NotNull String role) {
+    public Account(@NotNull String username, @NotNull String password, @NotNull String email) {
         this.username = username;
-        this.avatar =avatar;
+        this.avatar ="default.jpg";
         this.password = password;
         this.email = email;
         this.enabled = true;
         this.accountNonExpired = true;
         this.credentialsNonExpired = true;
         this.accountNonLocked = true;
-        this.role = role;
+        this.role = AccountRolePermissionEnum.ROLE_USER.getRoleName();
     }
 
 

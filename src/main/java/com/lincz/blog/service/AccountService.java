@@ -18,7 +18,7 @@ public interface AccountService extends UserDetailsService {
 
     Account getAccountByAccountId(String accountId);
 
-    void updataAccount(Account account);
+    void updateAccount(Account account);
 
     Account createAccount(Account account);
 

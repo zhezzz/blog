@@ -31,10 +31,9 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.session:spring-session-jdbc')
     implementation('org.hibernate:hibernate-search-orm:5.10.5.Final')
-//    implementation('org.apache.tika:tika-parsers:1.19.1')
+    implementation('org.apache.tika:tika-parsers:1.19.1')
 //    implementation('org.hibernate:hibernate-search:5.10.5.Final')
 //    implementation('org.hibernate:hibernate-agroal:5.4.0.Final')
-
 //    implementation('org.hibernate:hibernate-search-elasticsearch:5.10.5.Final')
 //    implementation('org.springframework.boot:spring-boot-starter-data-elasticsearch')
     runtimeOnly('mysql:mysql-connector-java')
