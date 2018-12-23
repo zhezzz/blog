@@ -2,6 +2,8 @@ package com.lincz.blog.service;
 
 
 import com.lincz.blog.entity.Category;
+import com.lincz.blog.repository.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,23 +11,28 @@ import java.util.List;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Override
     public List<Category> getAllCategory() {
-        return null;
+        return categoryRepository.findAll();
     }
 
     @Override
     public Category createCategory(Category category) {
-        return null;
+        return categoryRepository.save(category);
     }
 
     @Override
-    public Category deleteCategoryByCategoryId(Long CategoryId) {
-        return null;
+    public void deleteCategoryByCategoryId(Long categoryId) {
+        categoryRepository.deleteById(categoryId);
     }
 
     @Override
-    public Category updateCategory(Category category) {
-        return null;
+    public Category updateCategory(Long categoryId,Category formCategory) {
+        Category category = categoryRepository.findById(categoryId).orElse(null);
+        category.setCategoryName(formCategory.getCategoryName());
+        return category;
     }
 }

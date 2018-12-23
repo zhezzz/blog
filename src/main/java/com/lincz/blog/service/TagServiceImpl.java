@@ -20,16 +20,18 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag createCategory(Tag tag) {
-        return null;
+        return tagRepository.save(tag);
     }
 
     @Override
-    public Tag deleteTagByTagId(Long TagId) {
-        return null;
+    public void deleteTagByTagId(Long tagId) {
+        tagRepository.deleteById(tagId);
     }
 
     @Override
-    public Tag updateTag(Tag tag) {
-        return null;
+    public Tag updateTag(Long tagId,Tag formTag) {
+        Tag tag = tagRepository.findById(tagId).orElse(null);
+        tag.setTagName(formTag.getTagName());
+        return tag;
     }
 }

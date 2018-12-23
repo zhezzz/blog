@@ -151,11 +151,11 @@ public class Account {
         this.email = email;
     }
 
-    public String getUserRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setUserRole(String role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

@@ -16,13 +16,13 @@ public interface AccountService extends UserDetailsService {
 
     Account getAccountByEamil(String email);
 
-    Account getAccountByAccountId(String accountId);
+    Account getAccountByAccountId(Long accountId);
 
-    void updateAccount(Account account);
+    Account updateAccount(Long accountId,Account account);
 
     Account createAccount(Account account);
 
-    void deleteAccountByAccountId(String accountId);
+    void deleteAccountByAccountId(Long accountId);
 
     @Override
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;

@@ -30,14 +30,18 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account getAccountByAccountId(String accountId) {
+    public Account getAccountByAccountId(Long accountId) {
 
         return accountRepository.findById(accountId).orElse(null);
     }
 
     @Override
-    public void updateAccount(Account account) {
-        accountRepository.save(account);
+    public Account updateAccount(Long accountId,Account formAccount) {
+        Account account = accountRepository.findById(accountId).orElse(null);
+        account.setAvatar(formAccount.getAvatar());
+        account.setEmail(formAccount.getEmail());
+        account.setPassword(formAccount.getPassword());
+        return account;
     }
 
     @Override
@@ -51,7 +55,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void deleteAccountByAccountId(String accountId) {
+    public void deleteAccountByAccountId(Long accountId) {
         accountRepository.deleteById(accountId);
     }
 

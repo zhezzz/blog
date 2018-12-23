@@ -35,15 +35,6 @@ public class ArticleServiceImpl implements ArticleService {
         return article;
     }
 
-//    @Transactional
-//    @Override
-//    public Article postArticle(Article article) {
-//        String fileName = ArticleUtil.contentToFile(article.getContent());
-//        articleRepository.save(article);
-//        article.setContent(fileName);
-//        return article;
-//    }
-
     @Transactional
     @Override
     public Article updateArticle(Long articleId, Article formArticle) {
@@ -63,13 +54,6 @@ public class ArticleServiceImpl implements ArticleService {
     public Article getArticleByArticleId(Long articleId) {
         return articleRepository.findById(articleId).orElse(null);
     }
-
-//    @Override
-//    public Article getArticleByArticleId(Long articleId) {
-//        Article article = articleRepository.findById(articleId).orElse(null);
-//        article.setContent(ArticleUtil.fileToContent(article.getContent()));
-//        return article;
-//    }
 
     @Override
     public void increasePageView(Long articleId) {
@@ -96,7 +80,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<Article> paginateGetAllArticle(Pageable pageable) {
+    public Page<Article> paginateGetAllArticles(Pageable pageable) {
         return articleRepository.findAll(pageable);
     }
 }

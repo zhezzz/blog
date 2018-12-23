@@ -18,6 +18,6 @@ public interface ArticleService {
 
     Page<Article> fullTextSearch(Pageable pageable, String keyword);
 
-    Page<Article> paginateGetAllArticle(Pageable pageable);
+    Page<Article> paginateGetAllArticles(Pageable pageable);
 
 }

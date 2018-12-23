@@ -62,6 +62,14 @@ public class Comment {
         this.createDate = createDate;
     }
 
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     public String getContent() {
         return content;
     }

@@ -10,8 +10,8 @@ public interface TagService {
 
     Tag createCategory(Tag tag);
 
-    Tag deleteTagByTagId(Long TagId);
+    void deleteTagByTagId(Long tagId);
 
-    Tag updateTag(Tag tag);
+    Tag updateTag(Long tagId,Tag formTag);
 
 }

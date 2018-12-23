@@ -61,7 +61,7 @@ public class MainController {
 
     @GetMapping(value = "/all")
     public ModelAndView getAllArticle(@PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
-        Page<Article> articlePage = articleService.paginateGetAllArticle(pageable);
+        Page<Article> articlePage = articleService.paginateGetAllArticles(pageable);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("Index");

@@ -11,9 +11,8 @@ public interface CategoryService {
 
     Category createCategory(Category category);
 
-    Category deleteCategoryByCategoryId(Long CategoryId);
+    void deleteCategoryByCategoryId(Long categoryId);
 
-    Category updateCategory(Category category);
-
+    Category updateCategory(Long categoryId,Category category);
 
 }
