@@ -60,27 +60,28 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .formLogin()
-                .loginPage("/login").permitAll()
-                .and()
-                .logout().logoutSuccessUrl("/").permitAll();
+//                .loginPage("/login").permitAll()
+//                .and()
+//                .logout().logoutSuccessUrl("/").permitAll()
+
 //                .formLogin()
 //                .loginPage("/Login.html")
 //                .failureUrl("/Login-Error.html")
 //                .and()
 //                .logout()
 //                .logoutSuccessUrl("/Index.html")
-        http
+                .and()
                 .rememberMe()
-                .rememberMeServices(rememberMeServices());
-        http
+                .rememberMeServices(rememberMeServices())
+                .and()
                 .authorizeRequests()
                 .antMatchers("/","/register","/resources/**","/login").permitAll()
 //                .antMatchers(AccountRolePermissionEnum.ROLE_ROOT.getPermission()).hasRole(AccountRolePermissionEnum.ROLE_ROOT.getRoleName())
 //                .antMatchers(AccountRolePermissionEnum.ROLE_ADMIN.getPermission()).hasRole(AccountRolePermissionEnum.ROLE_ADMIN.getRoleName())
 //                .antMatchers(AccountRolePermissionEnum.ROLE_USER.getPermission()).hasRole(AccountRolePermissionEnum.ROLE_USER.getRoleName())
                 .anyRequest()
-                .authenticated();
-        http
+                .authenticated()
+                .and()
                 .csrf().disable();
         http
                 .sessionManagement()

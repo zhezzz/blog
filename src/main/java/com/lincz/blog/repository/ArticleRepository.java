@@ -13,4 +13,6 @@ public interface ArticleRepository extends JpaRepository<Article,Long> {
 
     @Override
     Page<Article> findAll(Pageable pageable);
+
+    Page<Article> findArticlesByAccount_AccountId(Long accountId, Pageable pageable);
 }

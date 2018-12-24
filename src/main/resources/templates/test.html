@@ -13,6 +13,12 @@
         <!--<td th:text="${p.price}"></td>-->
     </tr>
 
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        密码<input type="password" name="password">
+        邮箱<input type="text" name="email">
+        头像<p>选择文件: <input type="file" name="avatarFile"/></p>
+        <p><input type="submit" value="提交"/></p>
+    </form>
 
     </body>
     </html>

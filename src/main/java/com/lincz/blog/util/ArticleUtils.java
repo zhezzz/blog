@@ -6,10 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-public class ArticleUtil {
+public class ArticleUtils {
 
     public static String contentToFile(String content){
-        String fileName = "blog-data/article-content/"+UUID.randomUUID().toString()+".txt";
+        String fileName = "blog-data/article/content/"+UUID.randomUUID().toString()+".txt";
         File file =new File(fileName);
         try{
             Writer out =new FileWriter(file);
@@ -35,7 +35,7 @@ public class ArticleUtil {
     }
     public static void deleteFile(String fileName){
         try {
-            Files.delete(Paths.get("blog-data/article-content/"+fileName));
+            Files.delete(Paths.get("blog-data/article/content/"+fileName));
         }
         catch (IOException ex){
             System.out.println("无法删除文件");

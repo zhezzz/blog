@@ -16,6 +16,7 @@ import java.util.*;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+//@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 public class Account {
 
     @Id
@@ -34,10 +35,10 @@ public class Account {
     @NotNull
     private String avatar;
 
+    @Column(unique = true)
     @NotNull(message = "用户名不能为空")
     @Length(min = 3,max = 16)
-//    @UniqueUsername
-    //TODO 用户名唯一性校验
+
     private String username;
 
     @NotNull(message = "密码不能为空")
@@ -83,18 +84,22 @@ public class Account {
     protected Account() {
     }
 
-    public Account(@NotNull String username, @NotNull String password, @NotNull String email) {
+    public Account(@NotNull String avatar, @NotNull(message = "用户名不能为空") @Length(min = 3, max = 16) String username, @NotNull(message = "密码不能为空") @Length(min = 4, max = 16) String password, @NotNull(message = "电子邮箱地址不能为空") @Email String email, @NotNull String role, @NotNull boolean accountNonExpired, @NotNull boolean accountNonLocked, @NotNull boolean credentialsNonExpired, @NotNull boolean enabled) {
+        this.avatar = avatar;
         this.username = username;
-        this.avatar ="default.jpg";
         this.password = password;
         this.email = email;
-        this.enabled = true;
-        this.accountNonExpired = true;
-        this.credentialsNonExpired = true;
-        this.accountNonLocked = true;
-        this.role = AccountRolePermissionEnum.ROLE_USER.getRoleName();
+        this.role = role;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.enabled = enabled;
     }
 
+    public Account(@NotNull(message = "密码不能为空") @Length(min = 4, max = 16) String password, @NotNull(message = "电子邮箱地址不能为空") @Email String email) {
+        this.password = password;
+        this.email = email;
+    }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();

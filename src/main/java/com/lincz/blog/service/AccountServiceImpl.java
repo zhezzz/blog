@@ -1,4 +1,5 @@
 package com.lincz.blog.service;
+import com.lincz.blog.controller.AccountController;
 import com.lincz.blog.entity.Account;
 import com.lincz.blog.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,12 +37,20 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findById(accountId).orElse(null);
     }
 
+    @Transactional
     @Override
-    public Account updateAccount(Long accountId,Account formAccount) {
+    public Account updateAccountInfo(Long accountId,Account formAccount) {
         Account account = accountRepository.findById(accountId).orElse(null);
-        account.setAvatar(formAccount.getAvatar());
         account.setEmail(formAccount.getEmail());
         account.setPassword(formAccount.getPassword());
+        return account;
+    }
+
+    @Transactional
+    @Override
+    public Account updateAccountAvatar(Long accountId, String avatar) {
+        Account account = accountRepository.findById(accountId).orElse(null);
+        account.setAvatar(avatar);
         return account;
     }
 
@@ -74,8 +84,6 @@ public class AccountServiceImpl implements AccountService {
                 accountByUsernameOrEmail.isCredentialsNonExpired(), accountByUsernameOrEmail.isAccountNonLocked(),
                 accountByUsernameOrEmail.getAuthorities());
         return user;
-
-
    }
 
 

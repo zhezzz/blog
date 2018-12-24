@@ -2,14 +2,12 @@ package com.lincz.blog.service;
 
 import com.lincz.blog.entity.Article;
 import com.lincz.blog.repository.ArticleRepository;
-import com.lincz.blog.util.ArticleUtil;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.geo.GeoPage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +39,7 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = articleRepository.findById(articleId).orElse(null);
         article.setTitle(formArticle.getTitle());
         article.setSummary(formArticle.getSummary());
+        article.setContent(formArticle.getContent());
         return article;
     }
 
@@ -82,5 +81,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Page<Article> paginateGetAllArticles(Pageable pageable) {
         return articleRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Article> paginateGetArticlesByAccountId(Long accountId, Pageable pageable) {
+        Page<Article> articles = articleRepository.findArticlesByAccount_AccountId(accountId);
+        return articles;
     }
 }

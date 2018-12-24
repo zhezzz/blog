@@ -39,14 +39,14 @@ public class ArticleController {
     }
 
     //发布文章（返回本文章页面）
-    @GetMapping("/post")
+    @GetMapping(value = "/post")
     public String postArticleView(){
         return "PostArticle";
     }
 
-    @PostMapping("/post")
+    @PostMapping(value = "/post")
     public String postArticle(Article formArticle){
-        Article article = new Article(formArticle.getTitle(),formArticle.getSummary(),formArticle.getContent());
+        Article article = new Article(formArticle.getTitle(),formArticle.getSummary(),formArticle.getContent(),Long.valueOf(0));
         article.setAccount(currentAccount());
         articleService.postArticle(article);
         return "redirect:/article/details/"+article.getArticleId();
@@ -55,13 +55,13 @@ public class ArticleController {
 
     //删除文章
     //TODO 使用ajax发送DELETE请求
-    @DeleteMapping("/delete/{articleId}")
+    @DeleteMapping(value = "/delete/{articleId}")
     public void deleteArticle(@PathVariable Long articleId){
         articleService.deleteArticleByArticleId(articleId);
     }
 
     //修改文章
-    @GetMapping("/update/{articleId}")
+    @GetMapping(value = "/update/{articleId}")
     public ModelAndView updateArticlePage(@PathVariable Long articleId){
         Article article = articleService.getArticleByArticleId(articleId);
         ModelAndView modelAndView = new ModelAndView();

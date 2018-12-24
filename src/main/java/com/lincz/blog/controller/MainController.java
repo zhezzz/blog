@@ -3,6 +3,7 @@ package com.lincz.blog.controller;
 
 import com.lincz.blog.entity.Account;
 import com.lincz.blog.entity.Article;
+import com.lincz.blog.enums.AccountRolePermissionEnum;
 import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
+@Controller
 public class MainController {
 
     @Autowired
@@ -28,32 +30,33 @@ public class MainController {
     @Autowired
     private AccountService accountService;
 
-    @GetMapping("/")
+    @GetMapping(value = "/")
     public ModelAndView index(){
         return new ModelAndView("Index");
     }
 
-    @GetMapping("/register")
+    @GetMapping(value = "/register")
     public ModelAndView register(){
         return new ModelAndView("Register");
     }
 
     //注册用户
-    @PostMapping("/register")
-    public Account createAccount(Account formAccount) throws Exception{
-        Account account = new Account(formAccount.getUsername(),formAccount.getPassword(),formAccount.getEmail());
-        return accountService.createAccount(account);
+    @PostMapping(value = "/register")
+    public String createAccount(Account formAccount) {
+        Account account = new Account(formAccount.getUsername(),formAccount.getPassword(),formAccount.getEmail(),"default.jpg", AccountRolePermissionEnum.ROLE_USER.getRoleName(),true,true,true,true);
+        accountService.createAccount(account);
+        return "redirect:/";
     }
 
 
 //    // Login form
-//    @RequestMapping("/Login.html")
+//    @RequestMapping(value = "/Login.html")
 //    public String login() {
 //        return "Login.html";
 //    }
 //
 //    // Login form with error
-//    @RequestMapping("/Login-Error.html")
+//    @RequestMapping(value = "/Login-Error.html")
 //    public String loginError(Model model) {
 //        model.addAttribute("loginError", true);
 //        return "Login.html";

@@ -1,17 +1,22 @@
 package com.lincz.blog.controller;
 
 import com.lincz.blog.entity.Account;
-import com.lincz.blog.entity.Article;
 import com.lincz.blog.repository.ArticleRepository;
 import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
-import com.lincz.blog.util.ArticleUtil;
+import com.lincz.blog.util.AccountUtils;
+import com.lincz.blog.util.ArticleUtils;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 
 @RestController
 public class TestController
@@ -27,26 +32,29 @@ public class TestController
 
 
 
-    @GetMapping("/test")
+    @GetMapping(value = "/test")
     public ModelAndView objectinfo(){
         ModelAndView modelAndView = new ModelAndView("test");
         return modelAndView;
     }
 
-    @RequestMapping(value = "/upload")
-    public ArticleUtil.imageResponse uploadImage(MultipartFile imageFile){
-//        String imageFileOriginalFilename = imageFile.getOriginalFilename();
-//        String fileNameExtension = imageFileOriginalFilename.substring(imageFileOriginalFilename.indexOf("."));
-//        String localFileName = UUID.randomUUID().toString()+fileNameExtension;
-//        try {
-//            imageFile.transferTo(Paths.get("blog-data/article-image/"+localFileName));
-//        }
-//        catch (IOException ex){
-//            System.out.println("无法写入文件");
-//        }
-        String [] data = {"/blog-data/article-image/" + "978c3d9b-a930-461f-9b62-78566364023a.jpg"};
-        return ArticleUtil.successResponse(data);
-
+    @PostMapping(value = "/upload")
+    public void updateAccount( MultipartFile avatarFile, Account formAccount){
+        String fileName = avatarFile.getOriginalFilename();
+        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+        File tempAvatar = new File("blog-data/account/avatar/"+1+"."+suffix);
+        File avatar = new File("blog-data/account/avatar/"+1+"."+suffix);
+        try {
+            avatarFile.transferTo(Paths.get(tempAvatar.toURI()));
+            AccountUtils.resizeImage(tempAvatar,avatar,200);
+        }
+        catch (IOException ex){
+            System.out.println("无法写入头像文件");
+        }
+        Account account = accountService.getAccountByAccountId(Long.valueOf(1));
+        account.setEmail(formAccount.getEmail());
+        account.setPassword(formAccount.getPassword());
+        account.setAvatar(avatar.getPath());
     }
 
     public Account currentAccount(){

@@ -20,4 +20,6 @@ public interface ArticleService {
 
     Page<Article> paginateGetAllArticles(Pageable pageable);
 
+    Page<Article> paginateGetArticlesByAccountId(Long accountId, Pageable pageable);
+
 }

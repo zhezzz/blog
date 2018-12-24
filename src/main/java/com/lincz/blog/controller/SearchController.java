@@ -25,13 +25,7 @@ public class SearchController {
     @Autowired
     private ArticleService articleService;
 
-    @PersistenceContext
-    private EntityManager em;
-
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
-
-    @GetMapping("/search")
+    @GetMapping(value = "/search")
     public ModelAndView searchArticle(@PageableDefault Pageable pageable, @RequestParam String keyword){
         Page<Article> articlePage = articleService.fullTextSearch(pageable,keyword);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());

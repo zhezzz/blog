@@ -1,6 +1,5 @@
 package com.lincz.blog.entity;
 
-import org.apache.tika.parser.AutoDetectParser;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.SortableField;
@@ -76,11 +75,11 @@ public class Article {
 
     }
 
-    public Article(@NotNull String title, @NotNull String summary, @NotNull String content) {
+    public Article(@NotNull String title, String summary, @NotNull String content, @NotNull Long pageView) {
         this.title = title;
         this.summary = summary;
         this.content = content;
-        this.pageView = Long.valueOf(0);
+        this.pageView = pageView;
     }
 
     public Long getArticleId() {

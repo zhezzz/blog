@@ -1,14 +1,10 @@
 package com.lincz.blog.controller;
 
-import com.lincz.blog.util.ArticleUtil;
-import org.springframework.http.HttpRequest;
-import org.springframework.stereotype.Controller;
+import com.lincz.blog.util.ArticleUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -19,7 +15,7 @@ public class ArticleImageController {
 
     //上传图片
     @RequestMapping(value = "/uploadimage")
-    public ArticleUtil.imageResponse uploadImage(MultipartFile imageFile, HttpServletRequest request){
+    public ArticleUtils.imageResponse uploadImage(MultipartFile imageFile, HttpServletRequest request){
         String imageFileOriginalFilename = imageFile.getOriginalFilename();
         String fileNameExtension = imageFileOriginalFilename.substring(imageFileOriginalFilename.indexOf("."));
         String localFileName = UUID.randomUUID().toString()+fileNameExtension;
@@ -31,6 +27,6 @@ public class ArticleImageController {
         }
         //TODO 路径问题
         String [] data = {"blog-data/article-image/" + localFileName};
-        return ArticleUtil.successResponse(data);
+        return ArticleUtils.successResponse(data);
     }
 }
