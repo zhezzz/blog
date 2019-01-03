@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<tr th:each="comment:${commentList}">
+    <td th:text="${comment.getCreateDate()}"></td>
+    <td th:text="${comment.getContent()}"></td>
+</tr>
+
+</body>
+</html>

@@ -2,12 +2,12 @@ package com.lincz.blog.controller;
 
 
 import com.lincz.blog.entity.Article;
-import com.lincz.blog.enums.AccountRolePermissionEnum;
+import com.lincz.blog.entity.Comment;
 import com.lincz.blog.entity.Account;
 import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
+import com.lincz.blog.service.CommentService;
 import com.lincz.blog.util.AccountUtils;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,6 +34,9 @@ public class AccountController {
 
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private CommentService commentService;
 
     //用户个人主页功能，
     @GetMapping(value = "/")
@@ -78,14 +80,18 @@ public class AccountController {
 
     //获取用户所有评论（分页）
     @GetMapping(value = "/{accountId}/coments")
-    public ModelAndView getAllComments(@PathVariable Long accountId, Pageable pageable){
-        return null;
+    public ModelAndView getAllComments(@PathVariable Long accountId, @PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
+        Page<Comment> commentPage = commentService.paginateGetCommentsByAccountId(accountId,pageable);
+        List<Comment> commentList = commentPage.get().collect(Collectors.toList());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("AccountComments");
+        modelAndView.addObject(commentList);
+        return modelAndView;
     }
 
     //获取用户所有文章（分页）
     @GetMapping(value = "/{accountId}/articles")
     public ModelAndView getAllArticles(@PathVariable Long accountId, @PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
-        Account account = accountService.getAccountByAccountId(accountId);
         Page<Article> articlePage = articleService.paginateGetArticlesByAccountId(accountId,pageable);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
@@ -94,11 +100,7 @@ public class AccountController {
         return modelAndView;
     }
 
-
-
-
-
-
+    //获取当前用户
     public Account currentAccount(){
         return accountService.getAccountByUsername(((UserDetails)SecurityContextHolder
                 .getContext()
@@ -106,5 +108,4 @@ public class AccountController {
                 .getPrincipal())
                 .getUsername());
     }
-
 }

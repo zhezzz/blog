@@ -14,8 +14,8 @@ public class CommentServiceImpl implements CommentService {
     private CommentRepository commentRepository;
 
     @Override
-    public Page<Comment> paginateGetAllComments(Pageable pageable) {
-        return commentRepository.findAll(pageable);
+    public Page<Comment> paginateGetCommentsByAccountId(Long accountId, Pageable pageable) {
+        return commentRepository.findAllByAccount_AccountId(accountId,pageable);
     }
 
     @Override
@@ -32,6 +32,6 @@ public class CommentServiceImpl implements CommentService {
     public Comment updateComment(Long commentId, Comment formComment) {
         Comment comment = commentRepository.findById(commentId).orElse(null);
         comment.setContent(formComment.getContent());
-        return null;
+        return comment;
     }
 }

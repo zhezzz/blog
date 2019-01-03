@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface CommentService  {
 
-    Page<Comment> paginateGetAllComments(Pageable pageable);
+    Page<Comment> paginateGetCommentsByAccountId(Long accountId, Pageable pageable);
 
     Comment createComment(Comment comment);
 

@@ -9,4 +9,6 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
 
     @Override
     Page<Comment> findAll(Pageable pageable);
+
+    Page<Comment> findAllByAccount_AccountId(Long accountId, Pageable pageable);
 }
