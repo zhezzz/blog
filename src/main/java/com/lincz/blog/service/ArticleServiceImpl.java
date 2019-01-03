@@ -85,7 +85,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<Article> paginateGetArticlesByAccountId(Long accountId, Pageable pageable) {
-        Page<Article> articles = articleRepository.findArticlesByAccount_AccountId(accountId);
+        Page<Article> articles = articleRepository.findArticlesByAccount_AccountId(accountId,pageable);
         return articles;
     }
 }

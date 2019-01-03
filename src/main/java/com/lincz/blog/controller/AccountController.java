@@ -11,6 +11,8 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/account/{accountId}")
+@RequestMapping(value = "/account")
 public class AccountController {
 
     @Autowired
@@ -39,7 +43,7 @@ public class AccountController {
     }
 
     //获取账户信息修改界面
-    @GetMapping(value = "/update")
+    @GetMapping(value = "/update/{accountId}")
     public ModelAndView updateAccountView(@PathVariable Long accountId){
         Account account = accountService.getAccountByAccountId(accountId);
         ModelAndView modelAndView = new ModelAndView();
@@ -49,14 +53,14 @@ public class AccountController {
     }
 
     //修改用户邮箱密码
-    @PostMapping(value = "/update/info")
+    @PostMapping(value = "/update/{accountId}/info")
     public String updateAccountInfo(@PathVariable Long accountId, Account formAccount){
         accountService.updateAccountInfo(accountId,formAccount);
         return "redirect:/";
     }
 
     //修改头像
-    @PostMapping(value = "/update/avatar")
+    @PostMapping(value = "/update/{accountId}/avatar")
     public void updateAccountAvatar(@PathVariable Long accountId, MultipartFile avatarFile){
         String fileName = avatarFile.getOriginalFilename();
         String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
@@ -73,17 +77,21 @@ public class AccountController {
     }
 
     //获取用户所有评论（分页）
-    @GetMapping(value = "/coments")
+    @GetMapping(value = "/{accountId}/coments")
     public ModelAndView getAllComments(@PathVariable Long accountId, Pageable pageable){
         return null;
     }
 
     //获取用户所有文章（分页）
-    @GetMapping(value = "/articles")
-    public ModelAndView getAllArticles(@PathVariable Long accountId, Pageable pageable){
+    @GetMapping(value = "/{accountId}/articles")
+    public ModelAndView getAllArticles(@PathVariable Long accountId, @PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
         Account account = accountService.getAccountByAccountId(accountId);
-        Page<Article> articles = articleService.paginateGetArticlesByAccountId(accountId,pageable);
-        return null;
+        Page<Article> articlePage = articleService.paginateGetArticlesByAccountId(accountId,pageable);
+        List<Article> articleList = articlePage.get().collect(Collectors.toList());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("AccountArticles");
+        modelAndView.addObject(articleList);
+        return modelAndView;
     }
 
 
