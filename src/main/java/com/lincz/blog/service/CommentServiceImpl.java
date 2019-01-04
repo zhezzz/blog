@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -31,10 +32,16 @@ public class CommentServiceImpl implements CommentService {
         deleteCommentByCommentId(commentId);
     }
 
+    @Transactional
     @Override
     public Comment updateComment(Long commentId, Comment formComment) {
         Comment comment = commentRepository.findById(commentId).orElse(null);
         comment.setContent(formComment.getContent());
         return comment;
+    }
+
+    @Override
+    public Comment getArticleByArticleId(Long commentId) {
+        return commentRepository.findById(commentId).orElse(null);
     }
 }
