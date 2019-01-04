@@ -1,8 +1,13 @@
 package com.lincz.blog.util;
 
+import com.lincz.blog.entity.Account;
+import com.lincz.blog.service.AccountService;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGEncodeParam;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,6 +20,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class AccountUtils {
+
+    @Autowired
+    private AccountService accountService;
 
     BufferedImage createResizedCopy(Image originalImage,
                                     int scaledWidth, int scaledHeight,
@@ -64,4 +72,6 @@ public class AccountUtils {
         encoder.setJPEGEncodeParam(jpegEncodeParam);
         encoder.encode(bufferedImage);
     }
+
+
 }

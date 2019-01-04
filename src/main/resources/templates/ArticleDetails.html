@@ -8,8 +8,14 @@
 <h1 th:text="${article.getTitle()}"></h1>
 <h2 th:text="${article.getSummary()}"></h2>
 <div th:utext="${article.getContent()}"></div>
-<form th：action="/comment/post" method="post">
-    <input type="hidden" id="articleId" th:value="${article.getArticleId()}">
+
+
+<tr th:each="comment:${article.getComments()}">
+    <td th:utext="${comment.getContent()}"></td>
+</tr>
+
+
+<form th:action="@{/comment/post/{articleId}(articleId=${article.getArticleId()})}" method="post">
     <div id="editor">
         <p>请在此处编写评论内容</p>
     </div>
@@ -29,6 +35,7 @@
         document.getElementById('content').value=content;
     }, false)
 </script>
+
 
 
 </body>

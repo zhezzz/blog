@@ -1,6 +1,8 @@
 package com.lincz.blog.service;
 
+import com.lincz.blog.entity.Article;
 import com.lincz.blog.entity.Comment;
+import com.lincz.blog.repository.ArticleRepository;
 import com.lincz.blog.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +22,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment createComment(Comment comment) {
-        return commentRepository.save(comment);
+        commentRepository.save(comment);
+        return comment;
     }
 
     @Override
