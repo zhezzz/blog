@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ArticleService {
 
-    Article postArticle(Article article);
+    Article createArticle(Article article);
 
     Article updateArticle(Long articleId, Article formArticle);
 
@@ -20,6 +20,9 @@ public interface ArticleService {
 
     Page<Article> paginateGetAllArticles(Pageable pageable);
 
-    Page<Article> paginateGetArticlesByAccountId(Long accountId, Pageable pageable);
+    Page<Article> paginateGetArticlesByAccount(Long accountId, Pageable pageable);
+
+    Page<Article> paginateGetArticlesByCategory(Long categoryId, Pageable pageable);
+
 
 }

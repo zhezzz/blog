@@ -7,7 +7,6 @@ import com.lincz.blog.entity.Comment;
 import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
 import com.lincz.blog.service.CommentService;
-import com.lincz.blog.util.AccountUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

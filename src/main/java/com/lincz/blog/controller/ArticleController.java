@@ -5,20 +5,24 @@ import com.lincz.blog.entity.Article;
 import com.lincz.blog.entity.Account;
 import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
+import com.lincz.blog.util.AccountUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/article")
-/*,produces = "application/json;charset=UTF-8"*/
 public class ArticleController {
 
     @Autowired
@@ -26,6 +30,8 @@ public class ArticleController {
 
     @Autowired
     private AccountService accountService;
+
+
 
     //根据文章id查看文章
     @GetMapping(value = "/details/{articleId}")
@@ -48,7 +54,7 @@ public class ArticleController {
     public String postArticle(Article formArticle){
         Article article = new Article(formArticle.getTitle(),formArticle.getSummary(),formArticle.getContent(),Long.valueOf(0));
         article.setAccount(currentAccount());
-        articleService.postArticle(article);
+        articleService.createArticle(article);
         return "redirect:/article/details/"+article.getArticleId();
     }
 
@@ -69,6 +75,7 @@ public class ArticleController {
         modelAndView.addObject(article);
         return modelAndView;
     }
+
 //TODO 使用ajax发送PUT请求
     @PutMapping(value = "/update/{articleId}")
     public String updateArticle(@PathVariable Long articleId, Article formArticle){

@@ -1,5 +1,4 @@
 package com.lincz.blog.service;
-import com.lincz.blog.controller.AccountController;
 import com.lincz.blog.entity.Account;
 import com.lincz.blog.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -28,7 +28,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Transactional
     @Override
-    public Article postArticle(Article article) {
+    public Article createArticle(Article article) {
         articleRepository.save(article);
         return article;
     }
@@ -84,8 +84,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<Article> paginateGetArticlesByAccountId(Long accountId, Pageable pageable) {
+    public Page<Article> paginateGetArticlesByAccount(Long accountId, Pageable pageable) {
         Page<Article> articles = articleRepository.findArticlesByAccount_AccountId(accountId,pageable);
         return articles;
+    }
+
+    @Override
+    public Page<Article> paginateGetArticlesByCategory(Long categoryId, Pageable pageable) {
+        return articleRepository.findArticlesByCategory_CategoryId(categoryId,pageable);
     }
 }

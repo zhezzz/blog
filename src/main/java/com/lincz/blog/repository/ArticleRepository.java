@@ -15,4 +15,6 @@ public interface ArticleRepository extends JpaRepository<Article,Long> {
     Page<Article> findAll(Pageable pageable);
 
     Page<Article> findArticlesByAccount_AccountId(Long accountId, Pageable pageable);
+
+    Page<Article> findArticlesByCategory_CategoryId(Long categoryId, Pageable pageable);
 }

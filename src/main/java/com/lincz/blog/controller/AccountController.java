@@ -92,7 +92,7 @@ public class AccountController {
     //获取用户所有文章（分页）
     @GetMapping(value = "/{accountId}/articles")
     public ModelAndView getAllArticles(@PathVariable Long accountId, @PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
-        Page<Article> articlePage = articleService.paginateGetArticlesByAccountId(accountId,pageable);
+        Page<Article> articlePage = articleService.paginateGetArticlesByAccount(accountId,pageable);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("AccountArticles");
