@@ -16,27 +16,10 @@
 
 
 <form th:action="@{/comment/post/{articleId}(articleId=${article.getArticleId()})}" method="post">
-    <div id="editor">
-        <p>请在此处编写评论内容</p>
-    </div>
+
     <input type="hidden" name="content" id="content">
     <button type="submit" id="submit">发布</button>
 </form>
-
-<script type="text/javascript" src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
-<script type="text/javascript">
-    var E = window.wangEditor
-    var editor = new E('#editor')
-    editor.customConfig.menus = [
-    ]
-    editor.create()
-    document.getElementById('submit').addEventListener('click', function () {
-        var content=editor.txt.html();
-        document.getElementById('content').value=content;
-    }, false)
-</script>
-
-
 
 </body>
 </html>
