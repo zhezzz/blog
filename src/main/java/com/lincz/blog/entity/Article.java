@@ -61,11 +61,15 @@ public class Article {
     @NotNull
     private String summary;
 
-    @Field
+//    @Field
 //    @TikaBridge
     @NotNull
     @Column(columnDefinition = "MEDIUMTEXT")
     private String content;
+
+    @NotNull
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String rawContent;//纯文本内容
 
     @NotNull
 //    @SortableField
@@ -75,10 +79,11 @@ public class Article {
 
     }
 
-    public Article(@NotNull String title, String summary, @NotNull String content, @NotNull Long pageView) {
+    public Article(@NotNull String title, @NotNull String summary, @NotNull String content, @NotNull String rawContent, @NotNull Long pageView) {
         this.title = title;
         this.summary = summary;
         this.content = content;
+        this.rawContent = rawContent;
         this.pageView = pageView;
     }
 
@@ -155,12 +160,19 @@ public class Article {
     }
 
     public String getContent() {
-//        return ArticleUtil.fileToContent(content);
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getRawContent() {
+        return rawContent;
+    }
+
+    public void setRawContent(String rawContent) {
+        this.rawContent = rawContent;
     }
 
     public Long getPageView() {

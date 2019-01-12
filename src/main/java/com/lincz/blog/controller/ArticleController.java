@@ -5,21 +5,15 @@ import com.lincz.blog.entity.Article;
 import com.lincz.blog.entity.Account;
 import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
-import com.lincz.blog.util.AccountUtils;
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+
 
 @Controller
 @RequestMapping(value = "/article")
@@ -52,7 +46,8 @@ public class ArticleController {
 
     @PostMapping(value = "/post")
     public String postArticle(Article formArticle){
-        Article article = new Article(formArticle.getTitle(),formArticle.getSummary(),formArticle.getContent(),Long.valueOf(0));
+        String rawContent = Jsoup.parse(formArticle.getContent()).text();
+        Article article = new Article(formArticle.getTitle(),formArticle.getSummary(),formArticle.getContent(), rawContent, Long.valueOf(0));
         article.setAccount(currentAccount());
         articleService.createArticle(article);
         return "redirect:/article/details/"+article.getArticleId();
@@ -82,13 +77,6 @@ public class ArticleController {
         articleService.updateArticle(articleId, formArticle);
         return "redirect:/article/details/"+articleId;
     }
-
-
-    //查看所有文章（分页）
-
-
-
-
 
 
     public Account currentAccount(){
