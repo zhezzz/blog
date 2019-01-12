@@ -12,9 +12,9 @@
 
 
 
-<tr th:each="comment:${article.getComments()}">
-    <td th:utext="${comment.getContent()}"></td>
-</tr>
+<!--<tr th:each="comment:${article.getComments()}">-->
+    <!--<td th:text="${comment.getContent()}"></td>-->
+<!--</tr>-->
 
 
 <form th:action="@{/comment/post/{articleId}(articleId=${article.getArticleId()})}" method="post">

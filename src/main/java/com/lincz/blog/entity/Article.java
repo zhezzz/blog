@@ -67,6 +67,7 @@ public class Article {
     @Column(columnDefinition = "MEDIUMTEXT")
     private String content;
 
+    @Field
     @NotNull
     @Column(columnDefinition = "MEDIUMTEXT")
     private String rawContent;//纯文本内容

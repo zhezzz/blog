@@ -49,6 +49,7 @@ public class ArticleServiceImpl implements ArticleService {
         articleRepository.deleteById(articleId);
     }
 
+    @Transactional
     @Override
     public Article getArticleByArticleId(Long articleId) {
         return articleRepository.findById(articleId).orElse(null);
@@ -69,7 +70,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .buildQueryBuilder().forEntity( Article.class ).get();
         org.apache.lucene.search.Query luceneQuery = queryBuilder
                 .keyword()
-                .onFields("title","summary","content")
+                .onFields("title","summary","rawContent")
                 .matching("data")
                 .createQuery();
         javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Article.class);
