@@ -13,20 +13,4 @@ import java.util.UUID;
 @RestController
 public class ArticleImageController {
 
-    //上传图片
-    @RequestMapping(value = "/uploadimage")
-    public ArticleUtils.imageResponse uploadImage(MultipartFile imageFile, HttpServletRequest request){
-        String imageFileOriginalFilename = imageFile.getOriginalFilename();
-        String fileNameExtension = imageFileOriginalFilename.substring(imageFileOriginalFilename.indexOf("."));
-        String localFileName = UUID.randomUUID().toString()+fileNameExtension;
-        try {
-            imageFile.transferTo(Paths.get("blog-data/article-image/"+localFileName));
-        }
-        catch (IOException ex){
-            System.out.println("无法写入文件");
-        }
-        //TODO 路径问题
-        String [] data = {"blog-data/article-image/" + localFileName};
-        return ArticleUtils.successResponse(data);
-    }
 }

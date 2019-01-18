@@ -40,21 +40,7 @@ public class TestController
 
     @PostMapping(value = "/upload")
     public void updateAccount( MultipartFile avatarFile, Account formAccount){
-        String fileName = avatarFile.getOriginalFilename();
-        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
-        File tempAvatar = new File("blog-data/account/avatar/"+1+"."+suffix);
-        File avatar = new File("blog-data/account/avatar/"+1+"."+suffix);
-        try {
-            avatarFile.transferTo(Paths.get(tempAvatar.toURI()));
-            AccountUtils.resizeImage(tempAvatar,avatar,200);
-        }
-        catch (IOException ex){
-            System.out.println("无法写入头像文件");
-        }
-        Account account = accountService.getAccountByAccountId(Long.valueOf(1));
-        account.setEmail(formAccount.getEmail());
-        account.setPassword(formAccount.getPassword());
-        account.setAvatar(avatar.getPath());
+
     }
 
     public Account currentAccount(){

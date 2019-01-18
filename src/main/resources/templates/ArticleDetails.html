@@ -18,8 +18,7 @@
 
 
 <form th:action="@{/comment/post/{articleId}(articleId=${article.getArticleId()})}" method="post">
-
-    <input type="hidden" name="content" id="content">
+    <input type="text" name="content" id="content">
     <button type="submit" id="submit">发布</button>
 </form>
 

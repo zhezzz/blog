@@ -32,7 +32,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account getAccountByAccountId(Long accountId) {
-
         return accountRepository.findById(accountId).orElse(null);
     }
 

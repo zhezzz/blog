@@ -42,31 +42,5 @@ public class ArticleUtils {
         }
     }
 
-    public static imageResponse successResponse(String[] data){
-        return new imageResponse(0,data);
-    }
-
-    public static class imageResponse implements Serializable{
-        private Integer errno;
-
-        private String [] data;
-
-        public imageResponse() {
-        }
-
-        public imageResponse(Integer errno, String[] data) {
-            this.errno = errno;
-            this.data = data;
-        }
-
-        public Integer getErrno() {
-            return errno;
-        }
-
-        public String[] getData() {
-            return data;
-        }
-    }
-
 
 }

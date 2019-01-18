@@ -11,8 +11,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 
 @Controller
@@ -85,6 +90,33 @@ public class ArticleController {
                 .getAuthentication()
                 .getPrincipal())
                 .getUsername());
+    }
+
+
+    //上传图片
+    @RequestMapping(value = "/upload")
+    public Response uploadImage(MultipartFile imageFile, HttpServletRequest request) throws IOException {
+
+        String imageFileOriginalFilename = imageFile.getOriginalFilename();
+        String fileNameExtension = imageFileOriginalFilename.substring(imageFileOriginalFilename.lastIndexOf("."));
+        String localFileName = UUID.randomUUID().toString()+fileNameExtension;
+        imageFile.transferTo(Paths.get("blog-data/article-image/"+localFileName));
+        //TODO 路径问题
+        String [] data = {"blog-data/article-image/" + localFileName};
+        return new Response(0,data);
+
+
+    }
+    //定义成员内部类供图片上传返回响应json
+    class Response{
+        private Integer errno;
+
+        private String [] data;
+
+        public Response(Integer errno, String[] data) {
+            this.errno = errno;
+            this.data = data;
+        }
     }
 
 

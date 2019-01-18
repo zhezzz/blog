@@ -63,18 +63,14 @@ public class AccountController {
 
     //修改头像
     @PostMapping(value = "/update/{accountId}/avatar")
-    public void updateAccountAvatar(@PathVariable Long accountId, MultipartFile avatarFile){
+    public void updateAccountAvatar(@PathVariable Long accountId, MultipartFile avatarFile) throws IOException{
+        //TODO 放弃上传文件，改用网络图片链接
         String fileName = avatarFile.getOriginalFilename();
         String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
         File tempAvatar = new File("blog-data/account/avatar/"+accountId+"."+suffix);
         File avatar = new File("blog-data/account/avatar/"+accountId+"."+suffix);
-        try {
-            avatarFile.transferTo(Paths.get(tempAvatar.toURI()));
-            AccountUtils.resizeImage(tempAvatar,avatar,200);
-        }
-        catch (IOException ex){
-            System.out.println("无法写入头像文件");
-        }
+        avatarFile.transferTo(Paths.get(tempAvatar.toURI()));
+        AccountUtils.resizeImage(tempAvatar,avatar,200);
         accountService.updateAccountAvatar(accountId,avatar.getPath());
     }
 
