@@ -52,8 +52,7 @@ public class ArticleController {
     @PostMapping(value = "/post")
     public String postArticle(Article formArticle){
         String rawContent = Jsoup.parse(formArticle.getContent()).text();
-        Article article = new Article(formArticle.getTitle(),formArticle.getSummary(),formArticle.getContent(), rawContent, Long.valueOf(0));
-        article.setAccount(currentAccount());
+        Article article = new Article(currentAccount(),formArticle.getTitle(),formArticle.getSummary(),formArticle.getContent(), rawContent, Long.valueOf(0));
         articleService.createArticle(article);
         return "redirect:/article/details/"+article.getArticleId();
     }

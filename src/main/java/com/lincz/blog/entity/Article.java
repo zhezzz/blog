@@ -1,5 +1,6 @@
 package com.lincz.blog.entity;
 
+import net.bytebuddy.implementation.bind.annotation.Default;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.SortableField;
@@ -9,6 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.DefaultValue;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -21,7 +23,7 @@ public class Article {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long articleId;
 
-//    @NotNull
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "accountId")
     private Account account;
@@ -81,7 +83,8 @@ public class Article {
 
     }
 
-    public Article(@NotNull String title, @NotNull String summary, @NotNull String content, @NotNull String rawContent, @NotNull Long pageView) {
+    public Article(@NotNull Account account, @NotNull String title, @NotNull String summary, @NotNull String content, @NotNull String rawContent, @NotNull Long pageView) {
+        this.account = account;
         this.title = title;
         this.summary = summary;
         this.content = content;
