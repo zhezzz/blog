@@ -50,11 +50,11 @@ public class MainController {
     }
 
 
-//    // Login form
-//    @RequestMapping(value = "/Login.html")
-//    public String login() {
-//        return "Login.html";
-//    }
+    // Login form
+    @GetMapping(value = "/login")
+    public String login() {
+        return "Login";
+    }
 //
 //    // Login form with error
 //    @RequestMapping(value = "/Login-Error.html")

@@ -2,6 +2,7 @@ package com.lincz.blog.Validator.UniqueUsername;
 
 import com.lincz.blog.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -13,7 +14,7 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value.equals("123123")){
+        if (accountService.getAccountByUsername(value) != null){
             return false;
         };
         return true;

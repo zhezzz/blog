@@ -1,6 +1,7 @@
 package com.lincz.blog.entity;
 
 
+import com.lincz.blog.Validator.UniqueUsername.UniqueUsername;
 import com.lincz.blog.enums.AccountRolePermissionEnum;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
@@ -32,13 +33,10 @@ public class Account {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
-    @NotNull
-    private String avatar;
-
     @Column(unique = true)
     @NotNull(message = "用户名不能为空")
     @Length(min = 3,max = 16)
-
+    @UniqueUsername
     private String username;
 
     @NotNull(message = "密码不能为空")
@@ -48,6 +46,9 @@ public class Account {
     @NotNull(message = "电子邮箱地址不能为空")
     @Email
     private String email;
+
+    @NotNull
+    private String avatar;
 
     @NotNull
     private String role;
@@ -84,11 +85,11 @@ public class Account {
     protected Account() {
     }
 
-    public Account(@NotNull String avatar, @NotNull(message = "用户名不能为空") @Length(min = 3, max = 16) String username, @NotNull(message = "密码不能为空") @Length(min = 4, max = 16) String password, @NotNull(message = "电子邮箱地址不能为空") @Email String email, @NotNull String role, @NotNull boolean accountNonExpired, @NotNull boolean accountNonLocked, @NotNull boolean credentialsNonExpired, @NotNull boolean enabled) {
-        this.avatar = avatar;
+    public Account(@NotNull(message = "用户名不能为空") @Length(min = 3, max = 16) String username, @NotNull(message = "密码不能为空") @Length(min = 4, max = 16) String password, @NotNull(message = "电子邮箱地址不能为空") @Email String email, @NotNull String avatar, @NotNull String role, @NotNull boolean accountNonExpired, @NotNull boolean accountNonLocked, @NotNull boolean credentialsNonExpired, @NotNull boolean enabled) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.avatar = avatar;
         this.role = role;
         this.accountNonExpired = accountNonExpired;
         this.accountNonLocked = accountNonLocked;

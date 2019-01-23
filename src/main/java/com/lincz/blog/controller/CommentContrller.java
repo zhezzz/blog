@@ -35,7 +35,7 @@ public class CommentContrller {
         comment.setArticle(article);
         comment.setAccount(currentAccount());
         commentService.createComment(comment);
-        article.getComments().add(comment);
+        comment.setArticle(article);
         return "redirect:/article/details/"+articleId;
     }
 

@@ -26,7 +26,8 @@ public class Article {
     @JoinColumn(name = "accountId")
     private Account account;
 
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY,orphanRemoval = true)
+    //TODO 评论懒加载问题
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER,orphanRemoval = true)
     @OrderBy("createDate desc")
     @JoinColumn(name = "articleId")
     private Set<Comment> comments;
