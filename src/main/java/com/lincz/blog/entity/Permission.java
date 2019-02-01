@@ -1,12 +1,15 @@
 package com.lincz.blog.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Permission {
 
     @Id
@@ -15,6 +18,14 @@ public class Permission {
 
     @NotNull
     private String permissionName;
+
+    @NotNull
+    @CreatedDate
+    private LocalDateTime createDate;
+
+    @NotNull
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
 
     public Permission(@NotNull String permissionName) {
         this.permissionName = permissionName;
@@ -34,5 +45,21 @@ public class Permission {
 
     public void setPermissionName(String permissionName) {
         this.permissionName = permissionName;
+    }
+
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
+
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 }
