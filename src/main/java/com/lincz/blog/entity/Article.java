@@ -37,7 +37,7 @@ public class Article {
 //    @NotNull
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @OrderBy("tagId asc ")
-    @JoinTable(name = "article_Tag",joinColumns = {@JoinColumn(name = "articleId",referencedColumnName = "articleId")}
+    @JoinTable(name = "article_tag",joinColumns = {@JoinColumn(name = "articleId",referencedColumnName = "articleId")}
                 ,inverseJoinColumns = {@JoinColumn(name = "tagId",referencedColumnName = "tagId")})
     private Set<Tag> tags;
 

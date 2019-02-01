@@ -1,14 +1,14 @@
 package com.lincz.blog.entity;
 
 
-import com.lincz.blog.Validator.UniqueUsername.UniqueUsername;
-import com.lincz.blog.enums.AccountRolePermissionEnum;
+
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -17,8 +17,7 @@ import java.util.*;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-//@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
-public class Account {
+public class Account implements UserDetails {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -36,7 +35,7 @@ public class Account {
     @Column(unique = true)
     @NotNull(message = "用户名不能为空")
     @Length(min = 3,max = 16)
-    @UniqueUsername
+//    @UniqueUsername
     private String username;
 
     @NotNull(message = "密码不能为空")
@@ -51,7 +50,11 @@ public class Account {
     private String avatar;
 
     @NotNull
-    private String role;
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OrderBy("authorityId asc ")
+    @JoinTable(name = "account_authority",joinColumns = {@JoinColumn(name = "accountId",referencedColumnName = "accountId")}
+            ,inverseJoinColumns = {@JoinColumn(name = "authorityId",referencedColumnName = "authorityId")})
+    private  Set<Authority> authorities;
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY,orphanRemoval = true)
     @OrderBy("createDate desc")
@@ -69,43 +72,42 @@ public class Account {
     @JoinColumn(name = "accountId")
     private Set<Comment> comments;
 
-    @NotNull
-    private boolean accountNonExpired;
-
-    @NotNull
-    private boolean accountNonLocked;
-
-    @NotNull
-    private boolean credentialsNonExpired;
-
-    @NotNull
-    private boolean enabled;
-
+//    @NotNull
+//    private boolean accountNonExpired;
+//
+//    @NotNull
+//    private boolean accountNonLocked;
+//
+//    @NotNull
+//    private boolean credentialsNonExpired;
+//
+//    @NotNull
+//    private boolean enabled;
 
     protected Account() {
     }
 
-    public Account(@NotNull(message = "用户名不能为空") @Length(min = 3, max = 16) String username, @NotNull(message = "密码不能为空") @Length(min = 4, max = 16) String password, @NotNull(message = "电子邮箱地址不能为空") @Email String email, @NotNull String avatar, @NotNull String role, @NotNull boolean accountNonExpired, @NotNull boolean accountNonLocked, @NotNull boolean credentialsNonExpired, @NotNull boolean enabled) {
+//    public Account(@NotNull(message = "用户名不能为空") @Length(min = 3, max = 16) String username, @NotNull(message = "密码不能为空") @Length(min = 4, max = 16) String password, @NotNull(message = "电子邮箱地址不能为空") @Email String email, @NotNull String avatar, @NotNull boolean accountNonExpired, @NotNull boolean accountNonLocked, @NotNull boolean credentialsNonExpired, @NotNull boolean enabled) {
+//        this.username = username;
+//        this.password = password;
+//        this.email = email;
+//        this.avatar = avatar;
+//        this.accountNonExpired = accountNonExpired;
+//        this.accountNonLocked = accountNonLocked;
+//        this.credentialsNonExpired = credentialsNonExpired;
+//        this.enabled = enabled;
+//    }
+
+
+    public Account(@NotNull(message = "用户名不能为空") @Length(min = 3, max = 16) String username, @NotNull(message = "密码不能为空") @Length(min = 4, max = 16) String password, @NotNull(message = "电子邮箱地址不能为空") @Email String email, @NotNull String avatar, @NotNull Set<Authority> authorities) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.avatar = avatar;
-        this.role = role;
-        this.accountNonExpired = accountNonExpired;
-        this.accountNonLocked = accountNonLocked;
-        this.credentialsNonExpired = credentialsNonExpired;
-        this.enabled = enabled;
-    }
-
-    public Account(@NotNull(message = "密码不能为空") @Length(min = 4, max = 16) String password, @NotNull(message = "电子邮箱地址不能为空") @Email String email) {
-        this.password = password;
-        this.email = email;
+        this.authorities = authorities;
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(this.role);
-            authorities.add(grantedAuthority);
             return authorities;
     }
 
@@ -157,45 +159,37 @@ public class Account {
         this.email = email;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public boolean isAccountNonExpired() {
-        return accountNonExpired;
+        return true;
     }
 
-    public void setAccountNonExpired(boolean accountNonExpired) {
-        this.accountNonExpired = accountNonExpired;
-    }
+//    public void setAccountNonExpired(boolean accountNonExpired) {
+//        this.accountNonExpired = accountNonExpired;
+//    }
 
     public boolean isAccountNonLocked() {
-        return accountNonLocked;
+        return true;
     }
 
-    public void setAccountNonLocked(boolean accountNonLocked) {
-        this.accountNonLocked = accountNonLocked;
-    }
+//    public void setAccountNonLocked(boolean accountNonLocked) {
+//        this.accountNonLocked = accountNonLocked;
+//    }
 
     public boolean isCredentialsNonExpired() {
-        return credentialsNonExpired;
+        return true;
     }
 
-    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
-        this.credentialsNonExpired = credentialsNonExpired;
-    }
+//    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+//        this.credentialsNonExpired = credentialsNonExpired;
+//    }
 
     public boolean isEnabled() {
-        return enabled;
+        return true;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+//    public void setEnabled(boolean enabled) {
+//        this.enabled = enabled;
+//    }
 
     public LocalDateTime getCreateDate() {
         return createDate;
@@ -227,5 +221,9 @@ public class Account {
 
     public void setFavoriteArticles(Set<Article> favoriteArticles) {
         this.favoriteArticles = favoriteArticles;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
     }
 }
