@@ -1,9 +1,11 @@
 package com.lincz.blog.service;
 
 import com.lincz.blog.entity.Authority;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AuthorityServiceImpl implements AuthorityService {
 
     @Override
