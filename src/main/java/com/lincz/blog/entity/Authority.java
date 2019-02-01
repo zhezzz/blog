@@ -19,7 +19,7 @@ public class Authority implements GrantedAuthority {
     private Long authorityId;
 
     @NotNull
-    private String authority;
+    private String authorityName;
 
     @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.LAZY)
     @OrderBy("accountId asc ")
@@ -36,14 +36,13 @@ public class Authority implements GrantedAuthority {
     private LocalDateTime lastModifiedDate;
 
     public Authority(String authority) {
-        this.authority = authority;
+        this.authorityName = authority;
     }
 
     @Override
     public String getAuthority() {
-        return authority;
+        return authorityName;
     }
-
 
     public Long getAuthorityId() {
         return authorityId;
@@ -53,8 +52,12 @@ public class Authority implements GrantedAuthority {
         this.authorityId = authorityId;
     }
 
-    public void setAuthority(String authority) {
-        this.authority = authority;
+    public String getAuthorityName() {
+        return authorityName;
+    }
+
+    public void setAuthorityName(String authorityName) {
+        this.authorityName = authorityName;
     }
 
     public Set<Account> getAccounts() {
