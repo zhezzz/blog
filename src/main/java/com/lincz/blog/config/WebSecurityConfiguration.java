@@ -61,16 +61,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .formLogin()
-//                .loginPage("/login").permitAll()
-//                .and()
-//                .logout().logoutSuccessUrl("/").permitAll()
-
-//                .formLogin()
-//                .loginPage("/Login.html")
-//                .failureUrl("/Login-Error.html")
-//                .and()
-//                .logout()
-//                .logoutSuccessUrl("/Index.html")
                 .and()
                 .rememberMe()
                 .rememberMeServices(rememberMeServices())

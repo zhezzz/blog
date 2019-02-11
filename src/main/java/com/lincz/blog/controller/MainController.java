@@ -34,8 +34,7 @@ public class MainController {
     @Autowired
     private AccountService accountService;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @GetMapping(value = "/")
     public ModelAndView index(){
@@ -50,26 +49,15 @@ public class MainController {
     //注册用户
     @PostMapping(value = "/register")
     public String createAccount(Account formAccount) {
-        Set<Authority> authoritySet = new HashSet<>();
-        authoritySet.add(new Authority("USER") );
-        Account account = new Account(formAccount.getUsername(),formAccount.getPassword(),formAccount.getEmail(), "default.jpg",authoritySet/*,true,true,true,true*/);
+        Set<Authority> authorities = new HashSet<>();
+        authorities.add(new Authority("view") );
+        Account account = new Account(formAccount.getUsername(),formAccount.getPassword(),formAccount.getEmail(), "default.jpg",authorities);
         accountService.createAccount(account);
         return "redirect:/";
     }
 
 
-    // Login form
-    @GetMapping(value = "/login")
-    public String login() {
-        return "Login";
-    }
-//
-//    // Login form with error
-//    @RequestMapping(value = "/Login-Error.html")
-//    public String loginError(Model model) {
-//        model.addAttribute("loginError", true);
-//        return "Login.html";
-//    }
+
 
     @GetMapping(value = "/all")
     public ModelAndView getAllArticle(@PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){

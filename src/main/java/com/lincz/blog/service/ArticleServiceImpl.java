@@ -2,8 +2,8 @@ package com.lincz.blog.service;
 
 import com.lincz.blog.entity.Article;
 import com.lincz.blog.repository.ArticleRepository;
-import org.hibernate.search.jpa.FullTextEntityManager;
-import org.hibernate.search.query.dsl.QueryBuilder;
+//import org.hibernate.search.jpa.FullTextEntityManager;
+//import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -63,20 +63,21 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<Article> fullTextSearch(Pageable pageable,String keyword) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(em);
-        em.getTransaction().begin();
-        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
-                .buildQueryBuilder().forEntity( Article.class ).get();
-        org.apache.lucene.search.Query luceneQuery = queryBuilder
-                .keyword()
-                .onFields("title","summary","rawContent")
-                .matching("data")
-                .createQuery();
-        javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Article.class);
-        List<Article> resultList = persistenceQuery.getResultList();
-        Page<Article>  result = new PageImpl<>(resultList,pageable,null == resultList ? 0 : resultList.size());
-        return result;
+//        EntityManager em = entityManagerFactory.createEntityManager();
+//        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(em);
+//        em.getTransaction().begin();
+//        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
+//                .buildQueryBuilder().forEntity( Article.class ).get();
+//        org.apache.lucene.search.Query luceneQuery = queryBuilder
+//                .keyword()
+//                .onFields("title","summary","rawContent")
+//                .matching("data")
+//                .createQuery();
+//        javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Article.class);
+//        List<Article> resultList = persistenceQuery.getResultList();
+//        Page<Article>  result = new PageImpl<>(resultList,pageable,null == resultList ? 0 : resultList.size());
+//        return result;
+        return null;
     }
 
     @Override
