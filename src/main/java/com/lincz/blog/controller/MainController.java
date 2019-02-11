@@ -1,11 +1,11 @@
 package com.lincz.blog.controller;
 
 
-import com.lincz.blog.entity.Account;
-import com.lincz.blog.entity.Article;
-import com.lincz.blog.entity.Authority;
+import com.lincz.blog.entity.*;
 import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
+import com.lincz.blog.service.CategoryService;
+import com.lincz.blog.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +32,11 @@ public class MainController {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private TagService tagService;
 
 
     @GetMapping(value = "/")
@@ -47,13 +52,7 @@ public class MainController {
     //注册用户
     @PostMapping(value = "/register")
     public String createAccount(Account formAccount) {
-        Set<Authority> authorities = new HashSet<>();
-        authorities.add(new Authority("view") );
-        //post article、delete article、update article
-        //post comment、delete comment、update comment
-        //update account
-        //
-        Account account = new Account(formAccount.getUsername(),formAccount.getPassword(),formAccount.getEmail(), "default.jpg",authorities);
+        Account account = new Account(formAccount.getUsername(),formAccount.getPassword(),formAccount.getEmail(), "default.jpg");
         accountService.createAccount(account);
         return "redirect:/";
     }
@@ -74,7 +73,8 @@ public class MainController {
     //分页列出一个分类下的所有文章
     @GetMapping(value = "/category/{categoryId}")
     public ModelAndView getArticlesByCategory(@PathVariable Long categoryId, @PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
-        Page<Article> articlePage = articleService.paginateGetArticlesByCategory(categoryId,pageable);
+        Category category = categoryService.getCategoryByCategoryId(categoryId);
+        Page<Article> articlePage = articleService.paginateGetArticlesByCategory(category,pageable);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("Index");
@@ -82,5 +82,16 @@ public class MainController {
         return modelAndView;
     }
 
+    //分页列出一个标签对应的所有文章
+    @GetMapping(value = "/tag/{tagId}")
+    public ModelAndView getArticleByTag(@PathVariable Long tagId, @PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
+        Tag tag = tagService.getTagByTagId(tagId);
+        Page<Article> articlePage = articleService.paginateGetArticlesByTag(tag,pageable);
+        List<Article> articleList = articlePage.get().collect(Collectors.toList());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("Index");
+        modelAndView.addObject(articleList);
+        return modelAndView;
+    }
 
 }

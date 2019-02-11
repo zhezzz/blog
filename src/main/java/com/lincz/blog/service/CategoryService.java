@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface CategoryService {
 
+    Category getCategoryByCategoryId(Long categoryId);
+
     List<Category> getAllCategory();
 
     Category createCategory(Category category);

@@ -12,5 +12,5 @@ public interface AuthorityService {
 
     void deleteAuthorityByAuthorityId(Long authorityId);
 
-    Authority updateAuthority(Long authorityId, Authority authority);
+    Authority updateAuthority(Long authorityId, Authority formAuthority);
 }

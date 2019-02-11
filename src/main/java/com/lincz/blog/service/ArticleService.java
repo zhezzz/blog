@@ -1,6 +1,9 @@
 package com.lincz.blog.service;
 
+import com.lincz.blog.entity.Account;
 import com.lincz.blog.entity.Article;
+import com.lincz.blog.entity.Category;
+import com.lincz.blog.entity.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -18,9 +21,12 @@ public interface ArticleService {
 
     Page<Article> paginateGetAllArticles(Pageable pageable);
 
-    Page<Article> paginateGetArticlesByAccount(Long accountId, Pageable pageable);
+    Page<Article> paginateGetArticlesByAccount(Account account, Pageable pageable);
 
-    Page<Article> paginateGetArticlesByCategory(Long categoryId, Pageable pageable);
+    Page<Article> paginateGetArticlesByCategory(Category category, Pageable pageable);
+
+    Page<Article> paginateGetArticlesByTag(Tag tag, Pageable pageable);
+
 
 
 }

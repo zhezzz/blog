@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface TagService {
 
+    Tag getTagByTagId(Long tagId);
+
     List<Tag> getAllTag();
 
     Tag createCategory(Tag tag);

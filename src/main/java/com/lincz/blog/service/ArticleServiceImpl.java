@@ -1,6 +1,9 @@
 package com.lincz.blog.service;
 
+import com.lincz.blog.entity.Account;
 import com.lincz.blog.entity.Article;
+import com.lincz.blog.entity.Category;
+import com.lincz.blog.entity.Tag;
 import com.lincz.blog.repository.ArticleRepository;
 //import org.hibernate.search.jpa.FullTextEntityManager;
 //import org.hibernate.search.query.dsl.QueryBuilder;
@@ -22,9 +25,6 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     ArticleRepository articleRepository;
-
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
 
     @Transactional
     @Override
@@ -68,13 +68,18 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<Article> paginateGetArticlesByAccount(Long accountId, Pageable pageable) {
-        Page<Article> articles = articleRepository.findArticlesByAccount_AccountId(accountId,pageable);
+    public Page<Article> paginateGetArticlesByAccount(Account account, Pageable pageable) {
+        Page<Article> articles = articleRepository.findArticlesByAccount(account,pageable);
         return articles;
     }
 
     @Override
-    public Page<Article> paginateGetArticlesByCategory(Long categoryId, Pageable pageable) {
-        return articleRepository.findArticlesByCategory_CategoryId(categoryId,pageable);
+    public Page<Article> paginateGetArticlesByCategory(Category category, Pageable pageable) {
+        return articleRepository.findArticlesByCategory(category,pageable);
+    }
+
+    @Override
+    public Page<Article> paginateGetArticlesByTag(Tag tag, Pageable pageable) {
+        return articleRepository.findArticlesByTagsExists(tag,pageable);
     }
 }

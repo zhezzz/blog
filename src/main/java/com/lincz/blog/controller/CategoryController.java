@@ -20,7 +20,7 @@ public class CategoryController {
 
     //分类管理页面
     @GetMapping(value = "/")
-    public ModelAndView CategoryManagementPage(){
+    public ModelAndView categoryManagementPage(){
         List<Category> categoryList = categoryService.getAllCategory();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("CategoryManagement");
@@ -29,7 +29,7 @@ public class CategoryController {
     }
 
     //添加分类
-    @PostMapping(value = "/post")
+    @PostMapping(value = "/add")
     public Category addCategory(Category formCategory){
         Category category = new Category(formCategory.getCategoryName());
         categoryService.createCategory(category);
