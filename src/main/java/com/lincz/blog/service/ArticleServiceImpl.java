@@ -61,24 +61,6 @@ public class ArticleServiceImpl implements ArticleService {
         article.setPageView(article.getPageView()+1);
     }
 
-    @Override
-    public Page<Article> fullTextSearch(Pageable pageable,String keyword) {
-//        EntityManager em = entityManagerFactory.createEntityManager();
-//        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(em);
-//        em.getTransaction().begin();
-//        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
-//                .buildQueryBuilder().forEntity( Article.class ).get();
-//        org.apache.lucene.search.Query luceneQuery = queryBuilder
-//                .keyword()
-//                .onFields("title","summary","rawContent")
-//                .matching("data")
-//                .createQuery();
-//        javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Article.class);
-//        List<Article> resultList = persistenceQuery.getResultList();
-//        Page<Article>  result = new PageImpl<>(resultList,pageable,null == resultList ? 0 : resultList.size());
-//        return result;
-        return null;
-    }
 
     @Override
     public Page<Article> paginateGetAllArticles(Pageable pageable) {

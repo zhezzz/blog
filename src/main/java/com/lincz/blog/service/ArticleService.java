@@ -16,8 +16,6 @@ public interface ArticleService {
 
     void increasePageView(Long articleId);
 
-    Page<Article> fullTextSearch(Pageable pageable, String keyword);
-
     Page<Article> paginateGetAllArticles(Pageable pageable);
 
     Page<Article> paginateGetArticlesByAccount(Long accountId, Pageable pageable);
