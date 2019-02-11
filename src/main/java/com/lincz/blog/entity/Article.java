@@ -1,16 +1,12 @@
 package com.lincz.blog.entity;
 
-import net.bytebuddy.implementation.bind.annotation.Default;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.SortableField;
-import org.hibernate.search.annotations.TikaBridge;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.DefaultValue;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -47,12 +43,10 @@ public class Article {
     private Category category;
 
     @NotNull
-//    @SortableField
     @CreatedDate
     private LocalDateTime createDate;
 
     @NotNull
-//    @SortableField
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
@@ -64,8 +58,6 @@ public class Article {
     @NotNull
     private String summary;
 
-//    @Field
-//    @TikaBridge
     @NotNull
     @Column(columnDefinition = "MEDIUMTEXT")
     private String content;
@@ -76,7 +68,6 @@ public class Article {
     private String rawContent;//纯文本内容
 
     @NotNull
-//    @SortableField
     private Long pageView;
 
     protected Article(){

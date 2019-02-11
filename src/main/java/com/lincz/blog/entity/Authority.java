@@ -4,6 +4,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -35,13 +36,16 @@ public class Authority implements GrantedAuthority {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
+    protected Authority() {
+    }
+
     public Authority(String authority) {
         this.authorityName = authority;
     }
 
     @Override
     public String getAuthority() {
-        return authorityName;
+        return "ROLE_" + authorityName;
     }
 
     public Long getAuthorityId() {
@@ -83,4 +87,29 @@ public class Authority implements GrantedAuthority {
     public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj instanceof Authority) {
+            return authorityName.equals(((Authority) obj).authorityName);
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.authorityName.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return this.authorityName;
+    }
+
 }

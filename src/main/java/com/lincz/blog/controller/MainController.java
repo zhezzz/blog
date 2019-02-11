@@ -4,7 +4,6 @@ package com.lincz.blog.controller;
 import com.lincz.blog.entity.Account;
 import com.lincz.blog.entity.Article;
 import com.lincz.blog.entity.Authority;
-import com.lincz.blog.enums.AccountRolePermissionEnum;
 import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;

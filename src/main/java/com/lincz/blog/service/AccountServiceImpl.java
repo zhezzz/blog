@@ -67,20 +67,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-//        Account accountByUsernameOrEmail = getAccountByUsername(usernameOrEmail);
-//        if (accountByUsernameOrEmail == null){
-//            accountByUsernameOrEmail = getAccountByEamil(usernameOrEmail);
-//        }
-//        if (accountByUsernameOrEmail == null){
-//            throw new UsernameNotFoundException("找不到用户名或邮箱");
-//        }
-        Account account = getAccountByUsername(usernameOrEmail);
-
-//        User user = new User(accountByUsernameOrEmail.getUsername(),bCryptPasswordEncoder.encode(accountByUsernameOrEmail.getPassword()),
-//                accountByUsernameOrEmail.isEnabled(), accountByUsernameOrEmail.isAccountNonExpired(),
-//                accountByUsernameOrEmail.isCredentialsNonExpired(), accountByUsernameOrEmail.isAccountNonLocked(),
-//                accountByUsernameOrEmail.getAuthorities());
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Account account = getAccountByUsername(username);
+        if (account == null){
+            throw new UsernameNotFoundException("用户名或密码错误");
+        }
+        account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
         return account;
    }
 

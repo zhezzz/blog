@@ -50,7 +50,7 @@ public class Account implements UserDetails {
     private String avatar;
 
     @NotNull
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @OrderBy("authorityId asc ")
     @JoinTable(name = "account_authority",joinColumns = {@JoinColumn(name = "accountId",referencedColumnName = "accountId")}
             ,inverseJoinColumns = {@JoinColumn(name = "authorityId",referencedColumnName = "authorityId")})

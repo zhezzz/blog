@@ -1,6 +1,6 @@
 package com.lincz.blog.config;
 
-import com.lincz.blog.enums.AccountRolePermissionEnum;
+import com.lincz.blog.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.session.FindByIndexNameSessionRepository;
-import org.springframework.session.Session;
-import org.springframework.session.jdbc.JdbcOperationsSessionRepository;
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
@@ -25,6 +23,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private FindByIndexNameSessionRepository sessionRepository;
+
+    @Autowired
+    public AccountService accountService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -76,9 +77,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/","/register","/resources/**","/login").permitAll()
-//                .antMatchers(AccountRolePermissionEnum.ROLE_ROOT.getPermission()).hasRole(AccountRolePermissionEnum.ROLE_ROOT.getRoleName())
-//                .antMatchers(AccountRolePermissionEnum.ROLE_ADMIN.getPermission()).hasRole(AccountRolePermissionEnum.ROLE_ADMIN.getRoleName())
-//                .antMatchers(AccountRolePermissionEnum.ROLE_USER.getPermission()).hasRole(AccountRolePermissionEnum.ROLE_USER.getRoleName())
                 .anyRequest()
                 .authenticated()
                 .and()
