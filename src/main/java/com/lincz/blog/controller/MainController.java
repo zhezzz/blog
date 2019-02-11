@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -51,6 +49,10 @@ public class MainController {
     public String createAccount(Account formAccount) {
         Set<Authority> authorities = new HashSet<>();
         authorities.add(new Authority("view") );
+        //post article、delete article、update article
+        //post comment、delete comment、update comment
+        //update account
+        //
         Account account = new Account(formAccount.getUsername(),formAccount.getPassword(),formAccount.getEmail(), "default.jpg",authorities);
         accountService.createAccount(account);
         return "redirect:/";

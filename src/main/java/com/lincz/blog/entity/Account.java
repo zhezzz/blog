@@ -19,7 +19,7 @@ import java.util.*;
 @EntityListeners(AuditingEntityListener.class)
 public class Account implements UserDetails {
 
-//    private static final long serialVersionUID = 8433348872054203322L;
+    private static final long serialVersionUID = 8433348872054203322L;
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -34,7 +34,7 @@ public class Account implements UserDetails {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
-    @Column(unique = true)
+//    @Column(unique = true)
     @NotNull(message = "用户名不能为空")
     @Length(min = 3,max = 16)
 //    @UniqueUsername
@@ -89,7 +89,16 @@ public class Account implements UserDetails {
     protected Account() {
     }
 
-    public Account(@NotNull(message = "用户名不能为空") @Length(min = 3, max = 16) String username, @NotNull(message = "密码不能为空") @Length(min = 4, max = 16) String password, @NotNull(message = "电子邮箱地址不能为空") @Email String email, @NotNull String avatar, @NotNull Set<Authority> authorities) {
+    public Account(@NotNull(message = "用户名不能为空") @Length(min = 3, max = 16) String username, @NotNull(message = "密码不能为空") @Length(min = 4, max = 16) String password, @NotNull(message = "电子邮箱地址不能为空") @Email String email, @NotNull String avatar) {
+        Set<Authority> authorities = new HashSet<>();
+        authorities.add(new Authority("post_article") );
+        authorities.add(new Authority("delete_article") );
+        authorities.add(new Authority("update_article") );
+        authorities.add(new Authority("post_comment") );
+        authorities.add(new Authority("delete_comment") );
+        authorities.add(new Authority("update_comment") );
+        authorities.add(new Authority("delete_account") );
+        authorities.add(new Authority("update_account") );
         this.username = username;
         this.password = password;
         this.email = email;

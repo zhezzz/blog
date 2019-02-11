@@ -70,7 +70,7 @@ public class AccountController {
         File tempAvatar = new File("blog-data/account/avatar/"+accountId+"."+suffix);
         File avatar = new File("blog-data/account/avatar/"+accountId+"."+suffix);
         avatarFile.transferTo(Paths.get(tempAvatar.toURI()));
-        AccountUtils.resizeImage(tempAvatar,avatar,200);
+//        AccountUtils.resizeImage(tempAvatar,avatar,200);
         accountService.updateAccountAvatar(accountId,avatar.getPath());
     }
 
