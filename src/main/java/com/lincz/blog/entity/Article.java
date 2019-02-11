@@ -1,7 +1,6 @@
 package com.lincz.blog.entity;
 
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -11,7 +10,6 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Indexed
 @EntityListeners(AuditingEntityListener.class)
 public class Article {
 
@@ -50,11 +48,9 @@ public class Article {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
-    @Field
     @NotNull
     private String title;
 
-    @Field
     @NotNull
     private String summary;
 
@@ -62,7 +58,6 @@ public class Article {
     @Column(columnDefinition = "MEDIUMTEXT")
     private String content;
 
-    @Field
     @NotNull
     @Column(columnDefinition = "MEDIUMTEXT")
     private String rawContent;//纯文本内容
