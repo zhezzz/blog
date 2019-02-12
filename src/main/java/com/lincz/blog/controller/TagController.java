@@ -2,7 +2,6 @@ package com.lincz.blog.controller;
 
 
 import com.lincz.blog.entity.Article;
-import com.lincz.blog.entity.Category;
 import com.lincz.blog.entity.Tag;
 import com.lincz.blog.service.ArticleService;
 import com.lincz.blog.service.TagService;

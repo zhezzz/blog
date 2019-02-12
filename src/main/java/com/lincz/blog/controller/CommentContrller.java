@@ -46,7 +46,6 @@ public class CommentContrller {
     }
 
     //删除评论
-
     @DeleteMapping(value = "/delete/{commentId}")
     public void deleteComment(@PathVariable Long commentId){
         commentService.deleteCommentByCommentId(commentId);
