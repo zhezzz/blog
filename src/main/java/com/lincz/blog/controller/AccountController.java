@@ -7,7 +7,6 @@ import com.lincz.blog.entity.Account;
 import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
 import com.lincz.blog.service.CommentService;
-import com.lincz.blog.util.AccountUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -70,25 +69,29 @@ public class AccountController {
         File tempAvatar = new File("blog-data/account/avatar/"+accountId+"."+suffix);
         File avatar = new File("blog-data/account/avatar/"+accountId+"."+suffix);
         avatarFile.transferTo(Paths.get(tempAvatar.toURI()));
-//        AccountUtils.resizeImage(tempAvatar,avatar,200);
         accountService.updateAccountAvatar(accountId,avatar.getPath());
     }
 
     //获取用户所有评论（分页）
-    @GetMapping(value = "/{accountId}/coments")
-    public ModelAndView getAllComments(@PathVariable Long accountId, @PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
-        Page<Comment> commentPage = commentService.paginateGetCommentsByAccountId(accountId,pageable);
-        List<Comment> commentList = commentPage.get().collect(Collectors.toList());
+    @GetMapping(value = "/{accountId}/comments")
+    public ModelAndView getAllComments(@PathVariable Long accountId/*, @PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable*/){
+//        Page<Comment> commentPage = commentService.paginateGetCommentsByAccountId(accountId,pageable);
+//        List<Comment> commentList = commentPage.get().collect(Collectors.toList());
+        Account account = accountService.getAccountByAccountId(accountId);
+        List<Comment> commentList = commentService.getCommetsByAccount(account);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("AccountComments");
         modelAndView.addObject(commentList);
         return modelAndView;
     }
 
+
+
     //获取用户所有文章（分页）
     @GetMapping(value = "/{accountId}/articles")
     public ModelAndView getAllArticles(@PathVariable Long accountId, @PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
-        Page<Article> articlePage = articleService.paginateGetArticlesByAccount(accountId,pageable);
+        Account account = accountService.getAccountByAccountId(accountId);
+        Page<Article> articlePage = articleService.paginateGetArticlesByAccount(account,pageable);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("AccountArticles");

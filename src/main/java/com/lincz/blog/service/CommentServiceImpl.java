@@ -1,5 +1,6 @@
 package com.lincz.blog.service;
 
+import com.lincz.blog.entity.Account;
 import com.lincz.blog.entity.Article;
 import com.lincz.blog.entity.Comment;
 import com.lincz.blog.repository.ArticleRepository;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class CommentServiceImpl implements CommentService {
 
@@ -17,14 +20,18 @@ public class CommentServiceImpl implements CommentService {
     private CommentRepository commentRepository;
 
     @Override
-    public Page<Comment> paginateGetCommentsByAccountId(Long accountId, Pageable pageable) {
-        return commentRepository.findAllByAccount_AccountId(accountId,pageable);
+    public Page<Comment> paginateGetCommetsByAccount(Account account, Pageable pageable) {
+        return commentRepository.findCommentsByAccount(account,pageable);
     }
 
     @Override
     public Comment createComment(Comment comment) {
-        commentRepository.save(comment);
-        return comment;
+        return commentRepository.save(comment);
+    }
+
+    @Override
+    public Page<Comment> getAllComments(Pageable pageable){
+        return commentRepository.findAll(pageable);
     }
 
     @Override
@@ -41,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment getArticleByArticleId(Long commentId) {
+    public Comment getCommentByCommentId(Long commentId) {
         return commentRepository.findById(commentId).orElse(null);
     }
 }

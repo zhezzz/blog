@@ -1,13 +1,18 @@
 package com.lincz.blog.service;
 
 
+import com.lincz.blog.entity.Account;
 import com.lincz.blog.entity.Comment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface CommentService  {
 
-    Page<Comment> paginateGetCommentsByAccountId(Long accountId, Pageable pageable);
+    Page<Comment> getAllComments(Pageable pageable);
+
+    Page<Comment> paginateGetCommetsByAccount(Account account, Pageable pageable);
 
     Comment createComment(Comment comment);
 
@@ -15,6 +20,6 @@ public interface CommentService  {
 
     Comment updateComment(Long commentId,Comment comment);
 
-    Comment getArticleByArticleId(Long commentId);
+    Comment getCommentByCommentId(Long commentId);
 
 }

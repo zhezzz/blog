@@ -8,11 +8,17 @@ import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
 import com.lincz.blog.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/comment")
@@ -49,7 +55,7 @@ public class CommentContrller {
     //修改评论页面
     @GetMapping(value = "/update/{commentId}")
     public ModelAndView updateCommentPage(@PathVariable Long commentId){
-        Comment comment = commentService.getArticleByArticleId(commentId);
+        Comment comment = commentService.getCommentByCommentId(commentId);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("UpdateComment");
         modelAndView.addObject(comment);
@@ -62,6 +68,15 @@ public class CommentContrller {
     public String updateComment(@PathVariable Long commentId, Comment formComment){
         Comment comment = commentService.updateComment(commentId, formComment);
         return "redirect:/article/details/"+comment.getArticle().getArticleId();
+    }
+
+    @GetMapping(value = "/all")
+    private ModelAndView getAllComments(@PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
+        Page<Comment> commentList = commentService.getAllComments(pageable);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("AccountComments");
+        modelAndView.addObject(commentList);
+        return modelAndView;
     }
 
 
