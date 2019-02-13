@@ -7,6 +7,7 @@ import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -95,7 +96,6 @@ public class ArticleController {
     //上传图片
     @RequestMapping(value = "/upload")
     public Response uploadImage(MultipartFile imageFile, HttpServletRequest request) throws IOException {
-
         String imageFileOriginalFilename = imageFile.getOriginalFilename();
         String fileNameExtension = imageFileOriginalFilename.substring(imageFileOriginalFilename.lastIndexOf("."));
         String localFileName = UUID.randomUUID().toString()+fileNameExtension;
@@ -107,7 +107,7 @@ public class ArticleController {
 
     }
     //定义成员内部类供图片上传返回响应json
-    class Response{
+    private class Response{
         private Integer errno;
 
         private String [] data;
