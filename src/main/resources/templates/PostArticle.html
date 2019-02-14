@@ -6,7 +6,7 @@
     <script type="text/javascript" src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
 </head>
 <body>
-<form action="/article/post" method="post">
+<form th:action="${#request.getContextPath()} + '/article/post'" method="post">
     <input type="text" name="title" placeholder="标题">
     <input type="text" name="summary" placeholder="摘要">
     <div id="editor">
@@ -15,11 +15,11 @@
     <input type="hidden" name="content" id="content">
     <button type="submit" id="submit">发布</button>
 </form>
-<script type="text/javascript" src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+<script type="text/javascript" th:src="@{./static/js/wangEditor.min.js}"></script>
 <script type="text/javascript">
     var E = window.wangEditor
     var editor = new E('#editor')
-    editor.customConfig.uploadImgServer = '/article/upload'
+    editor.customConfig.uploadImgServer = "${#request.getContextPath()} + '/article/upload'" //TODO
     editor.customConfig.uploadFileName = 'imageFile'
     editor.customConfig.debug=true;
     editor.create()

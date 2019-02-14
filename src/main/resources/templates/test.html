@@ -4,11 +4,11 @@
     <head>
         <meta charset="UTF-8">
         <title>result</title>
-    </head>
+        <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>    </head>
     <body>
 
-    <tr th:each="p: ${result}">
-        <td th:text="${p.getArticleId()}"></td>
+    <!--<tr th:each="p: ${result}">-->
+        <!--<td th:text="${p.getArticleId()}"></td>-->
         <!--<td th:text="${p.name}"></td>-->
         <!--<td th:text="${p.price}"></td>-->
     </tr>
@@ -19,6 +19,22 @@
         头像<p>选择文件: <input type="file" name="avatarFile"/></p>
         <p><input type="submit" value="提交"/></p>
     </form>
+
+    <textarea name="content" id="editor">
+        &lt;p&gt;This is some sample content.&lt;/p&gt;
+    </textarea>
+
+    <script type="text/javascript">
+        ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .then( editor => {
+            console.log( editor );
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+    </script>
+
 
     </body>
     </html>

@@ -32,7 +32,7 @@
     $('#submit').click(function (event) {
         $.ajax({
             type: 'post',
-            url: '/article/edit/' + articleId,
+            url: '/article/edit/' + articleId, //TODO ${#request.getContextPath()}
             data: $("#form").serialize(),
             async: false,
             error: function(request) {

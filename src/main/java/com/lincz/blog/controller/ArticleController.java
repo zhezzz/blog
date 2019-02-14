@@ -7,7 +7,6 @@ import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -30,8 +29,6 @@ public class ArticleController {
 
     @Autowired
     private AccountService accountService;
-
-
 
     //根据文章id查看文章
     @GetMapping(value = "/details/{articleId}")

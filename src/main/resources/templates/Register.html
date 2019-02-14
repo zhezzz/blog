@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>注册账号</title>
 </head>
 <body>
-<form method="post" action="/register">
+<form method="post" th:action="${#request.getContextPath()} + '/register'">
     <input type="text" name="username" placeholder="用户名">
     <input type="password" name="password" placeholder="密码">
     <input type="text" name="email" placeholder="Email">

@@ -22,7 +22,6 @@ public class Article {
     @JoinColumn(name = "accountId")
     private Account account;
 
-    //TODO 评论懒加载问题
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER,orphanRemoval = true)
     @OrderBy("createDate desc")
     @JoinColumn(name = "articleId")
