@@ -58,6 +58,7 @@ public class ArticleController {
 
     //删除文章
     //TODO 使用ajax发送DELETE请求
+    @ResponseBody
     @DeleteMapping(value = "/delete/{articleId}")
     public void deleteArticle(@PathVariable Long articleId){
         articleService.deleteArticleByArticleId(articleId);
@@ -99,20 +100,13 @@ public class ArticleController {
         imageFile.transferTo(Paths.get("blog-data/article-image/"+localFileName));
         //TODO 路径问题
         String [] data = {"blog-data/article-image/" + localFileName};
-        return new Response(0,data);
+        return new Response();
 
 
     }
     //定义成员内部类供图片上传返回响应json
     private class Response{
-        private Integer errno;
 
-        private String [] data;
-
-        public Response(Integer errno, String[] data) {
-            this.errno = errno;
-            this.data = data;
-        }
     }
 
 

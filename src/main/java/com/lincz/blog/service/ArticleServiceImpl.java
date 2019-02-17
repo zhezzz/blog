@@ -26,14 +26,12 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     ArticleRepository articleRepository;
 
-    @Transactional
     @Override
     public Article createArticle(Article article) {
         articleRepository.save(article);
         return article;
     }
 
-    @Transactional
     @Override
     public Article updateArticle(Long articleId, Article formArticle) {
         Article article = articleRepository.findById(articleId).orElse(null);
@@ -43,13 +41,11 @@ public class ArticleServiceImpl implements ArticleService {
         return article;
     }
 
-    @Transactional
     @Override
     public void deleteArticleByArticleId(Long articleId) {
         articleRepository.deleteById(articleId);
     }
 
-    @Transactional
     @Override
     public Article getArticleByArticleId(Long articleId) {
         return articleRepository.findById(articleId).orElse(null);

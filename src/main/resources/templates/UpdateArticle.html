@@ -18,13 +18,11 @@
 </form>
 <textarea style="display:none" id="content" th:text="${article.getContent()}"></textarea>
 <script type="text/javascript">
-    var myEditor;
     var content = document.getElementById('content').value;
     ClassicEditor
         .create( document.querySelector( '#editor' ), {
             language: 'zh-cn'
         } )
-
         .then( editor => {
         console.log( editor );
     editor.setData(content);
