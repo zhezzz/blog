@@ -6,11 +6,7 @@
 </head>
 <body>
 <h1 th:text="${article.getTitle()}"></h1>
-<h2 th:text="${article.getSummary()}"></h2>
 <div th:utext="${article.getContent()}"></div>
-<!--<div th:utext="${article.getRawContent()}"></div>-->
-
-
 
 <tr th:each="comment:${article.getComments()}">
 <td th:text="${comment.getContent()}"></td>

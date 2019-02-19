@@ -36,7 +36,6 @@ public class ArticleServiceImpl implements ArticleService {
     public Article updateArticle(Long articleId, Article formArticle) {
         Article article = articleRepository.findById(articleId).orElse(null);
         article.setTitle(formArticle.getTitle());
-        article.setSummary(formArticle.getSummary());
         article.setContent(formArticle.getContent());
         return article;
     }

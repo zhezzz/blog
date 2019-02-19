@@ -10,7 +10,6 @@
 <body>
 <form th:action="${#request.getContextPath()} + '/article/post'" method="post">
     <input type="text" name="title" placeholder="标题">
-    <input type="text" name="summary" placeholder="摘要">
     <textarea name="content" id="editor">
         &lt;p&gt;请在此编写文章。&lt;/p&gt;
     </textarea>
@@ -29,18 +28,5 @@
         console.error( error );
     } );
 </script>
-
-<!--<script type="text/javascript">-->
-    <!--var E = window.wangEditor-->
-    <!--var editor = new E('#editor')-->
-    <!--editor.customConfig.uploadImgServer = "${#request.getContextPath()} + '/article/upload'" //TODO-->
-    <!--editor.customConfig.uploadFileName = 'imageFile'-->
-    <!--editor.customConfig.debug=true;-->
-    <!--editor.create()-->
-    <!--document.getElementById('submit').addEventListener('click', function () {-->
-        <!--var content=editor.txt.html();-->
-        <!--document.getElementById('content').value=content;-->
-    <!--}, false)-->
-<!--</script>-->
 </body>
 </html>

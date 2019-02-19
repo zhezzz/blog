@@ -27,10 +27,6 @@ public class MainController {
     @Autowired
     private AccountService accountService;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-
     @GetMapping(value = "/")
     public ModelAndView index(){
         return new ModelAndView("Index");
@@ -50,7 +46,7 @@ public class MainController {
         return "redirect:/";
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/all")
     public ModelAndView getAllArticles(@PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
         Page<Article> articlePage = articleService.paginateGetAllArticles(pageable);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());

@@ -51,9 +51,6 @@ public class Article {
     private String title;
 
     @NotNull
-    private String summary;
-
-    @NotNull
     @Column(columnDefinition = "MEDIUMTEXT")
     private String content;
 
@@ -68,10 +65,9 @@ public class Article {
 
     }
 
-    public Article(@NotNull Account account, @NotNull String title, @NotNull String summary, @NotNull String content, @NotNull String rawContent, @NotNull Long pageView) {
+    public Article(@NotNull Account account, @NotNull String title, @NotNull String content, @NotNull String rawContent, @NotNull Long pageView) {
         this.account = account;
         this.title = title;
-        this.summary = summary;
         this.content = content;
         this.rawContent = rawContent;
         this.pageView = pageView;
@@ -139,14 +135,6 @@ public class Article {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
     }
 
     public String getContent() {
