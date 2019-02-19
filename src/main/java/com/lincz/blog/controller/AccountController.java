@@ -96,7 +96,7 @@ public class AccountController {
 
     //获取用户所有评论（分页）
     @GetMapping(value = "/{accountId}/comments")
-    public ModelAndView getAllComments(@PathVariable Long accountId, @PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
+    public ModelAndView accountComments(@PathVariable Long accountId, @PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
         Account account = accountService.getAccountByAccountId(accountId);
         Page<Comment> commentPage = commentService.paginateGetCommetsByAccount(account,pageable);
         List<Comment> commentList = commentPage.get().collect(Collectors.toList());
@@ -108,7 +108,7 @@ public class AccountController {
 
     //获取用户所有文章（分页）
     @GetMapping(value = "/{accountId}/articles")
-    public ModelAndView getAllArticles(@PathVariable Long accountId, @PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
+    public ModelAndView accountArticles(@PathVariable Long accountId, @PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
         Account account = accountService.getAccountByAccountId(accountId);
         Page<Article> articlePage = articleService.paginateGetArticlesByAccount(account,pageable);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());
