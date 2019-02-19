@@ -50,7 +50,7 @@ public class MainController {
         return "redirect:/";
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping(value = "/")
     public ModelAndView getAllArticles(@PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
         Page<Article> articlePage = articleService.paginateGetAllArticles(pageable);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());

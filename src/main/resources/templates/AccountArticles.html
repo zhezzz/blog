@@ -8,7 +8,7 @@
 
 <tr th:each="article:${articleList}">
     <td th:text="${article.getArticleId()}"></td>
-    <td th:text="${article.getTitle()}"></td>
+    <td th:text="${#strings.abbreviate(article.getTitle(),30)}"></td>
     <td th:text="${#strings.abbreviate(article.getSummary(),100)}"></td>
     <!--<td th:text="${article.getSummary()}"></td>-->
     <!--<td th:text="${article.getRawContent().substring(0,50)}"></td>-->

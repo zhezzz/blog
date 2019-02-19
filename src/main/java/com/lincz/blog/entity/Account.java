@@ -34,7 +34,6 @@ public class Account implements UserDetails {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
-//    @Column(unique = true)
     @NotNull(message = "用户名不能为空")
     @Length(min = 3,max = 16)
 //    @UniqueUsername
