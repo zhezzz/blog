@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface AuthorityService {
 
+    Authority getAuthorityByAuthorityId(Long authorityId);
+
     List<Authority> getAllAuthority();
 
     Authority createAuthority(Authority authority);

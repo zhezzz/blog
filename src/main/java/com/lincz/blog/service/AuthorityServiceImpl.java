@@ -14,6 +14,11 @@ public class AuthorityServiceImpl implements AuthorityService {
     private AuthorityRepository authorityRepository;
 
     @Override
+    public Authority getAuthorityByAuthorityId(Long authorityId) {
+        return authorityRepository.findById(authorityId).orElse(null);
+    }
+
+    @Override
     public List<Authority> getAllAuthority() {
         return authorityRepository.findAll();
     }

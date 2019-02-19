@@ -1,5 +1,6 @@
 package com.lincz.blog.service;
 import com.lincz.blog.entity.Account;
+import com.lincz.blog.entity.Authority;
 import com.lincz.blog.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -34,7 +36,13 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findById(accountId).orElse(null);
     }
 
-    @Transactional
+    @Override
+    public Account updateAccountAuthority(Long accountId, Set<Authority> authorities) {
+        Account account = accountRepository.findById(accountId).orElse(null);
+        account.setAuthorities(authorities);
+        return account;
+    }
+
     @Override
     public Account updateAccountInfo(Long accountId,Account formAccount) {
         Account account = accountRepository.findById(accountId).orElse(null);
@@ -43,7 +51,6 @@ public class AccountServiceImpl implements AccountService {
         return account;
     }
 
-    @Transactional
     @Override
     public Account updateAccountAvatar(Long accountId, String avatar) {
         Account account = accountRepository.findById(accountId).orElse(null);

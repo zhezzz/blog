@@ -55,7 +55,6 @@ public class ArticleController {
         return "redirect:/article/details/"+article.getArticleId();
     }
 
-
     //删除文章
     //TODO 使用ajax发送DELETE请求
     @ResponseBody
@@ -74,7 +73,7 @@ public class ArticleController {
         return modelAndView;
     }
 
-//TODO 使用ajax发送PUT请求
+    //TODO 使用ajax发送PUT请求
     @PutMapping(value = "/update/{articleId}")
     public String updateArticle(@PathVariable Long articleId, Article formArticle){
         articleService.updateArticle(articleId, formArticle);

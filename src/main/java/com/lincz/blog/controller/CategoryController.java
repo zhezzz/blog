@@ -27,7 +27,7 @@ public class CategoryController {
     private ArticleService articleService;
 
     //分类管理页面
-    @GetMapping(value = "/")
+    @GetMapping(value = "/management")
     public ModelAndView categoryManagementPage(){
         List<Category> categoryList = categoryService.getAllCategory();
         ModelAndView modelAndView = new ModelAndView();

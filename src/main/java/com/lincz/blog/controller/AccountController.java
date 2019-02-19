@@ -2,10 +2,12 @@ package com.lincz.blog.controller;
 
 
 import com.lincz.blog.entity.Article;
+import com.lincz.blog.entity.Authority;
 import com.lincz.blog.entity.Comment;
 import com.lincz.blog.entity.Account;
 import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
+import com.lincz.blog.service.AuthorityService;
 import com.lincz.blog.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +23,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -37,6 +41,9 @@ public class AccountController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private AuthorityService authorityService;
+
     //用户个人主页功能，
     @GetMapping(value = "/")
     public ModelAndView accountHomePage(@PathVariable Long accountId){
@@ -44,11 +51,11 @@ public class AccountController {
     }
 
     //获取账户信息修改界面
-    @GetMapping(value = "/update/{accountId}")
-    public ModelAndView updateAccountView(@PathVariable Long accountId){
+    @GetMapping(value = "/management/{accountId}")
+    public ModelAndView accountManagementPage(@PathVariable Long accountId){
         Account account = accountService.getAccountByAccountId(accountId);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("UpdateAccount");
+        modelAndView.setViewName("AccountManagenment");
         modelAndView.addObject(account);
         return modelAndView;
     }
@@ -60,10 +67,25 @@ public class AccountController {
         return "redirect:/";
     }
 
+    //修改用户权限
+    //TODO 暂时使用List，尽量改成Set
+    @PostMapping(value = "/update/{accountId}/authority")
+    public Account updateAccountAuthority(@PathVariable Long accountId, List<Long> authorityIdList){
+        Set<Authority> authorities = new HashSet<>();
+        for (Long authorityId:authorityIdList
+             ) {
+            Authority authority = authorityService.getAuthorityByAuthorityId(authorityId);
+            if (authority != null){
+                authorities.add(authority);
+            }
+        }
+        return accountService.updateAccountAuthority(accountId,authorities);
+    }
+
     //修改头像
     @PostMapping(value = "/update/{accountId}/avatar")
     public void updateAccountAvatar(@PathVariable Long accountId, MultipartFile avatarFile) throws IOException{
-        //TODO 放弃上传文件，改用网络图片链接
+        //TODO 暂时改用网络图片链接
         String fileName = avatarFile.getOriginalFilename();
         String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
         File tempAvatar = new File("blog-data/account/avatar/"+accountId+"."+suffix);

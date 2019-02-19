@@ -27,7 +27,7 @@ public class TagController {
     private ArticleService articleService;
 
     //标签管理页面
-    @GetMapping(value = "/")
+    @GetMapping(value = "/management")
     public ModelAndView tagManagementPage(){
         List<Tag> tagList = tagService.getAllTag();
         ModelAndView modelAndView = new ModelAndView();

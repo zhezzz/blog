@@ -2,11 +2,13 @@ package com.lincz.blog.service;
 
 
 import com.lincz.blog.entity.Account;
+import com.lincz.blog.entity.Authority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
+import java.util.Set;
 
 public interface AccountService extends UserDetailsService {
 
@@ -17,6 +19,8 @@ public interface AccountService extends UserDetailsService {
     Account getAccountByEamil(String email);
 
     Account getAccountByAccountId(Long accountId);
+
+    Account updateAccountAuthority(Long accountId, Set<Authority> authorities);
 
     Account updateAccountInfo(Long accountId,Account account);
 
