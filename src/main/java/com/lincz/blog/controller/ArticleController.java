@@ -23,6 +23,8 @@ import java.util.UUID;
 @Controller
 @RequestMapping(value = "/article")
 public class ArticleController {
+    //TODO 每篇文章使用一张主图，在文章实体中添加字段status，是否为已发布状态
+    //TODO 弃用直接post新文章，用户发起请求，后台创建一篇新文章返回给前台编辑，，前台具有编辑功能和保存功能，发布功能
 
     @Autowired
     private ArticleService articleService;
@@ -92,20 +94,27 @@ public class ArticleController {
 
     //上传图片
     @RequestMapping(value = "/upload")
-    public Response uploadImage(MultipartFile imageFile, HttpServletRequest request) throws IOException {
+    public Response uploadImage(@RequestPart("upload") MultipartFile imageFile, HttpServletRequest request) throws IOException {
         String imageFileOriginalFilename = imageFile.getOriginalFilename();
         String fileNameExtension = imageFileOriginalFilename.substring(imageFileOriginalFilename.lastIndexOf("."));
         String localFileName = UUID.randomUUID().toString()+fileNameExtension;
-        imageFile.transferTo(Paths.get("blog-data/article-image/"+localFileName));
+        imageFile.transferTo(Paths.get("data/article/image/"+localFileName));
         //TODO 路径问题
-        String [] data = {"blog-data/article-image/" + localFileName};
-        return new Response();
+        String url = "data/article/image/" + localFileName;
+        return new Response(true,url);
 
 
     }
     //定义成员内部类供图片上传返回响应json
     private class Response{
+        private Boolean uploaded;
 
+        private String url;
+
+        public Response(Boolean uploaded, String url) {
+            this.uploaded = uploaded;
+            this.url = url;
+        }
     }
 
 

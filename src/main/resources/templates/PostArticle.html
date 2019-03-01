@@ -8,6 +8,7 @@
     <script type="text/javascript" th:src="@{/static/js/ckeditor/translations/zh-cn.js}"></script>
 </head>
 <body>
+
 <form th:action="${#request.getContextPath()} + '/article/post'" method="post">
     <input type="text" name="title" placeholder="标题">
     <textarea name="content" id="editor">
@@ -20,6 +21,9 @@
     ClassicEditor
         .create( document.querySelector( '#editor' ), {
             language: 'zh-cn',
+            ckfinder: {
+                uploadUrl: '/article/upload'
+            }
         } )
         .then( editor => {
         console.log( editor );
