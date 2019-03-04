@@ -18,8 +18,8 @@ import java.io.IOException;
 
 
 //判断对文章评论进行删除修改时是否为文章或评论的拥有者
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class OperationAspect {
 
     @Autowired

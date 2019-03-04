@@ -34,9 +34,13 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public Article updateArticle(Long articleId, Article formArticle) {
 		Article article = articleRepository.findById(articleId).orElse(null);
-		article.setTitle(formArticle.getTitle());
-		article.setContent(formArticle.getContent());
-		article.setRawContent(formArticle.getRawContent());
+		if (article != null) {
+			article.setTitle(formArticle.getTitle());
+			article.setContent(formArticle.getContent());
+			article.setRawContent(formArticle.getRawContent());
+			// TODO
+			article.setPublic(formArticle.isPublic());
+		}
 		return article;
 	}
 

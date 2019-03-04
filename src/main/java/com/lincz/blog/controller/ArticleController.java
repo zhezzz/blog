@@ -41,14 +41,25 @@ public class ArticleController {
 		return modelAndView;
 	}
 
+	//将文章加入用户收藏夹
+	@PostMapping(value = "/addToFavorites/{articleId}")
+	public void addArticleToFavorites(@PathVariable Long articleId, HttpServletRequest request){
+		Article article = articleService.getArticleByArticleId(articleId);
+		String currentUsername = request.getUserPrincipal().getName();
+		Account account = accountService.getAccountByUsername(currentUsername);
+		if (!account.getFavoriteArticles().contains(article)){
+			account.getFavoriteArticles().add(article);
+		}
+	}
+
 	// 发布文章
 	@GetMapping(value = "/post")
 	public String postArticleView(HttpServletRequest request) {
 		String currentUsername = request.getUserPrincipal().getName();
 		Account account = accountService.getAccountByUsername(currentUsername);
-		Article article = new Article(account, "标题", "请在此编写文章。", "", Long.valueOf(0), Boolean.FALSE);
+		Article article = new Article(account, "标题", "请在此编写文章。", "", Long.valueOf(0), false);
 		articleService.createArticle(article);
-		return "redirect:/article/details/" + article.getArticleId();
+		return "redirect:/article/update/" + article.getArticleId();
 	}
 
 	// 删除文章

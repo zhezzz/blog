@@ -62,14 +62,14 @@ public class Article {
 	private Long pageView;
 
 	@NotNull
-	private Boolean isPublic;
+	private boolean isPublic;
 
 	protected Article() {
 
 	}
 
 	public Article(@NotNull Account account, @NotNull String title, @NotNull String content, @NotNull String rawContent,
-			@NotNull Long pageView, @NotNull Boolean isPublic) {
+			@NotNull Long pageView, @NotNull boolean isPublic) {
 		this.account = account;
 		this.title = title;
 		this.content = content;
@@ -166,11 +166,11 @@ public class Article {
 		this.pageView = pageView;
 	}
 
-	public Boolean getPublic() {
+	public boolean isPublic() {
 		return isPublic;
 	}
 
-	public void setPublic(Boolean aPublic) {
-		isPublic = aPublic;
+	public void setPublic(boolean isPublic) {
+		this.isPublic = isPublic;
 	}
 }

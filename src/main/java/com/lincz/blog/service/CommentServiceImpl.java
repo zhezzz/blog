@@ -43,7 +43,9 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public Comment updateComment(Long commentId, Comment formComment) {
 		Comment comment = commentRepository.findById(commentId).orElse(null);
-		comment.setContent(formComment.getContent());
+		if (comment != null) {
+			comment.setContent(formComment.getContent());
+		}
 		return comment;
 	}
 

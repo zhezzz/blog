@@ -36,7 +36,9 @@ public class AuthorityServiceImpl implements AuthorityService {
 	@Override
 	public Authority updateAuthority(Long authorityId, Authority formAuthority) {
 		Authority authority = authorityRepository.findById(authorityId).orElse(null);
-		authority.setAuthorityName(formAuthority.getAuthorityName());
+		if (authority != null) {
+			authority.setAuthorityName(formAuthority.getAuthorityName());
+		}
 		return authority;
 	}
 }

@@ -47,8 +47,10 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public Account updateAccountInfo(Long accountId, Account formAccount) {
 		Account account = accountRepository.findById(accountId).orElse(null);
-		account.setEmail(formAccount.getEmail());
-		account.setPassword(formAccount.getPassword());
+		if (account != null) {
+			account.setEmail(formAccount.getEmail());
+			account.setPassword(formAccount.getPassword());
+		}
 		return account;
 	}
 
