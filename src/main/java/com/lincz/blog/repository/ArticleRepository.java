@@ -1,6 +1,5 @@
 package com.lincz.blog.repository;
 
-
 import com.lincz.blog.entity.Account;
 import com.lincz.blog.entity.Article;
 import com.lincz.blog.entity.Category;
@@ -10,16 +9,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
-public interface ArticleRepository extends JpaRepository<Article,Long> {
+public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-    @Override
-    Page<Article> findAll(Pageable pageable);
+	@Override
+	Page<Article> findAll(Pageable pageable);
 
-    Page<Article> findArticlesByAccount(Account account, Pageable pageable);
+	Page<Article> findAllByIsPublic(Boolean isPublic, Pageable pageable);
 
-    Page<Article> findArticlesByCategory(Category category, Pageable pageable);
+	Page<Article> findArticlesByAccount(Account account, Pageable pageable);
 
-    Page<Article> findArticlesByTagsExists(Tag tag, Pageable pageable);
+	Page<Article> findArticlesByCategory(Category category, Pageable pageable);
+
+	Page<Article> findArticlesByTagsExists(Tag tag, Pageable pageable);
 }

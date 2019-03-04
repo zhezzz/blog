@@ -12,38 +12,37 @@ import java.util.List;
 @RequestMapping(value = "/authority")
 public class AuthorityController {
 
-    @Autowired
-    private AuthorityService authorityService;
+	@Autowired
+	private AuthorityService authorityService;
 
-    //权限管理页面
-    @GetMapping(value = "/management")
-    public ModelAndView authorityManagementPage() {
-        List<Authority> authorityList = authorityService.getAllAuthority();
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("AuthorityManagement");
-        modelAndView.addObject(authorityList);
-        return modelAndView;
-    }
+	// 权限管理页面
+	@GetMapping(value = "/management")
+	public ModelAndView authorityManagementPage() {
+		List<Authority> authorityList = authorityService.getAllAuthority();
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("AuthorityManagement");
+		modelAndView.addObject(authorityList);
+		return modelAndView;
+	}
 
-    //增加权限
-    @PostMapping(value = "/add")
-    public Authority addAuthority (Authority formAuthority){
-        Authority authority = new Authority(formAuthority.getAuthorityName());
-        authorityService.createAuthority(authority);
-        return authority;
-    }
+	// 增加权限
+	@PostMapping(value = "/add")
+	public Authority addAuthority(Authority formAuthority) {
+		Authority authority = new Authority(formAuthority.getAuthorityName());
+		authorityService.createAuthority(authority);
+		return authority;
+	}
 
-    //删除权限
-    @DeleteMapping(value = "/delete/{authorityId}")
-    public void deleteAuthority(@PathVariable Long authorityId){
-        authorityService.deleteAuthorityByAuthorityId(authorityId);
-    }
+	// 删除权限
+	@DeleteMapping(value = "/delete/{authorityId}")
+	public void deleteAuthority(@PathVariable Long authorityId) {
+		authorityService.deleteAuthorityByAuthorityId(authorityId);
+	}
 
-    //修改权限
-    @PutMapping(value = "/update/{authorityId}")
-    public Authority updateAuthority(@PathVariable Long authorityId, Authority formAuthority){
-        return authorityService.updateAuthority(authorityId,formAuthority);
-    }
-
+	// 修改权限
+	@PutMapping(value = "/update/{authorityId}")
+	public Authority updateAuthority(@PathVariable Long authorityId, Authority formAuthority) {
+		return authorityService.updateAuthority(authorityId, formAuthority);
+	}
 
 }

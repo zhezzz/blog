@@ -10,14 +10,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 public class BlogApplication extends SpringBootServletInitializer {
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(BlogApplication.class);
-    }
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(BlogApplication.class);
+	}
 
-    public static void main(String[] args) {
-        SpringApplication.run(BlogApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(BlogApplication.class, args);
+	}
 }
-
-

@@ -10,33 +10,33 @@ import java.util.List;
 @Service
 public class AuthorityServiceImpl implements AuthorityService {
 
-    @Autowired
-    private AuthorityRepository authorityRepository;
+	@Autowired
+	private AuthorityRepository authorityRepository;
 
-    @Override
-    public Authority getAuthorityByAuthorityId(Long authorityId) {
-        return authorityRepository.findById(authorityId).orElse(null);
-    }
+	@Override
+	public Authority getAuthorityByAuthorityId(Long authorityId) {
+		return authorityRepository.findById(authorityId).orElse(null);
+	}
 
-    @Override
-    public List<Authority> getAllAuthority() {
-        return authorityRepository.findAll();
-    }
+	@Override
+	public List<Authority> getAllAuthority() {
+		return authorityRepository.findAll();
+	}
 
-    @Override
-    public Authority createAuthority(Authority authority) {
-        return authorityRepository.save(authority);
-    }
+	@Override
+	public Authority createAuthority(Authority authority) {
+		return authorityRepository.save(authority);
+	}
 
-    @Override
-    public void deleteAuthorityByAuthorityId(Long authorityId) {
-        authorityRepository.deleteById(authorityId);
-    }
+	@Override
+	public void deleteAuthorityByAuthorityId(Long authorityId) {
+		authorityRepository.deleteById(authorityId);
+	}
 
-    @Override
-    public Authority updateAuthority(Long authorityId, Authority formAuthority) {
-        Authority authority = authorityRepository.findById(authorityId).orElse(null);
-        authority.setAuthorityName(formAuthority.getAuthorityName());
-        return authority;
-    }
+	@Override
+	public Authority updateAuthority(Long authorityId, Authority formAuthority) {
+		Authority authority = authorityRepository.findById(authorityId).orElse(null);
+		authority.setAuthorityName(formAuthority.getAuthorityName());
+		return authority;
+	}
 }

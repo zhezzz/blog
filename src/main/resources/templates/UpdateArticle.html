@@ -13,14 +13,18 @@
     <input type="text" name="title" th:value="${article.getTitle()}">
     <textarea name="content" id="editor">
     </textarea>
-    <button type="submit" id="submit">发布</button>
+    <input type="checkbox" name="isPublic" th:value="同时公开文章" checked="checked">
+    <button type="submit" id="submit">保存</button>
 </form>
 <textarea style="display:none" id="content" th:text="${article.getContent()}"></textarea>
 <script type="text/javascript">
     var content = document.getElementById('content').value;
     ClassicEditor
         .create( document.querySelector( '#editor' ), {
-            language: 'zh-cn'
+            language: 'zh-cn',
+            ckfinder: {
+                uploadUrl: '/article/upload'
+            },
         } )
         .then( editor => {
         console.log( editor );

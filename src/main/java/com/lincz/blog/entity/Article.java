@@ -1,6 +1,5 @@
 package com.lincz.blog.entity;
 
-
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -13,152 +12,165 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 public class Article {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long articleId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long articleId;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "accountId")
-    private Account account;
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "accountId")
+	private Account account;
 
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER,orphanRemoval = true)
-    @OrderBy("createDate desc")
-    @JoinColumn(name = "articleId")
-    private Set<Comment> comments;
+	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OrderBy("createDate desc")
+	@JoinColumn(name = "articleId")
+	private Set<Comment> comments;
 
-//    @NotNull
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    @OrderBy("tagId asc ")
-    @JoinTable(name = "article_tag",joinColumns = {@JoinColumn(name = "articleId",referencedColumnName = "articleId")}
-                ,inverseJoinColumns = {@JoinColumn(name = "tagId",referencedColumnName = "tagId")})
-    private Set<Tag> tags;
+// @NotNull
+	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+	@OrderBy("tagId asc ")
+	@JoinTable(name = "article_tag", joinColumns = {
+			@JoinColumn(name = "articleId", referencedColumnName = "articleId")}, inverseJoinColumns = {
+					@JoinColumn(name = "tagId", referencedColumnName = "tagId")})
+	private Set<Tag> tags;
 
-//    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "categoryId")
-    private Category category;
+// @NotNull
+	@ManyToOne
+	@JoinColumn(name = "categoryId")
+	private Category category;
 
-    @NotNull
-    @CreatedDate
-    private LocalDateTime createDate;
+	@NotNull
+	@CreatedDate
+	private LocalDateTime createDate;
 
-    @NotNull
-    @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
+	@NotNull
+	@LastModifiedDate
+	private LocalDateTime lastModifiedDate;
 
-    @NotNull
-    private String title;
+	@NotNull
+	private String title;
 
-    @NotNull
-    @Column(columnDefinition = "MEDIUMTEXT")
-    private String content;
+	@NotNull
+	@Column(columnDefinition = "MEDIUMTEXT")
+	private String content;
 
-    @NotNull
-    @Column(columnDefinition = "MEDIUMTEXT")
-    private String rawContent;//纯文本内容
+	@NotNull
+	@Column(columnDefinition = "MEDIUMTEXT")
+	private String rawContent;// 纯文本内容
 
-    @NotNull
-    private Long pageView;
+	@NotNull
+	private Long pageView;
 
-    protected Article(){
+	@NotNull
+	private Boolean isPublic;
 
-    }
+	protected Article() {
 
-    public Article(@NotNull Account account, @NotNull String title, @NotNull String content, @NotNull String rawContent, @NotNull Long pageView) {
-        this.account = account;
-        this.title = title;
-        this.content = content;
-        this.rawContent = rawContent;
-        this.pageView = pageView;
-    }
+	}
 
-    public Long getArticleId() {
-        return articleId;
-    }
+	public Article(@NotNull Account account, @NotNull String title, @NotNull String content, @NotNull String rawContent,
+			@NotNull Long pageView, @NotNull Boolean isPublic) {
+		this.account = account;
+		this.title = title;
+		this.content = content;
+		this.rawContent = rawContent;
+		this.pageView = pageView;
+		this.isPublic = isPublic;
+	}
 
-    public void setArticleId(Long articleId) {
-        this.articleId = articleId;
-    }
+	public Long getArticleId() {
+		return articleId;
+	}
 
-    public Account getAccount() {
-        return account;
-    }
+	public void setArticleId(Long articleId) {
+		this.articleId = articleId;
+	}
 
-    public void setAccount(Account account) {
-        this.account = account;
-    }
+	public Account getAccount() {
+		return account;
+	}
 
-    public Set<Comment> getComments() {
-        return comments;
-    }
+	public void setAccount(Account account) {
+		this.account = account;
+	}
 
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
+	public Set<Comment> getComments() {
+		return comments;
+	}
 
-    public Set<Tag> getTags() {
-        return tags;
-    }
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
 
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
+	public Set<Tag> getTags() {
+		return tags;
+	}
 
-    public Category getCategory() {
-        return category;
-    }
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+	public Category getCategory() {
+		return category;
+	}
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
+	public LocalDateTime getCreateDate() {
+		return createDate;
+	}
 
-    public LocalDateTime getLastModifiedDate() {
-        return lastModifiedDate;
-    }
+	public void setCreateDate(LocalDateTime createDate) {
+		this.createDate = createDate;
+	}
 
-    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
+	public LocalDateTime getLastModifiedDate() {
+		return lastModifiedDate;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+	public String getContent() {
+		return content;
+	}
 
-    public String getRawContent() {
-        return rawContent;
-    }
+	public void setContent(String content) {
+		this.content = content;
+	}
 
-    public void setRawContent(String rawContent) {
-        this.rawContent = rawContent;
-    }
+	public String getRawContent() {
+		return rawContent;
+	}
 
-    public Long getPageView() {
-        return pageView;
-    }
+	public void setRawContent(String rawContent) {
+		this.rawContent = rawContent;
+	}
 
-    public void setPageView(Long pageView) {
-        this.pageView = pageView;
-    }
+	public Long getPageView() {
+		return pageView;
+	}
 
+	public void setPageView(Long pageView) {
+		this.pageView = pageView;
+	}
+
+	public Boolean getPublic() {
+		return isPublic;
+	}
+
+	public void setPublic(Boolean aPublic) {
+		isPublic = aPublic;
+	}
 }

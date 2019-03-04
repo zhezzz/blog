@@ -1,6 +1,5 @@
 package com.lincz.blog.controller;
 
-
 import com.lincz.blog.entity.Article;
 import com.lincz.blog.entity.Authority;
 import com.lincz.blog.entity.Comment;
@@ -32,98 +31,96 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/account")
 public class AccountController {
 
-    @Autowired
-    private AccountService accountService;
+	@Autowired
+	private AccountService accountService;
 
-    @Autowired
-    private ArticleService articleService;
+	@Autowired
+	private ArticleService articleService;
 
-    @Autowired
-    private CommentService commentService;
+	@Autowired
+	private CommentService commentService;
 
-    @Autowired
-    private AuthorityService authorityService;
+	@Autowired
+	private AuthorityService authorityService;
 
-    //用户个人主页功能，
-    @GetMapping(value = "/")
-    public ModelAndView accountHomePage(@PathVariable Long accountId){
-        return null;
-    }
+	// 用户个人主页功能，
+	@GetMapping(value = "/")
+	public ModelAndView accountHomePage(@PathVariable Long accountId) {
+		return null;
+	}
 
-    //获取账户信息修改界面
-    @GetMapping(value = "/management/{accountId}")
-    public ModelAndView accountManagementPage(@PathVariable Long accountId){
-        Account account = accountService.getAccountByAccountId(accountId);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("AccountManagenment");
-        modelAndView.addObject(account);
-        return modelAndView;
-    }
+	// 获取账户信息修改界面
+	@GetMapping(value = "/management/{accountId}")
+	public ModelAndView accountManagementPage(@PathVariable Long accountId) {
+		Account account = accountService.getAccountByAccountId(accountId);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("AccountManagenment");
+		modelAndView.addObject(account);
+		return modelAndView;
+	}
 
-    //修改用户邮箱密码
-    @PostMapping(value = "/update/{accountId}/info")
-    public String updateAccountInfo(@PathVariable Long accountId, Account formAccount){
-        accountService.updateAccountInfo(accountId,formAccount);
-        return "redirect:/";
-    }
+	// 修改用户邮箱密码
+	@PostMapping(value = "/update/{accountId}/info")
+	public String updateAccountInfo(@PathVariable Long accountId, Account formAccount) {
+		accountService.updateAccountInfo(accountId, formAccount);
+		return "redirect:/";
+	}
 
-    //修改用户权限
-    //TODO 暂时使用List，尽量改成Set
-    @PostMapping(value = "/update/{accountId}/authority")
-    public Account updateAccountAuthority(@PathVariable Long accountId, List<Long> authorityIdList){
-        Set<Authority> authorities = new HashSet<>();
-        for (Long authorityId:authorityIdList
-             ) {
-            Authority authority = authorityService.getAuthorityByAuthorityId(authorityId);
-            if (authority != null){
-                authorities.add(authority);
-            }
-        }
-        return accountService.updateAccountAuthority(accountId,authorities);
-    }
+	// 修改用户权限
+	// TODO 暂时使用List，尽量改成Set
+	@PostMapping(value = "/update/{accountId}/authority")
+	public Account updateAccountAuthority(@PathVariable Long accountId, List<Long> authorityIdList) {
+		Set<Authority> authorities = new HashSet<>();
+		for (Long authorityId : authorityIdList) {
+			Authority authority = authorityService.getAuthorityByAuthorityId(authorityId);
+			if (authority != null) {
+				authorities.add(authority);
+			}
+		}
+		return accountService.updateAccountAuthority(accountId, authorities);
+	}
 
-    //修改头像
-    @PostMapping(value = "/update/{accountId}/avatar")
-    public void updateAccountAvatar(@PathVariable Long accountId, MultipartFile avatarFile) throws IOException{
-        //TODO 暂时改用网络图片链接
-        String fileName = avatarFile.getOriginalFilename();
-        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
-        File tempAvatar = new File("blog-data/account/avatar/"+accountId+"."+suffix);
-        File avatar = new File("blog-data/account/avatar/"+accountId+"."+suffix);
-        avatarFile.transferTo(Paths.get(tempAvatar.toURI()));
-        accountService.updateAccountAvatar(accountId,avatar.getPath());
-    }
+	// 修改头像
+	@PostMapping(value = "/update/{accountId}/avatar")
+	public void updateAccountAvatar(@PathVariable Long accountId, MultipartFile avatarFile) throws IOException {
+		// TODO 暂时改用网络图片链接
+		String fileName = avatarFile.getOriginalFilename();
+		String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+		File tempAvatar = new File("blog-data/account/avatar/" + accountId + "." + suffix);
+		File avatar = new File("blog-data/account/avatar/" + accountId + "." + suffix);
+		avatarFile.transferTo(Paths.get(tempAvatar.toURI()));
+		accountService.updateAccountAvatar(accountId, avatar.getPath());
+	}
 
-    //获取用户所有评论（分页）
-    @GetMapping(value = "/{accountId}/comments")
-    public ModelAndView accountComments(@PathVariable Long accountId, @PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
-        Account account = accountService.getAccountByAccountId(accountId);
-        Page<Comment> commentPage = commentService.paginateGetCommetsByAccount(account,pageable);
-        List<Comment> commentList = commentPage.get().collect(Collectors.toList());
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("AccountComments");
-        modelAndView.addObject(commentList);
-        return modelAndView;
-    }
+	// 获取用户所有评论（分页）
+	@GetMapping(value = "/{accountId}/comments")
+	public ModelAndView accountComments(@PathVariable Long accountId,
+			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+		Account account = accountService.getAccountByAccountId(accountId);
+		Page<Comment> commentPage = commentService.paginateGetCommetsByAccount(account, pageable);
+		List<Comment> commentList = commentPage.get().collect(Collectors.toList());
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("AccountComments");
+		modelAndView.addObject(commentList);
+		return modelAndView;
+	}
 
-    //获取用户所有文章（分页）
-    @GetMapping(value = "/{accountId}/articles")
-    public ModelAndView accountArticles(@PathVariable Long accountId, @PageableDefault(size = 10,sort = { "createDate" }, direction = Sort.Direction.DESC) Pageable pageable){
-        Account account = accountService.getAccountByAccountId(accountId);
-        Page<Article> articlePage = articleService.paginateGetArticlesByAccount(account,pageable);
-        List<Article> articleList = articlePage.get().collect(Collectors.toList());
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("AccountArticles");
-        modelAndView.addObject(articleList);
-        return modelAndView;
-    }
+	// 获取用户所有文章（分页）
+	@GetMapping(value = "/{accountId}/articles")
+	public ModelAndView accountArticles(@PathVariable Long accountId,
+			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+		Account account = accountService.getAccountByAccountId(accountId);
+		Page<Article> articlePage = articleService.paginateGetArticlesByAccount(account, pageable);
+		List<Article> articleList = articlePage.get().collect(Collectors.toList());
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("AccountArticles");
+		modelAndView.addObject(articleList);
+		return modelAndView;
+	}
 
-    //获取当前用户
-    public Account currentAccount(){
-        return accountService.getAccountByUsername(((UserDetails)SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal())
-                .getUsername());
-    }
+	// 获取当前用户
+	public Account currentAccount() {
+		return accountService.getAccountByUsername(
+				((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+	}
 }

@@ -16,39 +16,39 @@ import java.util.List;
 @Service
 public class CommentServiceImpl implements CommentService {
 
-    @Autowired
-    private CommentRepository commentRepository;
+	@Autowired
+	private CommentRepository commentRepository;
 
-    @Override
-    public Page<Comment> paginateGetCommetsByAccount(Account account, Pageable pageable) {
-        return commentRepository.findCommentsByAccount(account,pageable);
-    }
+	@Override
+	public Page<Comment> paginateGetCommetsByAccount(Account account, Pageable pageable) {
+		return commentRepository.findCommentsByAccount(account, pageable);
+	}
 
-    @Override
-    public Comment createComment(Comment comment) {
-        return commentRepository.save(comment);
-    }
+	@Override
+	public Comment createComment(Comment comment) {
+		return commentRepository.save(comment);
+	}
 
-    @Override
-    public Page<Comment> getAllComments(Pageable pageable){
-        return commentRepository.findAll(pageable);
-    }
+	@Override
+	public Page<Comment> getAllComments(Pageable pageable) {
+		return commentRepository.findAll(pageable);
+	}
 
-    @Override
-    public void deleteCommentByCommentId(Long commentId) {
-        deleteCommentByCommentId(commentId);
-    }
+	@Override
+	public void deleteCommentByCommentId(Long commentId) {
+		deleteCommentByCommentId(commentId);
+	}
 
-    @Transactional
-    @Override
-    public Comment updateComment(Long commentId, Comment formComment) {
-        Comment comment = commentRepository.findById(commentId).orElse(null);
-        comment.setContent(formComment.getContent());
-        return comment;
-    }
+	@Transactional
+	@Override
+	public Comment updateComment(Long commentId, Comment formComment) {
+		Comment comment = commentRepository.findById(commentId).orElse(null);
+		comment.setContent(formComment.getContent());
+		return comment;
+	}
 
-    @Override
-    public Comment getCommentByCommentId(Long commentId) {
-        return commentRepository.findById(commentId).orElse(null);
-    }
+	@Override
+	public Comment getCommentByCommentId(Long commentId) {
+		return commentRepository.findById(commentId).orElse(null);
+	}
 }

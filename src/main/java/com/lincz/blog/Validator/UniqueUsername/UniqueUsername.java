@@ -7,15 +7,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ ElementType.FIELD})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UniqueUsernameValidator.class)
 public @interface UniqueUsername {
 
-    String message() default "用户名重复，请更换用户名再尝试";
+	String message() default "用户名重复，请更换用户名再尝试";
 
-    Class<?>[] groups() default { };
+	Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default { };
+	Class<? extends Payload>[] payload() default {};
 
 }

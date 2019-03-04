@@ -1,6 +1,5 @@
 package com.lincz.blog.service;
 
-
 import com.lincz.blog.entity.Account;
 import com.lincz.blog.entity.Authority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,24 +11,24 @@ import java.util.Set;
 
 public interface AccountService extends UserDetailsService {
 
-    List<Account> getAllAccount();
+	List<Account> getAllAccount();
 
-    Account getAccountByUsername(String username);
+	Account getAccountByUsername(String username);
 
-    Account getAccountByEamil(String email);
+	Account getAccountByEamil(String email);
 
-    Account getAccountByAccountId(Long accountId);
+	Account getAccountByAccountId(Long accountId);
 
-    Account updateAccountAuthority(Long accountId, Set<Authority> authorities);
+	Account updateAccountAuthority(Long accountId, Set<Authority> authorities);
 
-    Account updateAccountInfo(Long accountId,Account account);
+	Account updateAccountInfo(Long accountId, Account account);
 
-    Account updateAccountAvatar(Long accountId,String avatar);
+	Account updateAccountAvatar(Long accountId, String avatar);
 
-    Account createAccount(Account account);
+	Account createAccount(Account account);
 
-    void deleteAccountByAccountId(Long accountId);
+	void deleteAccountByAccountId(Long accountId);
 
-    @Override
-    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+	@Override
+	UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 }
