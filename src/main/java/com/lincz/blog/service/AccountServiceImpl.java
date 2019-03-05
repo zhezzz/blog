@@ -57,7 +57,9 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public Account updateAccountAvatar(Long accountId, String avatar) {
 		Account account = accountRepository.findById(accountId).orElse(null);
-		account.setAvatar(avatar);
+		if (account != null){
+            account.setAvatar(avatar);
+        }
 		return account;
 	}
 
