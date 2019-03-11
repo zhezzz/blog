@@ -17,8 +17,6 @@ import java.util.*;
 @EntityListeners(AuditingEntityListener.class)
 public class Account implements UserDetails {
 
-// private static final long serialVersionUID = 8433348872054203322L;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long accountId;

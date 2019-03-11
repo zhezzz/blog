@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
@@ -82,14 +83,16 @@ public class AccountController {
 
 	// 修改头像
 	@PostMapping(value = "/update/{accountId}/avatar")
-	public void updateAccountAvatar(@PathVariable Long accountId, MultipartFile avatarFile) throws IOException {
-		// TODO 暂时改用网络图片链接
-		String fileName = avatarFile.getOriginalFilename();
-		String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
-		File tempAvatar = new File("blog-data/account/avatar/" + accountId + "." + suffix);
-		File avatar = new File("blog-data/account/avatar/" + accountId + "." + suffix);
-		avatarFile.transferTo(Paths.get(tempAvatar.toURI()));
-		accountService.updateAccountAvatar(accountId, avatar.getPath());
+	public void updateAccountAvatar(@PathVariable Long accountId, @RequestParam(value = "avatar") MultipartFile avatar) throws IOException {
+		String avatarPath = "avatar/";
+		String fileName = avatar.getOriginalFilename();
+		if (fileName.endsWith(".jpg") || fileName.endsWith(".png")){
+
+		}
+		String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+		Path avatarFile = Paths.get("static/" + accountId + "." + extension);
+		avatar.transferTo(avatarFile);
+		accountService.updateAccountAvatar(accountId, avatarFile.toString());
 	}
 
 	// 获取用户所有评论（分页）

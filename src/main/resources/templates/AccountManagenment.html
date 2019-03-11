@@ -6,14 +6,14 @@
 </head>
 <body>
 
-<form th:action="${#request.getContextPath()} + '/account/update/info/1'" method="post">
+<form th:action="${#request.getContextPath()} + '/account/update/info/' + ${account.getAccountId()}" method="post">
     密码<input th:text="${account.getPassword()}" type="password" name="password">
     邮箱<input th:text="${account.getEmail()}" type="text" name="email">
     <p><input type="submit" value="提交"/></p>
 </form>
 
-<form action="/account/update/avatar/1" method="post" enctype="multipart/form-data">
-    头像<p>选择文件: <input type="file" name="avatarFile"/></p>
+<form th:action="${#request.getContextPath()} + '/account/update/' + ${account.getAccountId()} + '/avatar/'" method="post" enctype="multipart/form-data">
+    头像<p>选择文件: <input type="file" name="avatar"/></p>
     <p><input type="submit" value="提交"/></p>
 </form>
 
