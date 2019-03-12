@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.UUID;
 
 @Controller
@@ -94,6 +93,7 @@ public class ArticleController {
 
 	// 上传图片
 	@RequestMapping(value = "/upload/{articleId}")
+	@ResponseBody
 	public Response uploadImage(@PathVariable Long articleId, @RequestPart(value = "upload") MultipartFile imageFile)
 			throws IOException {
 		String originalFileName = imageFile.getOriginalFilename();
@@ -124,6 +124,22 @@ public class ArticleController {
 
 		public Response(Boolean uploaded, String url) {
 			this.uploaded = uploaded;
+			this.url = url;
+		}
+
+		public Boolean getUploaded() {
+			return uploaded;
+		}
+
+		public void setUploaded(Boolean uploaded) {
+			this.uploaded = uploaded;
+		}
+
+		public String getUrl() {
+			return url;
+		}
+
+		public void setUrl(String url) {
 			this.url = url;
 		}
 	}
