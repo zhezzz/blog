@@ -62,20 +62,19 @@ public class Article {
 	private Long pageView;
 
 	@NotNull
-	private boolean isPublic;
+	private boolean publish;
 
 	protected Article() {
 
 	}
 
-	public Article(@NotNull Account account, @NotNull String title, @NotNull String content, @NotNull String rawContent,
-			@NotNull Long pageView, @NotNull boolean isPublic) {
+	public Article(@NotNull Account account, @NotNull String title, @NotNull String content, @NotNull String rawContent) {
 		this.account = account;
 		this.title = title;
 		this.content = content;
 		this.rawContent = rawContent;
-		this.pageView = pageView;
-		this.isPublic = isPublic;
+		this.pageView = Long.valueOf(0);
+		this.publish = false;
 	}
 
 	public Long getArticleId() {
@@ -166,11 +165,11 @@ public class Article {
 		this.pageView = pageView;
 	}
 
-	public boolean isPublic() {
-		return isPublic;
+	public boolean isPublish() {
+		return publish;
 	}
 
-	public void setPublic(boolean isPublic) {
-		this.isPublic = isPublic;
+	public void setPublish(boolean publish) {
+		this.publish = publish;
 	}
 }

@@ -38,10 +38,9 @@ public class ArticleServiceImpl implements ArticleService {
 			article.setTitle(formArticle.getTitle());
 			article.setContent(formArticle.getContent());
 			article.setRawContent(formArticle.getRawContent());
-			// TODO
-			article.setPublic(formArticle.isPublic());
+			article.setPublish(formArticle.isPublish());
 		}
-		return article;
+		return articleRepository.save(article);
 	}
 
 	@Override
@@ -72,8 +71,8 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public Page<Article> paginateGetAllArticlesByIsPublic(Boolean isPublic, Pageable pageable) {
-		Page<Article> articles = articleRepository.findAllByIsPublic(isPublic, pageable);
+	public Page<Article> paginateGetAllArticlesByPublish(boolean publish, Pageable pageable) {
+		Page<Article> articles = articleRepository.findAllByPublish(publish, pageable);
 		return articles;
 	}
 

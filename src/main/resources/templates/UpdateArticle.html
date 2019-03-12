@@ -13,17 +13,24 @@
     <input type="text" name="title" th:value="${article.getTitle()}">
     <textarea name="content" id="editor">
     </textarea>
-    <input type="checkbox" name="isPublic" checked="checked">
+    <input type="checkbox" name="publish" checked>
     <button type="submit" id="submit">保存</button>
 </form>
 <textarea style="display:none" id="content" th:text="${article.getContent()}"></textarea>
+<textarea style="display:none" id="articleId" th:text="${article.getArticleId()}"></textarea>
+<textarea style="display:none" id="contextPath" th:text="${#request.getContextPath()}"></textarea>
+<!--<input type="text" hidden="hidden " id="articleId" th:value="${article.getArticleId()}">-->
+<!--<input type="text" hidden="hidden " id="contextPath" th:value="${#request.getContextPath()}">-->
+
 <script type="text/javascript">
     var content = document.getElementById('content').value;
+    var articleId = document.getElementById('articleId').value;
+    var contextPath = document.getElementById('contextPath').value;
     ClassicEditor
         .create( document.querySelector( '#editor' ), {
             language: 'zh-cn',
             ckfinder: {
-                uploadUrl: '/article/upload'
+                uploadUrl: contextPath + '/article/upload/' + articleId
             },
         } )
         .then( editor => {

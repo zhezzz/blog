@@ -15,7 +15,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 	@Override
 	Page<Article> findAll(Pageable pageable);
 
-	Page<Article> findAllByIsPublic(Boolean isPublic, Pageable pageable);
+	Page<Article> findAllByPublish(boolean publish, Pageable pageable);
 
 	Page<Article> findArticlesByAccount(Account account, Pageable pageable);
 

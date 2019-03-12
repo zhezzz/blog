@@ -21,7 +21,7 @@ public interface ArticleService {
 
 	Page<Article> paginateGetAllArticles(Pageable pageable);
 
-	Page<Article> paginateGetAllArticlesByIsPublic(Boolean isPublic, Pageable pageable);
+	Page<Article> paginateGetAllArticlesByPublish(boolean publish, Pageable pageable);
 
 	Page<Article> paginateGetArticlesByAccount(Account account, Pageable pageable);
 

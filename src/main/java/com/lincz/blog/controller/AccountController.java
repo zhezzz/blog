@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -84,15 +85,19 @@ public class AccountController {
 	// 修改头像
 	@PostMapping(value = "/update/{accountId}/avatar")
 	public void updateAccountAvatar(@PathVariable Long accountId, @RequestParam(value = "avatar") MultipartFile avatar) throws IOException {
-		String avatarPath = "avatar/";
 		String fileName = avatar.getOriginalFilename();
 		if (fileName.endsWith(".jpg") || fileName.endsWith(".png")){
-
+            String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+            String classpath = this.getClass().getClassLoader().getResource("").getPath();
+            String avatarFileName = accountId + "." + extension;
+            File file =new File(classpath + "data/avatar/");
+            if (!file.exists()){
+                file.mkdirs();
+            }
+            //TODO resize
+            avatar.transferTo(new File(file.toString() + "/" + avatarFileName));
 		}
-		String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-		Path avatarFile = Paths.get("static/" + accountId + "." + extension);
-		avatar.transferTo(avatarFile);
-		accountService.updateAccountAvatar(accountId, avatarFile.toString());
+
 	}
 
 	// 获取用户所有评论（分页）
