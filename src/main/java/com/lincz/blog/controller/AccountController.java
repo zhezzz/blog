@@ -13,8 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -44,6 +42,9 @@ public class AccountController {
 
 	@Autowired
 	private AuthorityService authorityService;
+
+	@Autowired
+	private HttpServletRequest request;
 
 	// 用户个人主页功能，
 	@GetMapping(value = "/")
@@ -126,9 +127,14 @@ public class AccountController {
 		return modelAndView;
 	}
 
-	// 获取当前用户
-	public Account currentAccount() {
-		return accountService.getAccountByUsername(
-				((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+	// 验证用户名唯一性
+	@PostMapping(value = "/verify_username_uniqueness")
+	public boolean verifyUniqueness(String username) {
+		if (accountService.getAccountByUsername(username) == null) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }

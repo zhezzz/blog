@@ -54,9 +54,8 @@ public class Account implements UserDetails {
 					@JoinColumn(name = "authorityId", referencedColumnName = "authorityId")})
 	private Set<Authority> authorities;
 
-	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(mappedBy = "account", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
 	@OrderBy("createDate desc")
-	@JoinColumn(name = "accountId")
 	private Set<Article> articles;
 
 	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
@@ -65,9 +64,8 @@ public class Account implements UserDetails {
 			@JoinColumn(name = "articleId")})
 	private Set<Article> favoriteArticles;
 
-	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(mappedBy = "account", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
 	@OrderBy("createDate desc")
-	@JoinColumn(name = "accountId")
 	private Set<Comment> comments;
 
 	@NotNull

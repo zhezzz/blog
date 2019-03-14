@@ -15,7 +15,7 @@ public interface AccountService extends UserDetailsService {
 
 	Account getAccountByUsername(String username);
 
-	Account getAccountByEamil(String email);
+	Account getAccountByEmail(String email);
 
 	Account getAccountByAccountId(Long accountId);
 

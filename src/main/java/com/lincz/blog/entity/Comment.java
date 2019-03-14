@@ -29,12 +29,10 @@ public class Comment {
 
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "accountId")
 	private Account account;
 
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "articleId")
 	private Article article;
 
 	protected Comment() {

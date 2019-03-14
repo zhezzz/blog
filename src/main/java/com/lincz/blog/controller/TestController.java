@@ -19,6 +19,7 @@ public class TestController {
 
 	@Autowired
 	private ArticleService articleService;
+
 	@Autowired
 	ArticleRepository articleRepository;
 

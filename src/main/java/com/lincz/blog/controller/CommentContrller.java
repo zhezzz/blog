@@ -11,11 +11,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping(value = "/comment")
@@ -30,13 +30,18 @@ public class CommentContrller {
 	@Autowired
 	private ArticleService articleService;
 
+	@Autowired
+	private HttpServletRequest request;
+
 	// 发表评论
 	@PostMapping(value = "/post/{articleId}")
 	public String postComment(@PathVariable Long articleId, Comment formComment) {
 		Article article = articleService.getArticleByArticleId(articleId);
+		String currentUsername = request.getUserPrincipal().getName();
+		Account currentAccount = accountService.getAccountByUsername(currentUsername);
 		Comment comment = new Comment(formComment.getContent());
 		comment.setArticle(article);
-		comment.setAccount(currentAccount());
+		comment.setAccount(currentAccount);
 		commentService.createComment(comment);
 		comment.setArticle(article);
 		return "redirect:/article/details/" + articleId;
@@ -76,8 +81,4 @@ public class CommentContrller {
 		return modelAndView;
 	}
 
-	public Account currentAccount() {
-		return accountService.getAccountByUsername(
-				((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-	}
 }

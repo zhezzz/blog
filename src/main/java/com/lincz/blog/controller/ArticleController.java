@@ -6,8 +6,6 @@ import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,13 +19,15 @@ import java.util.UUID;
 @Controller
 @RequestMapping(value = "/article")
 public class ArticleController {
-	// TODO 弃用直接post新文章，用户发起请求，后台创建一篇新文章返回给前台编辑，，前台具有编辑功能和保存功能，发布功能
 
 	@Autowired
 	private ArticleService articleService;
 
 	@Autowired
 	private AccountService accountService;
+
+	@Autowired
+	private HttpServletRequest request;
 
 	// 根据文章id查看文章
 	@GetMapping(value = "/details/{articleId}")
@@ -42,23 +42,39 @@ public class ArticleController {
 
 	//将文章加入用户收藏夹
 	@PostMapping(value = "/addToFavorites/{articleId}")
-	public void addArticleToFavorites(@PathVariable Long articleId, HttpServletRequest request){
+	public void addArticleToFavorites(@PathVariable Long articleId){
 		Article article = articleService.getArticleByArticleId(articleId);
 		String currentUsername = request.getUserPrincipal().getName();
-		Account account = accountService.getAccountByUsername(currentUsername);
-		if (!account.getFavoriteArticles().contains(article)){
-			account.getFavoriteArticles().add(article);
+		Account currentAccount = accountService.getAccountByUsername(currentUsername);
+		if (!currentAccount.getFavoriteArticles().contains(article)){
+			currentAccount.getFavoriteArticles().add(article);
 		}
 	}
 
 	// 发布文章
 	@GetMapping(value = "/post")
-	public String postArticleView(HttpServletRequest request) {
+	public String postArticleView() {
 		String currentUsername = request.getUserPrincipal().getName();
-		Account account = accountService.getAccountByUsername(currentUsername);
-		Article article = new Article(account, "标题", "请在此编写文章。", "");
+		Account currentAccount = accountService.getAccountByUsername(currentUsername);
+		Article article = new Article(currentAccount, "标题", "请在此编写文章。", "");
 		articleService.createArticle(article);
 		return "redirect:" + request.getContextPath() + "/article/update/" + article.getArticleId();
+	}
+
+	//测试putmapping
+	@PutMapping(value = "/{id}")
+	public String putArticle(@PathVariable Long id, Article formArticle){
+		String rawContent = Jsoup.parse(formArticle.getContent()).text();
+		formArticle.setRawContent(rawContent);
+		articleService.updateArticle(id, formArticle);
+		return "redirect:/article/details/" + id;
+	}
+
+	//测试deletemapping
+	@DeleteMapping(value = "/{id}")
+	@ResponseBody
+	public void delete(@PathVariable Long id) {
+		articleService.deleteArticleByArticleId(id);
 	}
 
 	// 删除文章
@@ -84,11 +100,6 @@ public class ArticleController {
 		formArticle.setRawContent(rawContent);
 		articleService.updateArticle(articleId, formArticle);
 		return "redirect:/article/details/" + articleId;
-	}
-
-	public Account currentAccount() {
-		return accountService.getAccountByUsername(
-				((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 	}
 
 	// 上传图片

@@ -21,9 +21,8 @@ public class Article {
 	@JoinColumn(name = "accountId")
 	private Account account;
 
-	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "article", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderBy("createDate desc")
-	@JoinColumn(name = "articleId")
 	private Set<Comment> comments;
 
 // @NotNull
@@ -36,7 +35,6 @@ public class Article {
 
 // @NotNull
 	@ManyToOne
-	@JoinColumn(name = "categoryId")
 	private Category category;
 
 	@NotNull
