@@ -19,6 +19,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping(value = "/article")
 public class ArticleController {
+	//TODO 限制文章和评论字数，前台ID传入验证跳转到404
 
 	@Autowired
 	private ArticleService articleService;
@@ -40,16 +41,7 @@ public class ArticleController {
 		return modelAndView;
 	}
 
-	//将文章加入用户收藏夹
-	@PostMapping(value = "/addToFavorites/{articleId}")
-	public void addArticleToFavorites(@PathVariable Long articleId){
-		Article article = articleService.getArticleByArticleId(articleId);
-		String currentUsername = request.getUserPrincipal().getName();
-		Account currentAccount = accountService.getAccountByUsername(currentUsername);
-		if (!currentAccount.getFavoriteArticles().contains(article)){
-			currentAccount.getFavoriteArticles().add(article);
-		}
-	}
+
 
 	// 发布文章
 	@GetMapping(value = "/post")
@@ -72,7 +64,7 @@ public class ArticleController {
 
 	//测试deletemapping
 	@DeleteMapping(value = "/{id}")
-	@ResponseBody
+//	@ResponseBody
 	public void delete(@PathVariable Long id) {
 		articleService.deleteArticleByArticleId(id);
 	}

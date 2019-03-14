@@ -6,40 +6,70 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" th:src="@{/static/js/ckeditor/ckeditor.js}"></script>
     <script type="text/javascript" th:src="@{/static/js/ckeditor/translations/zh-cn.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
 </head>
 <body>
 
-<form th:action="${#request.getContextPath()} + '/article/update/' + ${article.getArticleId()}" method="post">
+<form>
     <input type="text" name="title" th:value="${article.getTitle()}">
     <textarea name="content" id="editor">
     </textarea>
     <input type="checkbox" name="publish" checked>
-    <button type="submit" id="submit">保存</button>
+    <button type="submit" id="submit" onclick="submit()">保存</button>
 </form>
-<textarea style="display:none" id="content" th:text="${article.getContent()}"></textarea>
-<textarea style="display:none" id="articleId" th:text="${article.getArticleId()}"></textarea>
-<textarea style="display:none" id="contextPath" th:text="${#request.getContextPath()}"></textarea>
-<!--<input type="text" hidden="hidden " id="articleId" th:value="${article.getArticleId()}">-->
-<!--<input type="text" hidden="hidden " id="contextPath" th:value="${#request.getContextPath()}">-->
 
-<script type="text/javascript">
-    var content = document.getElementById('content').value;
-    var articleId = document.getElementById('articleId').value;
-    var contextPath = document.getElementById('contextPath').value;
+<script th:inline="javascript">
+    var content = [[${article.getContent()}]];
+    var articleId = [[${article.getArticleId()}]];
+    var contextPath = [[${#request.getContextPath()}]];
+    var editorData;
+    var myEditor;
     ClassicEditor
-        .create( document.querySelector( '#editor' ), {
+        .create(document.querySelector('#editor'), {
             language: 'zh-cn',
             ckfinder: {
                 uploadUrl: contextPath + '/article/upload/' + articleId
             },
-        } )
-        .then( editor => {
-        console.log( editor );
-    editor.setData(content);
-    } )
-    .catch( error => {
-        console.error( error );
-    } );
+        })
+        .then(editor => {
+            console.log(editor);
+            editor.setData(content);
+            myEditor = editor;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+    var form_data = $("#form").serialize();
+
+    function submit() {
+        editorData = myEditor.getData();
+        $.ajax({
+            type: "PUT",
+            url: content + '/article/' + articleId,
+            data: form_data,
+            success: function (result) {
+                alert("成功！");
+            },
+            error: function () {
+                alert("异常！");
+            }
+        })
+    }
+
+    // function submit() {
+    //     $.ajax({
+    //         type: "DELETE",
+    //         url: content + '/article/' + articleId,
+    //         contentType:"application/json",
+    //         success: function (result) {
+    //             alert("成功！");
+    //         },
+    //         error : function() {
+    //             alert("异常！");
+    //         }
+    //     })
+    // }
 </script>
 </body>
 </html>

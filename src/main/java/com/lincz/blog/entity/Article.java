@@ -18,7 +18,6 @@ public class Article {
 
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "accountId")
 	private Account account;
 
 	@OneToMany(mappedBy = "article", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
@@ -26,7 +25,7 @@ public class Article {
 	private Set<Comment> comments;
 
 // @NotNull
-	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	@OrderBy("tagId asc ")
 	@JoinTable(name = "article_tag", joinColumns = {
 			@JoinColumn(name = "articleId", referencedColumnName = "articleId")}, inverseJoinColumns = {
@@ -62,6 +61,12 @@ public class Article {
 	@NotNull
 	private boolean publish;
 
+	@NotNull
+	private boolean allowComment;
+
+	@NotNull
+	private boolean stick;//置顶
+
 	protected Article() {
 
 	}
@@ -73,6 +78,8 @@ public class Article {
 		this.rawContent = rawContent;
 		this.pageView = Long.valueOf(0);
 		this.publish = false;
+		this.allowComment = true;
+		this.stick = false;
 	}
 
 	public Long getArticleId() {
@@ -169,5 +176,21 @@ public class Article {
 
 	public void setPublish(boolean publish) {
 		this.publish = publish;
+	}
+
+	public boolean isAllowComment() {
+		return allowComment;
+	}
+
+	public void setAllowComment(boolean allowComment) {
+		this.allowComment = allowComment;
+	}
+
+	public boolean isStick() {
+		return stick;
+	}
+
+	public void setStick(boolean stick) {
+		this.stick = stick;
 	}
 }

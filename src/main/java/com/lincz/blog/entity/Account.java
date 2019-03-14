@@ -32,7 +32,6 @@ public class Account implements UserDetails {
 
 	@NotNull(message = "用户名不能为空")
 	@Length(min = 3, max = 16)
-// @UniqueUsername
 	private String username;
 
 	@NotNull(message = "密码不能为空")
@@ -43,11 +42,12 @@ public class Account implements UserDetails {
 	@Email
 	private String email;
 
+	//TODO 是否保留
 	@NotNull
 	private String avatar;
 
 	@NotNull
-	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
 	@OrderBy("authorityId asc ")
 	@JoinTable(name = "account_authority", joinColumns = {
 			@JoinColumn(name = "accountId", referencedColumnName = "accountId")}, inverseJoinColumns = {
@@ -57,12 +57,6 @@ public class Account implements UserDetails {
 	@OneToMany(mappedBy = "account", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
 	@OrderBy("createDate desc")
 	private Set<Article> articles;
-
-	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-	@OrderBy("createDate desc ")
-	@JoinTable(name = "favorites_article", joinColumns = {@JoinColumn(name = "accountId")}, inverseJoinColumns = {
-			@JoinColumn(name = "articleId")})
-	private Set<Article> favoriteArticles;
 
 	@OneToMany(mappedBy = "account", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
 	@OrderBy("createDate desc")
@@ -218,15 +212,8 @@ public class Account implements UserDetails {
 		this.comments = comments;
 	}
 
-	public Set<Article> getFavoriteArticles() {
-		return favoriteArticles;
-	}
-
-	public void setFavoriteArticles(Set<Article> favoriteArticles) {
-		this.favoriteArticles = favoriteArticles;
-	}
-
 	public void setAuthorities(Set<Authority> authorities) {
 		this.authorities = authorities;
 	}
+
 }

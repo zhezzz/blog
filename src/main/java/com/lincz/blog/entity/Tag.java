@@ -1,10 +1,16 @@
 package com.lincz.blog.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Tag {
 
 	@Id
@@ -15,12 +21,20 @@ public class Tag {
 	private String tagName;
 
 	@NotNull
-	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	@OrderBy("createDate desc ")
 	@JoinTable(name = "article_tag", joinColumns = {
 			@JoinColumn(name = "tagId", referencedColumnName = "tagId")}, inverseJoinColumns = {
 					@JoinColumn(name = "articleId", referencedColumnName = "articleId")})
 	private Set<Article> articles;
+
+	@NotNull
+	@CreatedDate
+	private LocalDateTime createDate;
+
+	@NotNull
+	@LastModifiedDate
+	private LocalDateTime lastModifiedDate;
 
 	protected Tag() {
 	}
@@ -53,4 +67,19 @@ public class Tag {
 		this.articles = articles;
 	}
 
+	public LocalDateTime getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(LocalDateTime createDate) {
+		this.createDate = createDate;
+	}
+
+	public LocalDateTime getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
 }

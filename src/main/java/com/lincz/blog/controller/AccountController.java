@@ -20,8 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +28,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/account")
 public class AccountController {
+
+	//TODO 设计任意访问的用户主页，还有用户自己管理页面，和admin管理页面类似，验证传入id，跳转404
 
 	@Autowired
 	private AccountService accountService;
