@@ -19,7 +19,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	@Override
-	public List<Authority> getAllAuthority() {
+	public List<Authority> getAllAuthorities() {
 		return authorityRepository.findAll();
 	}
 

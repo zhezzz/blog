@@ -66,28 +66,50 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public Page<Article> paginateGetArticlesByAccount(Account account, Pageable pageable) {
-		Page<Article> articles = articleRepository.findArticlesByAccount(account, pageable);
+		Page<Article> articles = articleRepository.findAllByAccount(account, pageable);
 		return articles;
 	}
 
 	@Override
-	public Page<Article> paginateGetAllArticlesByPublish(boolean publish, Pageable pageable) {
+	public Page<Article> paginateGetArticlesByPublish(boolean publish, Pageable pageable) {
 		Page<Article> articles = articleRepository.findAllByPublish(publish, pageable);
 		return articles;
 	}
 
 	@Override
 	public Page<Article> paginateGetArticlesByCategory(Category category, Pageable pageable) {
-		return articleRepository.findArticlesByCategory(category, pageable);
+		return articleRepository.findAllByCategory(category, pageable);
 	}
 
-	@Override
-	public Page<Article> paginateGetArticlesByTag(Tag tag, Pageable pageable) {
-		return articleRepository.findArticlesByTagsExists(tag, pageable);
-	}
+//	@Override
+//	public Page<Article> paginateGetArticlesByTag(Tag tag, Pageable pageable) {
+//		return articleRepository.findArticlesByTag(tag, pageable);
+//	}
 
 	@Override
 	public boolean isArticleExists(Long articleId) {
 		return articleRepository.existsById(articleId);
+	}
+
+	@Override
+	public Page<Article> paginateGetArticlesByAccountAndPublish(Account account, boolean publish, Pageable pageable) {
+		return articleRepository.findAllByAccountAndPublish(account,publish,pageable);
+	}
+
+	@Override
+	public Page<Article> paginateGetArticlesByCategoryAndPublish(Category category, boolean publish, Pageable pageable) {
+		return articleRepository.findAllByCategoryAndPublish(category,publish,pageable);
+	}
+
+	@Override
+	public boolean isArticleExistsAndPublish(Long articleId, boolean publish) {
+		if (!articleRepository.existsById(articleId)){
+			return false;
+		}
+		Article article = articleRepository.findById(articleId).orElse(null);
+		if (!article.isPublish()){
+			return false;
+		}
+		return true;
 	}
 }

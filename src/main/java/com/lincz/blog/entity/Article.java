@@ -193,4 +193,6 @@ public class Article {
 	public void setStick(boolean stick) {
 		this.stick = stick;
 	}
+
+
 }

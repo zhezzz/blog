@@ -14,11 +14,14 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
 	Page<Article> findAllByPublish(boolean publish, Pageable pageable);
 
-	Page<Article> findArticlesByAccount(Account account, Pageable pageable);
+	Page<Article> findAllByAccount(Account account, Pageable pageable);
 
-	Page<Article> findArticlesByCategory(Category category, Pageable pageable);
+	Page<Article> findAllByCategory(Category category, Pageable pageable);
 
-	//TODO
-	Page<Article> findArticlesByTagsExists(Tag tag, Pageable pageable);
+//	Page<Article> findArticlesByTag(Tag tag, Pageable pageable);
+
+	Page<Article> findAllByAccountAndPublish(Account account, boolean publish, Pageable pageable);
+
+	Page<Article> findAllByCategoryAndPublish(Category category, boolean publish, Pageable pageable);
 
 }

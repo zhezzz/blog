@@ -56,7 +56,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
     //TODO 验证码
 
-    //TODO error页面
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

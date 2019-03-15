@@ -21,14 +21,20 @@ public interface ArticleService {
 
 	Page<Article> paginateGetAllArticles(Pageable pageable);
 
-	Page<Article> paginateGetAllArticlesByPublish(boolean publish, Pageable pageable);
+	Page<Article> paginateGetArticlesByPublish(boolean publish, Pageable pageable);
 
 	Page<Article> paginateGetArticlesByAccount(Account account, Pageable pageable);
 
+	Page<Article> paginateGetArticlesByAccountAndPublish(Account account, boolean publish, Pageable pageable);
+
+	Page<Article> paginateGetArticlesByCategoryAndPublish(Category category, boolean publish, Pageable pageable);
+
 	Page<Article> paginateGetArticlesByCategory(Category category, Pageable pageable);
 
-	Page<Article> paginateGetArticlesByTag(Tag tag, Pageable pageable);
+// Page<Article> paginateGetArticlesByTag(Tag tag, Pageable pageable);
 
 	boolean isArticleExists(Long articleId);
+
+	boolean isArticleExistsAndPublish(Long articleId, boolean publish);
 
 }

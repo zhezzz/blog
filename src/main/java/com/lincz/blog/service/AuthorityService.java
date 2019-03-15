@@ -8,7 +8,7 @@ public interface AuthorityService {
 
 	Authority getAuthorityByAuthorityId(Long authorityId);
 
-	List<Authority> getAllAuthority();
+	List<Authority> getAllAuthorities();
 
 	Authority createAuthority(Authority authorityDTO);
 

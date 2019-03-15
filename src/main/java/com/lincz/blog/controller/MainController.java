@@ -36,7 +36,6 @@ public class MainController {
 	}
 
 	// 注册用户
-	// TODO 加密存储密码
 	@PostMapping(value = "/register")
 	public String createAccount(Account accountDTO) {
 		Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail());
@@ -45,9 +44,9 @@ public class MainController {
 	}
 
 	@GetMapping(value = "/all")
-	public ModelAndView paginateGetAllArticlesByPublish(
+	public ModelAndView paginateGetArticlesByPublish(
 			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
-		Page<Article> articlePage = articleService.paginateGetAllArticlesByPublish(true, pageable);
+		Page<Article> articlePage = articleService.paginateGetArticlesByPublish(true, pageable);
 		List<Article> articleList = articlePage.get().collect(Collectors.toList());
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("Index");

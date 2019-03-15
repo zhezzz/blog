@@ -11,13 +11,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Controller
+@RestController
 @RequestMapping(value = "/comment")
 public class CommentContrller {
 
@@ -62,7 +61,7 @@ public class CommentContrller {
 	}
 
 	// 修改评论页面
-	@GetMapping(value = "/{commentId}")
+	@GetMapping(value = "/update/{commentId}")
 	public ModelAndView updateCommentPage(@PathVariable Long commentId) {
 		Comment comment = commentService.getCommentByCommentId(commentId);
 		ModelAndView modelAndView = new ModelAndView();
@@ -79,7 +78,7 @@ public class CommentContrller {
 	}
 
 	// 根据id查询评论
-	@PutMapping(value = "/{commentId}")
+	@GetMapping(value = "/{commentId}")
 	public Comment getCommentByCommentId(@PathVariable Long commentId) {
 		Comment comment = commentService.getCommentByCommentId(commentId);
 		return comment;

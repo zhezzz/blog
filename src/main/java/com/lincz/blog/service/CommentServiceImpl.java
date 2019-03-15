@@ -17,7 +17,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public Page<Comment> paginateGetCommetsByAccount(Account account, Pageable pageable) {
-		return commentRepository.findCommentsByAccount(account, pageable);
+		return commentRepository.findAllByAccount(account, pageable);
 	}
 
 	@Override
