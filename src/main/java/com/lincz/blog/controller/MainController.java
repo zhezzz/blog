@@ -38,14 +38,14 @@ public class MainController {
 	// 注册用户
 	// TODO 加密存储密码
 	@PostMapping(value = "/register")
-	public String createAccount(Account formAccount) {
-		Account account = new Account(formAccount.getUsername(), formAccount.getPassword(), formAccount.getEmail());
+	public String createAccount(Account accountDTO) {
+		Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail());
 		accountService.createAccount(account);
 		return "redirect:/";
 	}
 
 	@GetMapping(value = "/all")
-	public ModelAndView getAllArticles(
+	public ModelAndView paginateGetAllArticlesByPublish(
 			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Article> articlePage = articleService.paginateGetAllArticlesByPublish(true, pageable);
 		List<Article> articleList = articlePage.get().collect(Collectors.toList());

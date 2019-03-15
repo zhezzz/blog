@@ -14,7 +14,7 @@
 
 
 <form th:action="${#request.getContextPath()} + '/comment/post/' + ${article.getArticleId()}" method="post">
-    <input type="text" name="content" id="content">
+    <input maxlength="200" type="text" name="content" id="content">
     <button type="submit" id="submit">发布</button>
 </form>
 

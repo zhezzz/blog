@@ -4,6 +4,8 @@ import com.lincz.blog.entity.Account;
 import com.lincz.blog.entity.Authority;
 import com.lincz.blog.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,8 +25,8 @@ public class AccountServiceImpl implements AccountService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
-	public List<Account> getAllAccount() {
-		return accountRepository.findAll();
+	public Page<Account> paginateGetAllAccount(Pageable pageable) {
+		return accountRepository.findAll(pageable);
 	}
 
 	@Override
@@ -45,22 +47,11 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account updateAccountInfo(Long accountId, Account formAccount) {
+	public Account updateAccountInfo(Long accountId, Account accountDTO) {
 		Account account = accountRepository.findById(accountId).orElse(null);
-		if (account != null) {
-			account.setEmail(formAccount.getEmail());
-			account.setPassword(formAccount.getPassword());
-		}
-		return account;
-	}
-
-	@Override
-	public Account updateAccountAvatar(Long accountId, String avatar) {
-		Account account = accountRepository.findById(accountId).orElse(null);
-		if (account != null){
-            account.setAvatar(avatar);
-        }
-		return account;
+		account.setEmail(accountDTO.getEmail());
+		account.setPassword(accountDTO.getPassword());
+		return accountRepository.save(account);
 	}
 
 	@Override
@@ -69,7 +60,8 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account createAccount(Account account) {
+	public Account createAccount(Account accountDTO) {
+		Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail());
 		return accountRepository.save(account);
 	}
 
@@ -88,4 +80,8 @@ public class AccountServiceImpl implements AccountService {
 		return account;
 	}
 
+	@Override
+	public boolean isAccountExists(Long accountId) {
+		return accountRepository.existsById(accountId);
+	}
 }

@@ -36,23 +36,27 @@ public class CategoryController {
 	}
 
 	// 添加分类
-	@PostMapping(value = "/add")
-	public Category addCategory(Category formCategory) {
-		Category category = new Category(formCategory.getCategoryName());
-		categoryService.createCategory(category);
-		return category;
+	@PostMapping(value = "/")
+	public Category addCategory(@RequestBody Category categoryDTO) {
+		return categoryService.createCategory(categoryDTO);
 	}
 
 	// 删除分类，级联删除分类下的所有文章
-	@DeleteMapping(value = "/delete/{categoryId}")
+	@DeleteMapping(value = "/{categoryId}")
 	public void deleteCategory(@PathVariable Long categoryId) {
 		categoryService.deleteCategoryByCategoryId(categoryId);
 	}
 
 	// 修改分类
-	@PutMapping(value = "/update/{categoryId}")
-	public Category updateCategory(@PathVariable Long categoryId, Category formCategory) {
-		return categoryService.updateCategory(categoryId, formCategory);
+	@PutMapping(value = "/{categoryId}")
+	public Category updateCategory(@PathVariable Long categoryId, @RequestBody Category categoryDTO) {
+		return categoryService.updateCategory(categoryId, categoryDTO);
+	}
+
+	//根据id查询分类
+	@GetMapping(value = "/{categoryId}")
+	public Category getCategoryByCategoryId(@PathVariable Long categoryId) {
+		return categoryService.getCategoryByCategoryId(categoryId);
 	}
 
 	// 分页列出一个分类下的所有文章

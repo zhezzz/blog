@@ -26,23 +26,37 @@ public class AuthorityController {
 	}
 
 	// 增加权限
-	@PostMapping(value = "/add")
-	public Authority addAuthority(Authority formAuthority) {
-		Authority authority = new Authority(formAuthority.getAuthorityName());
-		authorityService.createAuthority(authority);
+	@PostMapping(value = "/")
+	public Authority addAuthority(@RequestBody Authority authorityDTO) {
+		Authority authority = authorityService.createAuthority(authorityDTO);
 		return authority;
 	}
 
+	//查找所有权限
+	@GetMapping(value = "/")
+	public List<Authority> getAllAuthority(){
+		List<Authority> authorityList = authorityService.getAllAuthority();
+		return authorityList;
+	}
+
+	//根据id查找权限
+	@GetMapping(value = "/{authorityId}")
+	public Authority getAuthorityByAuthorityId(@PathVariable Long authorityId){
+		Authority authority = authorityService.getAuthorityByAuthorityId(authorityId);
+		return authority;
+	}
+
+
 	// 删除权限
-	@DeleteMapping(value = "/delete/{authorityId}")
+	@DeleteMapping(value = "/{authorityId}")
 	public void deleteAuthority(@PathVariable Long authorityId) {
 		authorityService.deleteAuthorityByAuthorityId(authorityId);
 	}
 
 	// 修改权限
-	@PutMapping(value = "/update/{authorityId}")
-	public Authority updateAuthority(@PathVariable Long authorityId, Authority formAuthority) {
-		return authorityService.updateAuthority(authorityId, formAuthority);
+	@PutMapping(value = "/{authorityId}")
+	public Authority updateAuthority(@PathVariable Long authorityId, @RequestBody Authority authorityDTO) {
+		return authorityService.updateAuthority(authorityId, authorityDTO);
 	}
 
 }

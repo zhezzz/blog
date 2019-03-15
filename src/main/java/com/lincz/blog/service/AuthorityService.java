@@ -10,9 +10,9 @@ public interface AuthorityService {
 
 	List<Authority> getAllAuthority();
 
-	Authority createAuthority(Authority authority);
+	Authority createAuthority(Authority authorityDTO);
 
 	void deleteAuthorityByAuthorityId(Long authorityId);
 
-	Authority updateAuthority(Long authorityId, Authority formAuthority);
+	Authority updateAuthority(Long authorityId, Authority authorityDTO);
 }

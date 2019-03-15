@@ -11,7 +11,7 @@ public interface ArticleService {
 
 	Article createArticle(Article article);
 
-	Article updateArticle(Long articleId, Article formArticle);
+	Article updateArticle(Long articleId, Article articleDTO);
 
 	void deleteArticleByArticleId(Long articleId);
 
@@ -28,5 +28,7 @@ public interface ArticleService {
 	Page<Article> paginateGetArticlesByCategory(Category category, Pageable pageable);
 
 	Page<Article> paginateGetArticlesByTag(Tag tag, Pageable pageable);
+
+	boolean isArticleExists(Long articleId);
 
 }

@@ -35,24 +35,35 @@ public class TagController {
 		return modelAndView;
 	}
 
+	//获取所有标签
+	@GetMapping(value = "/")
+	public List<Tag> getAllTag(){
+		List<Tag> tagList = tagService.getAllTag();
+		return tagList;
+	}
+
 	// 添加标签
-	@PostMapping(value = "/add")
-	public Tag addTag(Tag formTag) {
-		Tag tag = new Tag(formTag.getTagName());
-		tagService.createCategory(tag);
-		return tag;
+	@PostMapping(value = "/")
+	public Tag addTag(@RequestBody Tag tagDTO) {
+		return tagService.createCategory(tagDTO);
 	}
 
 	// 删除标签
-	@DeleteMapping(value = "/delete/{tagId}")
+	@DeleteMapping(value = "/{tagId}")
 	public void deleteTag(@PathVariable Long tagId) {
 		tagService.deleteTagByTagId(tagId);
 	}
 
 	// 修改标签
-	@PutMapping(value = "/update/{tagId}")
-	public Tag updateTag(@PathVariable Long tagId, Tag formTag) {
-		return tagService.updateTag(tagId, formTag);
+	@PutMapping(value = "/{tagId}")
+	public Tag updateTag(@PathVariable Long tagId, @RequestBody Tag tagDTO) {
+		return tagService.updateTag(tagId, tagDTO);
+	}
+
+	//根据id查询标签
+	@GetMapping(value = "/{tagId}")
+	public Tag getTagByTagId(@PathVariable Long tagId){
+		return tagService.getTagByTagId(tagId);
 	}
 
 	// 分页列出一个标签对应的所有文章

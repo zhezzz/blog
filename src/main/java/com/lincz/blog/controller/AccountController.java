@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/account")
 public class AccountController {
 
-	//TODO 设计任意访问的用户主页，还有用户自己管理页面，和admin管理页面类似，验证传入id，跳转404
+	// TODO 设计任意访问的用户主页，还有用户自己管理页面，和admin管理页面类似，验证传入id，跳转404
 
 	@Autowired
 	private AccountService accountService;
@@ -46,10 +46,45 @@ public class AccountController {
 	@Autowired
 	private HttpServletRequest request;
 
-	// 用户个人主页功能，
+	// 分页获取所有用户
 	@GetMapping(value = "/")
-	public ModelAndView accountHomePage(@PathVariable Long accountId) {
-		return null;
+	public ModelAndView paginateGetAllAccount(
+			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+		Page<Account> accountPage = accountService.paginateGetAllAccount(pageable);
+		List<Account> accountList = accountPage.get().collect(Collectors.toList());
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("");
+		modelAndView.addObject(accountList);
+		return modelAndView;
+	}
+
+	// 根据id获取用户
+	@GetMapping(value = "/{accountId}")
+	public Account getAccountByAccountId(@PathVariable Long accountId) {
+		Account account = accountService.getAccountByAccountId(accountId);
+		return account;
+	}
+
+
+
+	// 创建新用户
+	@PostMapping(value = "/")
+	public Account createAccount(@RequestBody Account accountDTO) {
+		Account account = accountService.createAccount(accountDTO);
+		return account;
+	}
+
+	// 修改用户信息
+	@PutMapping(value = "/{accountId}")
+	public String updateAccount(@PathVariable Long accountId, @RequestBody Account accountDTO) {
+		accountService.updateAccountInfo(accountId, accountDTO);
+		return "redirect:/";
+	}
+
+	// 删除账号
+	@DeleteMapping(value = "/{accountId}")
+	public void deleteAccount(@PathVariable Long accountId) {
+		accountService.deleteAccountByAccountId(accountId);
 	}
 
 	// 获取账户信息修改界面
@@ -60,13 +95,6 @@ public class AccountController {
 		modelAndView.setViewName("AccountManagenment");
 		modelAndView.addObject(account);
 		return modelAndView;
-	}
-
-	// 修改用户邮箱密码
-	@PostMapping(value = "/update/{accountId}/info")
-	public String updateAccountInfo(@PathVariable Long accountId, Account formAccount) {
-		accountService.updateAccountInfo(accountId, formAccount);
-		return "redirect:/";
 	}
 
 	// 修改用户权限
@@ -83,22 +111,22 @@ public class AccountController {
 		return accountService.updateAccountAuthority(accountId, authorities);
 	}
 
-	// 修改头像
-	@PostMapping(value = "/update/{accountId}/avatar")
-	public void updateAccountAvatar(@PathVariable Long accountId, @RequestParam(value = "avatar") MultipartFile avatar) throws IOException {
-		String fileName = avatar.getOriginalFilename();
-		if (fileName.endsWith(".jpg") || fileName.endsWith(".png")){
-            String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-            String classpath = this.getClass().getClassLoader().getResource("").getPath();
-            String avatarFileName = accountId + "." + extension;
-            File file =new File(classpath + "data/avatar/");
-            if (!file.exists()){
-                file.mkdirs();
-            }
-            //TODO resize
-            avatar.transferTo(new File(file.toString() + "/" + avatarFileName));
+	// 修改头像 //TODO 或者PUT？
+	@PostMapping(value = "/{accountId}/avatar")
+	public void updateAccountAvatar(@PathVariable Long accountId, @RequestParam(value = "avatar") MultipartFile avatar)
+			throws IOException {
+		if (!avatar.isEmpty()){
+			String fileName = avatar.getName();
+			if (fileName.endsWith(".jpg") || fileName.endsWith(".png")) {
+				String classpath = this.getClass().getClassLoader().getResource("").getPath();
+				String avatarFileName = accountId + ".png";
+				File file = new File(classpath + "data/account/avatar/");
+				if (!file.exists()) {
+					file.mkdirs();
+				}
+				avatar.transferTo(new File(file.toString() + "/" + avatarFileName));
+			}
 		}
-
 	}
 
 	// 获取用户所有评论（分页）

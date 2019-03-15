@@ -10,10 +10,12 @@ public interface TagService {
 
 	List<Tag> getAllTag();
 
-	Tag createCategory(Tag tag);
+	Tag createCategory(Tag tagDTO);
 
 	void deleteTagByTagId(Long tagId);
 
-	Tag updateTag(Long tagId, Tag formTag);
+	Tag updateTag(Long tagId, Tag tagDTO);
+
+	boolean isTagExists(Long tagId);
 
 }

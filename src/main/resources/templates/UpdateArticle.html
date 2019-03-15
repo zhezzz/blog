@@ -10,13 +10,14 @@
 </head>
 <body>
 
-<form>
-    <input type="text" name="title" th:value="${article.getTitle()}">
-    <textarea name="content" id="editor">
+
+<input type="text" id="title" th:value="${article.getTitle()}">
+<textarea id="editor">
     </textarea>
-    <input type="checkbox" name="publish" checked>
-    <button type="submit" id="submit" onclick="submit()">保存</button>
-</form>
+<input id="publish" type="checkbox" checked="checked">公开
+<input id="allowComment" type="checkbox" checked="checked">允许评论
+<button type="submit" id="submit" onclick="submit()">保存</button>
+
 
 <script th:inline="javascript">
     var content = [[${article.getContent()}]];
@@ -24,11 +25,14 @@
     var contextPath = [[${#request.getContextPath()}]];
     var editorData;
     var myEditor;
+    var publish = false;
+    var title;
+    var allowComment = false;
     ClassicEditor
         .create(document.querySelector('#editor'), {
             language: 'zh-cn',
             ckfinder: {
-                uploadUrl: contextPath + '/article/upload/' + articleId
+                uploadUrl: contextPath + '/article/' + articleId + '/upload'
             },
         })
         .then(editor => {
@@ -40,34 +44,34 @@
             console.error(error);
         });
 
-    var form_data = $("#form").serialize();
-
     function submit() {
+        title = document.getElementById('title').value;
+        if ($("#publish").is(":checked")) {
+            publish = true;
+        }
+        if ($("#allowComment").is(":checked")) {
+            allowComment = true;
+        }
         editorData = myEditor.getData();
+        var articleData = {
+            title: title,
+            content: editorData,
+            publish: publish,
+            allowComment: allowComment
+        }
         $.ajax({
             type: "PUT",
-            url: content + '/article/' + articleId,
-            data: form_data,
-            success: function (result) {
-                alert("成功！");
-            },
-            error: function () {
-                alert("异常！");
-            }
+            url: contextPath + '/article/' + articleId,
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(articleData)
         })
     }
 
     // function submit() {
     //     $.ajax({
     //         type: "DELETE",
-    //         url: content + '/article/' + articleId,
-    //         contentType:"application/json",
-    //         success: function (result) {
-    //             alert("成功！");
-    //         },
-    //         error : function() {
-    //             alert("异常！");
-    //         }
+    //         url: contextPath + '/article/' + articleId
     //     })
     // }
 </script>

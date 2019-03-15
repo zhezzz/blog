@@ -42,10 +42,6 @@ public class Account implements UserDetails {
 	@Email
 	private String email;
 
-	//TODO 是否保留
-	@NotNull
-	private String avatar;
-
 	@NotNull
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
 	@OrderBy("authorityId asc ")
@@ -92,7 +88,6 @@ public class Account implements UserDetails {
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.avatar = "default.jpg";
 		this.authorities = authorities;
 		this.accountNonExpired = true;
 		this.accountNonLocked = true;
@@ -118,14 +113,6 @@ public class Account implements UserDetails {
 
 	public void setAccountId(Long accountId) {
 		this.accountId = accountId;
-	}
-
-	public String getAvatar() {
-		return avatar;
-	}
-
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
 	}
 
 	public String getUsername() {

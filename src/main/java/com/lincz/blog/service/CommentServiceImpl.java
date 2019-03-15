@@ -1,17 +1,13 @@
 package com.lincz.blog.service;
 
 import com.lincz.blog.entity.Account;
-import com.lincz.blog.entity.Article;
 import com.lincz.blog.entity.Comment;
-import com.lincz.blog.repository.ArticleRepository;
 import com.lincz.blog.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -25,7 +21,10 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public Comment createComment(Comment comment) {
+	public Comment createComment(Comment commentDTO) {
+		Comment comment = new Comment(commentDTO.getContent());
+		comment.setArticle(commentDTO.getArticle());
+		comment.setAccount(commentDTO.getAccount());
 		return commentRepository.save(comment);
 	}
 
@@ -41,16 +40,19 @@ public class CommentServiceImpl implements CommentService {
 
 	@Transactional
 	@Override
-	public Comment updateComment(Long commentId, Comment formComment) {
+	public Comment updateComment(Long commentId, Comment commentDTO) {
 		Comment comment = commentRepository.findById(commentId).orElse(null);
-		if (comment != null) {
-			comment.setContent(formComment.getContent());
-		}
-		return comment;
+		comment.setContent(commentDTO.getContent());
+		return commentRepository.save(comment);
 	}
 
 	@Override
 	public Comment getCommentByCommentId(Long commentId) {
 		return commentRepository.findById(commentId).orElse(null);
+	}
+
+	@Override
+	public boolean isCommentExists(Long commentId) {
+		return commentRepository.existsById(commentId);
 	}
 }

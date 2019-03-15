@@ -24,7 +24,8 @@ public class TagServiceImpl implements TagService {
 	}
 
 	@Override
-	public Tag createCategory(Tag tag) {
+	public Tag createCategory(Tag tagDTO) {
+		Tag tag = new Tag(tagDTO.getTagName());
 		return tagRepository.save(tag);
 	}
 
@@ -34,9 +35,14 @@ public class TagServiceImpl implements TagService {
 	}
 
 	@Override
-	public Tag updateTag(Long tagId, Tag formTag) {
+	public Tag updateTag(Long tagId, Tag tagDTO) {
 		Tag tag = tagRepository.findById(tagId).orElse(null);
-		tag.setTagName(formTag.getTagName());
-		return tag;
+		tag.setTagName(tagDTO.getTagName());
+		return tagRepository.save(tag);
+	}
+
+	@Override
+	public boolean isTagExists(Long tagId) {
+		return tagRepository.existsById(tagId);
 	}
 }

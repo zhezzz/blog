@@ -33,28 +33,36 @@ public class CommentContrller {
 	@Autowired
 	private HttpServletRequest request;
 
+	@GetMapping(value = "/")
+	private ModelAndView getAllComments(
+			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+		Page<Comment> commentList = commentService.getAllComments(pageable);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("AccountComments");
+		modelAndView.addObject(commentList);
+		return modelAndView;
+	}
+
 	// 发表评论
-	@PostMapping(value = "/post/{articleId}")
-	public String postComment(@PathVariable Long articleId, Comment formComment) {
+	@PostMapping(value = "/{articleId}")
+	public String postComment(@PathVariable Long articleId, @RequestBody Comment commentDTO) {
 		Article article = articleService.getArticleByArticleId(articleId);
 		String currentUsername = request.getUserPrincipal().getName();
 		Account currentAccount = accountService.getAccountByUsername(currentUsername);
-		Comment comment = new Comment(formComment.getContent());
-		comment.setArticle(article);
-		comment.setAccount(currentAccount);
-		commentService.createComment(comment);
-		comment.setArticle(article);
+		commentDTO.setArticle(article);
+		commentDTO.setAccount(currentAccount);
+		commentService.createComment(commentDTO);
 		return "redirect:/article/details/" + articleId;
 	}
 
 	// 删除评论
-	@DeleteMapping(value = "/delete/{commentId}")
+	@DeleteMapping(value = "/{commentId}")
 	public void deleteComment(@PathVariable Long commentId) {
 		commentService.deleteCommentByCommentId(commentId);
 	}
 
 	// 修改评论页面
-	@GetMapping(value = "/update/{commentId}")
+	@GetMapping(value = "/{commentId}")
 	public ModelAndView updateCommentPage(@PathVariable Long commentId) {
 		Comment comment = commentService.getCommentByCommentId(commentId);
 		ModelAndView modelAndView = new ModelAndView();
@@ -64,21 +72,17 @@ public class CommentContrller {
 	}
 
 	// 修改评论
-	// TODO 使用ajax发送PUT请求
-	@PutMapping(value = "/update/{commentId}")
-	public String updateComment(@PathVariable Long commentId, Comment formComment) {
-		Comment comment = commentService.updateComment(commentId, formComment);
+	@PutMapping(value = "/{commentId}")
+	public String updateComment(@PathVariable Long commentId, @RequestBody Comment commentDTO) {
+		Comment comment = commentService.updateComment(commentId, commentDTO);
 		return "redirect:/article/details/" + comment.getArticle().getArticleId();
 	}
 
-	@GetMapping(value = "/all")
-	private ModelAndView getAllComments(
-			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
-		Page<Comment> commentList = commentService.getAllComments(pageable);
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("AccountComments");
-		modelAndView.addObject(commentList);
-		return modelAndView;
+	// 根据id查询评论
+	@PutMapping(value = "/{commentId}")
+	public Comment getCommentByCommentId(@PathVariable Long commentId) {
+		Comment comment = commentService.getCommentByCommentId(commentId);
+		return comment;
 	}
 
 }

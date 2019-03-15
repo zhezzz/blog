@@ -10,9 +10,6 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-	@Override
-	Page<Comment> findAll(Pageable pageable);
-
 	Page<Comment> findCommentsByAccount(Account account, Pageable pageable);
 
 }

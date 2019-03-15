@@ -13,12 +13,14 @@ public interface CommentService {
 
 	Page<Comment> paginateGetCommetsByAccount(Account account, Pageable pageable);
 
-	Comment createComment(Comment comment);
+	Comment createComment(Comment commentDTO);
 
 	void deleteCommentByCommentId(Long commentId);
 
-	Comment updateComment(Long commentId, Comment comment);
+	Comment updateComment(Long commentId, Comment commentDTO);
 
 	Comment getCommentByCommentId(Long commentId);
+
+	boolean isCommentExists(Long commentId);
 
 }

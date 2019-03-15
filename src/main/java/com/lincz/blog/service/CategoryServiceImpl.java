@@ -26,7 +26,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category createCategory(Category category) {
+	public Category createCategory(Category categoryDTO) {
+		Category category = new Category(categoryDTO.getCategoryName());
 		return categoryRepository.save(category);
 	}
 
@@ -36,12 +37,14 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category updateCategory(Long categoryId, Category formCategory) {
+	public Category updateCategory(Long categoryId, Category categoryDTO) {
 		Category category = categoryRepository.findById(categoryId).orElse(null);
-		if (category != null) {
-			category.setCategoryName(formCategory.getCategoryName());
-		}
-		return category;
+		category.setCategoryName(categoryDTO.getCategoryName());
+		return categoryRepository.save(category);
 	}
 
+	@Override
+	public boolean isCategoryExists(Long categoryId) {
+		return categoryRepository.existsById(categoryId);
+	}
 }

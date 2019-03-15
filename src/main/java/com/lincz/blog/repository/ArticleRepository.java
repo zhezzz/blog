@@ -12,14 +12,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-	@Override
-	Page<Article> findAll(Pageable pageable);
-
 	Page<Article> findAllByPublish(boolean publish, Pageable pageable);
 
 	Page<Article> findArticlesByAccount(Account account, Pageable pageable);
 
 	Page<Article> findArticlesByCategory(Category category, Pageable pageable);
 
+	//TODO
 	Page<Article> findArticlesByTagsExists(Tag tag, Pageable pageable);
+
 }

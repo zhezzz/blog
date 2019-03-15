@@ -7,6 +7,7 @@ import com.lincz.blog.entity.Tag;
 import com.lincz.blog.repository.ArticleRepository;
 //import org.hibernate.search.jpa.FullTextEntityManager;
 //import org.hibernate.search.query.dsl.QueryBuilder;
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,19 +28,18 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public Article createArticle(Article article) {
-		articleRepository.save(article);
-		return article;
+		return articleRepository.save(article);
 	}
 
 	@Override
-	public Article updateArticle(Long articleId, Article formArticle) {
+	public Article updateArticle(Long articleId, Article articleDTO) {
 		Article article = articleRepository.findById(articleId).orElse(null);
-		if (article != null) {
-			article.setTitle(formArticle.getTitle());
-			article.setContent(formArticle.getContent());
-			article.setRawContent(formArticle.getRawContent());
-			article.setPublish(formArticle.isPublish());
-		}
+		String rawContent = Jsoup.parse(articleDTO.getContent()).text();
+		articleDTO.setRawContent(rawContent);
+		article.setTitle(articleDTO.getTitle());
+		article.setContent(articleDTO.getContent());
+		article.setRawContent(articleDTO.getRawContent());
+		article.setPublish(articleDTO.isPublish());
 		return articleRepository.save(article);
 	}
 
@@ -84,5 +84,10 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public Page<Article> paginateGetArticlesByTag(Tag tag, Pageable pageable) {
 		return articleRepository.findArticlesByTagsExists(tag, pageable);
+	}
+
+	@Override
+	public boolean isArticleExists(Long articleId) {
+		return articleRepository.existsById(articleId);
 	}
 }

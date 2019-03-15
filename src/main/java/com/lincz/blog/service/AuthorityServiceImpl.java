@@ -24,7 +24,8 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	@Override
-	public Authority createAuthority(Authority authority) {
+	public Authority createAuthority(Authority authorityDTO) {
+		Authority authority = new Authority(authorityDTO.getAuthorityName());
 		return authorityRepository.save(authority);
 	}
 
@@ -34,11 +35,9 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	@Override
-	public Authority updateAuthority(Long authorityId, Authority formAuthority) {
+	public Authority updateAuthority(Long authorityId, Authority authorityDTO) {
 		Authority authority = authorityRepository.findById(authorityId).orElse(null);
-		if (authority != null) {
-			authority.setAuthorityName(formAuthority.getAuthorityName());
-		}
+		authority.setAuthorityName(authorityDTO.getAuthorityName());
 		return authority;
 	}
 }

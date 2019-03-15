@@ -30,7 +30,7 @@ public class TestController {
 	}
 
 	@PostMapping(value = "/upload")
-	public void updateAccount(MultipartFile avatarFile, Account formAccount) {
+	public void updateAccount(MultipartFile avatarFile, Account accountDTO) {
 
 	}
 
