@@ -24,4 +24,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
 	Page<Article> findAllByCategoryAndPublish(Category category, boolean publish, Pageable pageable);
 
+	Page<Article> findAllByStickTrue(Pageable pageable);
+
 }

@@ -37,4 +37,6 @@ public interface ArticleService {
 
 	boolean isArticleExistsAndPublish(Long articleId, boolean publish);
 
+	Page<Article> paginateGetArticlesByStickTrue(Pageable pageable);
+
 }

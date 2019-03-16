@@ -46,7 +46,7 @@ public class ArticleController {
 		return modelAndView;
 	}
 
-	// 根据文章id查看文章
+	// 根据文章id查看文章 //TODO 分页获取评论
 	@GetMapping(value = "/{articleId}")
 	public ModelAndView articleDetails(@PathVariable Long articleId) {
 		Article article = articleService.getArticleByArticleId(articleId);

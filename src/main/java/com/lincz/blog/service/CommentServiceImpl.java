@@ -1,6 +1,7 @@
 package com.lincz.blog.service;
 
 import com.lincz.blog.entity.Account;
+import com.lincz.blog.entity.Article;
 import com.lincz.blog.entity.Comment;
 import com.lincz.blog.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,11 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public Page<Comment> paginateGetCommetsByAccount(Account account, Pageable pageable) {
 		return commentRepository.findAllByAccount(account, pageable);
+	}
+
+	@Override
+	public Page<Comment> paginateGetCommetsByArticle(Article article, Pageable pageable) {
+		return commentRepository.findAllByArticle(article,pageable);
 	}
 
 	@Override

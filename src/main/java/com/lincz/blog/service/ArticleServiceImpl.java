@@ -112,4 +112,9 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 		return true;
 	}
+
+	@Override
+	public Page<Article> paginateGetArticlesByStickTrue(Pageable pageable) {
+		return articleRepository.findAllByStickTrue(pageable);
+	}
 }

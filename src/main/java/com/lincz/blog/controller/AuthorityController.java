@@ -18,7 +18,7 @@ public class AuthorityController {
 	// 权限管理页面
 	@GetMapping(value = "/management")
 	public ModelAndView authorityManagementPage() {
-		List<Authority> authorityList = authorityService.getAllAuthority();
+		List<Authority> authorityList = authorityService.getAllAuthorities();
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("AuthorityManagement");
 		modelAndView.addObject(authorityList);
@@ -35,7 +35,7 @@ public class AuthorityController {
 	//查找所有权限
 	@GetMapping(value = "/")
 	public List<Authority> getAllAuthority(){
-		List<Authority> authorityList = authorityService.getAllAuthority();
+		List<Authority> authorityList = authorityService.getAllAuthorities();
 		return authorityList;
 	}
 
