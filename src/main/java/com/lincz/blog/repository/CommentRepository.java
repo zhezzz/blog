@@ -15,4 +15,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
 	Page<Comment> findAllByArticle(Article article, Pageable pageable);
 
+	List<Comment> findTop10ByAccountOrderByCreateDateDesc(Account account);
+
 }

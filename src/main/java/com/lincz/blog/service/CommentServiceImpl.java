@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class CommentServiceImpl implements CommentService {
 
@@ -61,5 +63,10 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public boolean isCommentExists(Long commentId) {
 		return commentRepository.existsById(commentId);
+	}
+
+	@Override
+	public List<Comment> getRecent10CommentsByAccount(Account account) {
+		return commentRepository.findTop10ByAccountOrderByCreateDateDesc(account);
 	}
 }

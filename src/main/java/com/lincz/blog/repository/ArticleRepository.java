@@ -9,12 +9,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
 	Page<Article> findAllByPublish(boolean publish, Pageable pageable);
 
 	Page<Article> findAllByAccount(Account account, Pageable pageable);
+
+	List<Article> findTop10ByAccountOrderByCreateDateDesc(Account account);
 
 	Page<Article> findAllByCategory(Category category, Pageable pageable);
 

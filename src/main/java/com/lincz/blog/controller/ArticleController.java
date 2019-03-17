@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -67,6 +68,7 @@ public class ArticleController {
 
 	// 发布文章
 	@GetMapping(value = "/post")
+	@PreAuthorize("hasAuthority('发布文章')")
 	public ModelAndView postArticleView() {
 		String currentUsername = request.getUserPrincipal().getName();
 		Account currentAccount = accountService.getAccountByUsername(currentUsername);
@@ -88,6 +90,7 @@ public class ArticleController {
 
 	// 修改文章
 	@PutMapping(value = "/{articleId}")
+	@PreAuthorize("hasAuthority('修改文章')")
 	public ModelAndView putArticle(@PathVariable Long articleId, @RequestBody Article articleDTO) {
 		articleService.updateArticle(articleId, articleDTO);
 		ModelAndView modelAndView = new ModelAndView("redirect:/article/details/" + articleId);
@@ -96,6 +99,7 @@ public class ArticleController {
 
 	// 删除文章
 	@DeleteMapping(value = "/{articleId}")
+	@PreAuthorize("hasAuthority('删除文章')")
 	public void delete(@PathVariable Long articleId) {
 		articleService.deleteArticleByArticleId(articleId);
 	}
@@ -112,6 +116,7 @@ public class ArticleController {
 
 	// 上传图片
 	@PostMapping(value = "/{articleId}/upload")
+	@PreAuthorize("hasAuthority('发布文章')")
 	public Response uploadImage(@PathVariable Long articleId, @RequestPart(value = "upload") MultipartFile imageFile)
 			throws IOException {
 		String originalFileName = imageFile.getOriginalFilename();

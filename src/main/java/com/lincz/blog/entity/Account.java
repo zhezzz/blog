@@ -76,14 +76,15 @@ public class Account implements UserDetails {
 			@NotNull(message = "密码不能为空") @Length(min = 4, max = 16) String password,
 			@NotNull(message = "电子邮箱地址不能为空") @Email String email) {
 		Set<Authority> authorities = new HashSet<>();
-		authorities.add(new Authority("post_article"));
-		authorities.add(new Authority("delete_article"));
-		authorities.add(new Authority("update_article"));
-		authorities.add(new Authority("post_comment"));
-		authorities.add(new Authority("delete_comment"));
-		authorities.add(new Authority("update_comment"));
-		authorities.add(new Authority("delete_account"));
-		authorities.add(new Authority("update_account"));
+		authorities.add(new Authority("发布文章"));
+		authorities.add(new Authority("删除文章"));
+		authorities.add(new Authority("修改文章"));
+		authorities.add(new Authority("获取文章"));
+		authorities.add(new Authority("发布评论"));
+		authorities.add(new Authority("删除评论"));
+		authorities.add(new Authority("修改评论"));
+		authorities.add(new Authority("删除账号"));
+		authorities.add(new Authority("修改账号"));
 		this.username = username;
 		this.password = password;
 		this.email = email;

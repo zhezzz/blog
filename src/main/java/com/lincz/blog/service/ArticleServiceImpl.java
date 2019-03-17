@@ -117,4 +117,9 @@ public class ArticleServiceImpl implements ArticleService {
 	public Page<Article> paginateGetArticlesByStickTrue(Pageable pageable) {
 		return articleRepository.findAllByStickTrue(pageable);
 	}
+
+	@Override
+	public List<Article> getRecent10ArticlesByAccount(Account account) {
+		return articleRepository.findTop10ByAccountOrderByCreateDateDesc(account);
+	}
 }

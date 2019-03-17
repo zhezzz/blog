@@ -61,7 +61,7 @@ public class OperationAspect {
         String username = request.getRemoteUser();
         Account currentAccount = accountService.getAccountByUsername(username);
         String requestURI = request.getRequestURI();
-        //TODO 路径不同
+        //TODO 路径不同,全部方法，Long类型用equals
         String temp = requestURI.replaceAll("/account/.*/","").replace("/","");
         Long  accountId = Long.parseLong(temp);
         Account actualAccount = accountService.getAccountByAccountId(accountId);

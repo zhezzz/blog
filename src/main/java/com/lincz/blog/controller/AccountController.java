@@ -49,6 +49,7 @@ public class AccountController {
 
 	// 分页获取所有用户
 	@GetMapping(value = "/")
+	@PreAuthorize("hasAuthority('获取所有账号')")
 	public ModelAndView paginateGetAllAccount(
 			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Account> accountPage = accountService.paginateGetAllAccount(pageable);
@@ -59,11 +60,24 @@ public class AccountController {
 		return modelAndView;
 	}
 
-	// 根据id获取用户
+	// 根据id获取用户主页，若是本人跳转到管理页面，否则跳转到游客浏览页面
 	@GetMapping(value = "/{accountId}")
-	public Account getAccountByAccountId(@PathVariable Long accountId) {
+	public ModelAndView getAccountHomePame(@PathVariable Long accountId) {
 		Account account = accountService.getAccountByAccountId(accountId);
-		return account;
+		String currentUsername = request.getUserPrincipal().getName();
+		Account currentAccount = accountService.getAccountByUsername(currentUsername);
+		List<Article> recentArticlesList = articleService.getRecent10ArticlesByAccount(account);
+		List<Comment> recentCommentsList = commentService.getRecent10CommentsByAccount(account);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject(recentArticlesList);
+		modelAndView.addObject(recentCommentsList);
+		if (currentAccount.getAccountId().equals(accountId)){
+			modelAndView.setViewName("AccountHomePage");
+		}
+		else{
+			modelAndView.setViewName("AccountOverview");
+		}
+		return modelAndView;
 	}
 
 
@@ -77,6 +91,7 @@ public class AccountController {
 
 	// 修改用户信息
 	@PutMapping(value = "/{accountId}")
+	@PreAuthorize("hasAuthority('修改账号')")
 	public String updateAccount(@PathVariable Long accountId, @RequestBody Account accountDTO) {
 		accountService.updateAccountInfo(accountId, accountDTO);
 		return "redirect:/";
@@ -84,6 +99,7 @@ public class AccountController {
 
 	// 删除账号
 	@DeleteMapping(value = "/{accountId}")
+	@PreAuthorize("hasAuthority('删除账号')")
 	public void deleteAccount(@PathVariable Long accountId) {
 		accountService.deleteAccountByAccountId(accountId);
 	}
@@ -99,7 +115,7 @@ public class AccountController {
 	}
 
 	// 修改用户权限
-	// TODO 暂时使用List，尽量改成Set
+	// TODO 待定
 	@PostMapping(value = "/update/{accountId}/authority")
 	public Account updateAccountAuthority(@PathVariable Long accountId, List<Long> authorityIdList) {
 		Set<Authority> authorities = new HashSet<>();
@@ -114,6 +130,7 @@ public class AccountController {
 
 	// 修改头像 //TODO 或者PUT？
 	@PostMapping(value = "/{accountId}/avatar")
+	@PreAuthorize("hasAuthority('修改账号')")
 	public void updateAccountAvatar(@PathVariable Long accountId, @RequestParam(value = "avatar") MultipartFile avatar)
 			throws IOException {
 		if (!avatar.isEmpty()){

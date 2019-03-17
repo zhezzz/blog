@@ -26,4 +26,6 @@ public interface CommentService {
 
 	boolean isCommentExists(Long commentId);
 
+	List<Comment> getRecent10CommentsByAccount(Account account);
+
 }
