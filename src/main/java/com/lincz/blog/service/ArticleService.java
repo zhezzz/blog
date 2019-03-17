@@ -31,7 +31,7 @@ public interface ArticleService {
 
 	Page<Article> paginateGetArticlesByCategory(Category category, Pageable pageable);
 
-// Page<Article> paginateGetArticlesByTag(Tag tag, Pageable pageable);
+	Page<Article> paginateGetArticlesByTags(Tag tag, Pageable pageable);
 
 	boolean isArticleExists(Long articleId);
 

@@ -4,7 +4,6 @@ import com.lincz.blog.entity.Article;
 import com.lincz.blog.entity.Category;
 import com.lincz.blog.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +28,15 @@ public class CategoryServiceImpl implements CategoryService {
 	public Category createCategory(Category categoryDTO) {
 		Category category = new Category(categoryDTO.getCategoryName());
 		return categoryRepository.save(category);
+	}
+
+	@Override
+	public Category createSubcategory(Long categoryId, Category categoryDTO) {
+		Category category = categoryRepository.findById(categoryId).orElse(null);
+		Category subcategory = new Category(categoryDTO.getCategoryName());
+		subcategory.setParent(category);
+		categoryRepository.save(subcategory);
+		return subcategory;
 	}
 
 	@Override

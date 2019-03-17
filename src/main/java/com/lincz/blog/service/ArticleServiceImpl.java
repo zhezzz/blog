@@ -81,10 +81,10 @@ public class ArticleServiceImpl implements ArticleService {
 		return articleRepository.findAllByCategory(category, pageable);
 	}
 
-//	@Override
-//	public Page<Article> paginateGetArticlesByTag(Tag tag, Pageable pageable) {
-//		return articleRepository.findArticlesByTag(tag, pageable);
-//	}
+	@Override
+	public Page<Article> paginateGetArticlesByTags(Tag tag, Pageable pageable) {
+		return articleRepository.findAllByTags(tag, pageable);
+	}
 
 	@Override
 	public boolean isArticleExists(Long articleId) {

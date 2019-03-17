@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -88,7 +89,7 @@ public class AccountController {
 	}
 
 	// 获取账户信息修改界面
-	@GetMapping(value = "/management/{accountId}")
+	@GetMapping(value = "/{accountId}/management")
 	public ModelAndView accountManagementPage(@PathVariable Long accountId) {
 		Account account = accountService.getAccountByAccountId(accountId);
 		ModelAndView modelAndView = new ModelAndView();

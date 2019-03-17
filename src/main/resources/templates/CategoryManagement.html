@@ -3,8 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>分类管理</title>
+    <script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
+
 </head>
 <body>
 
+<button type="submit" id="submit" onclick="submit()">保存</button>
+
+
+<script th:inline="javascript">
+    var contextPath = [[${#request.getContextPath()}]];
+
+    function submit() {
+        var categoryData = {
+            categoryName: "yi级分类",
+        }
+        $.ajax({
+            type: "POST",
+            url: contextPath + '/category',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(categoryData)
+        })
+    }
+
+</script>
 </body>
 </html>

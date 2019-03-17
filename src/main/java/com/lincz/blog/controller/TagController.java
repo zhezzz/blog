@@ -67,16 +67,16 @@ public class TagController {
 	}
 
 	// 分页列出一个标签对应的所有文章
-//	@GetMapping(value = "/{tagId}/articles")
-//	public ModelAndView getArticleByTag(@PathVariable Long tagId,
-//			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
-//		Tag tag = tagService.getTagByTagId(tagId);
-//		Page<Article> articlePage = articleService.paginateGetArticlesByTag(tag, pageable);
-//		List<Article> articleList = articlePage.get().collect(Collectors.toList());
-//		ModelAndView modelAndView = new ModelAndView();
-//		modelAndView.setViewName("Index");
-//		modelAndView.addObject(articleList);
-//		return modelAndView;
-//	}
+	@GetMapping(value = "/{tagId}/articles")
+	public ModelAndView getArticleByTag(@PathVariable Long tagId,
+			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+		Tag tag = tagService.getTagByTagId(tagId);
+		Page<Article> articlePage = articleService.paginateGetArticlesByTags(tag, pageable);
+		List<Article> articleList = articlePage.get().collect(Collectors.toList());
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("Index");
+		modelAndView.addObject(articleList);
+		return modelAndView;
+	}
 
 }

@@ -54,7 +54,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         super.configure(web);
     }
-    //TODO 验证码
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

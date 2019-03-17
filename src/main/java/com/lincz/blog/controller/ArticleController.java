@@ -2,8 +2,10 @@ package com.lincz.blog.controller;
 
 import com.lincz.blog.entity.Article;
 import com.lincz.blog.entity.Account;
+import com.lincz.blog.entity.Comment;
 import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
+import com.lincz.blog.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +34,9 @@ public class ArticleController {
 	private AccountService accountService;
 
 	@Autowired
+	private CommentService commentService;
+
+	@Autowired
 	private HttpServletRequest request;
 
 	// 获取所有文章文章
@@ -48,12 +53,15 @@ public class ArticleController {
 
 	// 根据文章id查看文章 //TODO 分页获取评论
 	@GetMapping(value = "/{articleId}")
-	public ModelAndView articleDetails(@PathVariable Long articleId) {
+	public ModelAndView articleDetails(@PathVariable Long articleId, @PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
 		Article article = articleService.getArticleByArticleId(articleId);
+		Page<Comment> commentPage = commentService.paginateGetCommetsByArticle(article, pageable);
+		List<Comment> commentList = commentPage.get().collect(Collectors.toList());
 		articleService.increasePageView(articleId);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("ArticleDetails");
 		modelAndView.addObject(article);
+		modelAndView.addObject(commentList);
 		return modelAndView;
 	}
 
@@ -90,6 +98,16 @@ public class ArticleController {
 	@DeleteMapping(value = "/{articleId}")
 	public void delete(@PathVariable Long articleId) {
 		articleService.deleteArticleByArticleId(articleId);
+	}
+
+	//分页获取置顶文章
+	public ModelAndView getStickArticles(@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable){
+		Page<Article> articlePage = articleService.paginateGetArticlesByStickTrue(pageable);
+		List<Article> articleList = articlePage.get().collect(Collectors.toList());
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("Index");
+		modelAndView.addObject(articleList);
+		return modelAndView;
 	}
 
 	// 上传图片

@@ -26,6 +26,7 @@ public class CommentServiceImpl implements CommentService {
 		return commentRepository.findAllByArticle(article,pageable);
 	}
 
+
 	@Override
 	public Comment createComment(Comment commentDTO) {
 		Comment comment = new Comment(commentDTO.getContent());

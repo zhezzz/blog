@@ -41,6 +41,12 @@ public class CategoryController {
 		return categoryService.createCategory(categoryDTO);
 	}
 
+	//给一级分类下添加二级分类
+	@PostMapping(value = "/{categoryId}")
+	public Category addSubcategory(@PathVariable Long categoryId, @RequestBody Category categoryDTO){
+		return categoryService.createSubcategory(categoryId,categoryDTO);
+	}
+
 	// 删除分类，级联删除分类下的所有文章
 	@DeleteMapping(value = "/{categoryId}")
 	public void deleteCategory(@PathVariable Long categoryId) {

@@ -20,7 +20,6 @@ public class Account implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long accountId;
-	// TODO 使用UUID作为主键
 
 	@NotNull
 	@CreatedDate
