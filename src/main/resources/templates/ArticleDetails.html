@@ -13,7 +13,7 @@
 </tr>
 
 
-<form th:action="${#request.getContextPath()} + '/comment/post/' + ${article.getArticleId()}" method="post">
+<form th:action="${#request.getContextPath()} + '/comment/' + ${article.getArticleId()}" method="post">
     <input maxlength="200" type="text" name="content" id="content">
     <button type="submit" id="submit">发布</button>
 </form>

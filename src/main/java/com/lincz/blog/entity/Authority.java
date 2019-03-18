@@ -22,7 +22,7 @@ public class Authority implements GrantedAuthority {
 	private String authorityName;
 
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-	@OrderBy("accountId asc ")
+//	@OrderBy("accountId asc ")
 	@JoinTable(name = "account_authority", joinColumns = {
 			@JoinColumn(name = "authorityId", referencedColumnName = "authorityId")}, inverseJoinColumns = {
 					@JoinColumn(name = "accountId", referencedColumnName = "accountId")})

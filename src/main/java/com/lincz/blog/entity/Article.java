@@ -62,9 +62,6 @@ public class Article {
 	private boolean publish;
 
 	@NotNull
-	private boolean allowComment;
-
-	@NotNull
 	private boolean stick;//置顶
 
 	protected Article() {
@@ -78,7 +75,6 @@ public class Article {
 		this.rawContent = rawContent;
 		this.pageView = Long.valueOf(0);
 		this.publish = false;
-		this.allowComment = true;
 		this.stick = false;
 	}
 
@@ -176,14 +172,6 @@ public class Article {
 
 	public void setPublish(boolean publish) {
 		this.publish = publish;
-	}
-
-	public boolean isAllowComment() {
-		return allowComment;
-	}
-
-	public void setAllowComment(boolean allowComment) {
-		this.allowComment = allowComment;
 	}
 
 	public boolean isStick() {

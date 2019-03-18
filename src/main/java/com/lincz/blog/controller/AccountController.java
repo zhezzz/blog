@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -72,15 +74,13 @@ public class AccountController {
 		modelAndView.addObject(recentArticlesList);
 		modelAndView.addObject(recentCommentsList);
 		if (currentAccount.getAccountId().equals(accountId)){
-			modelAndView.setViewName("AccountHomePage");
+			modelAndView.setViewName("AccountOverview");
 		}
 		else{
-			modelAndView.setViewName("AccountOverview");
+			modelAndView.setViewName("AccountHomePage");
 		}
 		return modelAndView;
 	}
-
-
 
 	// 创建新用户
 	@PostMapping(value = "/")
@@ -126,6 +126,14 @@ public class AccountController {
 			}
 		}
 		return accountService.updateAccountAuthority(accountId, authorities);
+	}
+
+	//获取用户权限
+	@GetMapping(value = "/getauth")
+	public Collection<? extends GrantedAuthority> getget(){
+		Account account = accountService.getAccountByAccountId(Long.valueOf(1));
+		Collection<? extends GrantedAuthority> authorities = account.getAuthorities();
+		return authorities;
 	}
 
 	// 修改头像 //TODO 或者PUT？

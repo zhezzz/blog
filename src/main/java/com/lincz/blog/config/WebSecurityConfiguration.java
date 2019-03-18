@@ -44,10 +44,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new SpringSessionBackedSessionRegistry<>(this.sessionRepository);
     }
 
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         super.configure(auth);
+        auth.userDetailsService(accountService);
     }
 
     @Override

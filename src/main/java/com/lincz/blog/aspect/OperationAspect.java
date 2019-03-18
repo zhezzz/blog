@@ -33,19 +33,19 @@ public class OperationAspect {
 
 
     //获取用户所有评论及信息修改操作切点
-    @Pointcut(value = "execution(public * com.lincz.blog.controller.AccountController.updateAccountAvatar(..))" +
-            " || execution(public * com.lincz.blog.controller.AccountController.updateAccountInfo(..))" +
-            " ||  execution(public * com.lincz.blog.controller.AccountController.accountManagementPage(..))" +
-            " || execution(public * com.lincz.blog.controller.AccountController.accountComments(..))")
-    public void accountPointcut(){
-    }
+//    @Pointcut(value = "execution(public * com.lincz.blog.controller.AccountController.updateAccountAvatar(..))" +
+//            " || execution(public * com.lincz.blog.controller.AccountController.updateAccountInfo(..))" +
+//            " ||  execution(public * com.lincz.blog.controller.AccountController.accountManagementPage(..))" +
+//            " || execution(public * com.lincz.blog.controller.AccountController.accountComments(..))")
+//    public void accountPointcut(){
+//    }
 
-    @Pointcut(value = "execution(public * com.lincz.blog.controller.ArticleController.deleteArticle(..))" +
-            " || execution(public * com.lincz.blog.controller.ArticleController.updateArticlePage(..))" +
-            " || execution(public * com.lincz.blog.controller.ArticleController.updateArticle(..))" +
-            " || execution(public * com.lincz.blog.controller.ArticleController.deleteArticle(..))")
-    public void articlePointcut(){
-    }
+//    @Pointcut(value = "execution(public * com.lincz.blog.controller.ArticleController.deleteArticle(..))" +
+//            " || execution(public * com.lincz.blog.controller.ArticleController.updateArticlePage(..))" +
+//            " || execution(public * com.lincz.blog.controller.ArticleController.updateArticle(..))" +
+//            " || execution(public * com.lincz.blog.controller.ArticleController.deleteArticle(..))")
+//    public void articlePointcut(){
+//    }
 
     @Pointcut(value = "execution(public * com.lincz.blog.controller.CommentContrller.updateCommentPage(..))" +
             " || execution(public * com.lincz.blog.controller.CommentContrller.updateComment(..))" +
