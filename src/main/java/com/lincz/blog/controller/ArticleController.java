@@ -105,9 +105,8 @@ public class ArticleController {
 	}
 
 	//分页获取置顶文章
-	public ModelAndView getStickArticles(@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable){
-		Page<Article> articlePage = articleService.paginateGetArticlesByStickTrue(pageable);
-		List<Article> articleList = articlePage.get().collect(Collectors.toList());
+	public ModelAndView getStickArticles(){
+		List<Article> articleList = articleService.getStickArticles();
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("Index");
 		modelAndView.addObject(articleList);

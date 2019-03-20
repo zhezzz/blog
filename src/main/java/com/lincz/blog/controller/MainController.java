@@ -3,6 +3,7 @@ package com.lincz.blog.controller;
 import com.lincz.blog.entity.*;
 import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
+import com.lincz.blog.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,14 +21,27 @@ import java.util.stream.Collectors;
 public class MainController {
 
 	@Autowired
+	private TagService tagService;
+
+	@Autowired
 	private ArticleService articleService;
 
 	@Autowired
 	private AccountService accountService;
 
-	@GetMapping(value = "/")
-	public ModelAndView index() {
-		return new ModelAndView("Index");
+	@GetMapping(value = "/index")
+	public ModelAndView index(
+			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+		List<Tag> tagList = tagService.getAllTag();
+		List<Article> stickArticleList = articleService.getStickArticles();
+		Page<Article> articlePage = articleService.paginateGetArticlesByPublish(true, pageable);
+		List<Article> articleList = articlePage.get().collect(Collectors.toList());
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("Index");
+		modelAndView.addObject("tagList", tagList);
+		modelAndView.addObject("articleList", articleList);
+		modelAndView.addObject("stickArticleList", stickArticleList);
+		return modelAndView;
 	}
 
 	@GetMapping(value = "/register")
@@ -49,7 +63,7 @@ public class MainController {
 		Page<Article> articlePage = articleService.paginateGetArticlesByPublish(true, pageable);
 		List<Article> articleList = articlePage.get().collect(Collectors.toList());
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("Index");
+		modelAndView.setViewName("");
 		modelAndView.addObject(articleList);
 		return modelAndView;
 	}
