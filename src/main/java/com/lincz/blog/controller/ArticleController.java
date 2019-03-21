@@ -2,6 +2,7 @@ package com.lincz.blog.controller;
 
 import com.lincz.blog.entity.Article;
 import com.lincz.blog.entity.Account;
+import com.lincz.blog.entity.Category;
 import com.lincz.blog.entity.Comment;
 import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
@@ -19,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -58,11 +61,19 @@ public class ArticleController {
 		Article article = articleService.getArticleByArticleId(articleId);
 		Page<Comment> commentPage = commentService.paginateGetCommetsByArticle(article, pageable);
 		List<Comment> commentList = commentPage.get().collect(Collectors.toList());
+		List<Category> breadcrumbCategoryList = new ArrayList<>();
+		Category tempCategory = article.getCategory().getParent();
+		while (tempCategory != null){
+			breadcrumbCategoryList.add(tempCategory);
+			tempCategory = tempCategory.getParent();
+		}
+		Collections.reverse(breadcrumbCategoryList);
 		articleService.increasePageView(articleId);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("ArticleDetails");
-		modelAndView.addObject(article);
-		modelAndView.addObject(commentList);
+		modelAndView.addObject("article", article);
+		modelAndView.addObject("commentList", commentList);
+		modelAndView.addObject("breadcrumbCategoryList", breadcrumbCategoryList);
 		return modelAndView;
 	}
 
