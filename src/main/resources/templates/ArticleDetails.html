@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
-    <title th:text="${article.getTitle()} + ' -- 大型多人在线吹水博客'">文章详情</title>
+    <title th:text="${article.getTitle()} + ' -- 大型多人在线吹水博客'"></title>
 </head>
 <body>
 <div th:replace="common/header :: header"></div>
 
-<div class="container"></div>
+<div class="container">
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -21,16 +21,25 @@
 
 <h1 th:text="${article.getTitle()}"></h1>
 <div th:utext="${article.getContent()}"></div>
+</div>
+<div class="container">
+<ul class="list-unstyled">
+    <li class="media" th:each="comment : ${commentList}">
+        <img th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${comment.getAccount().getAccountId()} + '.png' " class="mr-3" alt="头像">
+        <div class="media-body">
+            <a th:href="${#request.getContextPath()} + '/account/' + ${comment.getAccount().getAccountId()}"><h5 class="mt-0 mb-1" th:text="${comment.getAccount().getUsername()}"></h5></a>
+            <p th:text="${comment.getContent()}"></p>
+        </div>
+    </li>
 
-<tr th:each="comment:${article.getComments()}">
-    <td th:text="${comment.getContent()}"></td>
-</tr>
-
-
-<form th:action="${#request.getContextPath()} + '/comment/' + ${article.getArticleId()}" method="post">
-    <input maxlength="200" type="text" name="content" id="content">
-    <button type="submit" id="submit">发布</button>
-</form>
+</ul>
+</div>
+<div class="container">
+<!--<form th:action="${#request.getContextPath()} + '/comment/' + ${article.getArticleId()}" method="post">-->
+    <!--<input maxlength="200" type="text" name="content" id="content">-->
+    <!--<button type="submit" id="submit">发布</button>-->
+<!--</form>-->
+</div>
 
 <div class="container bg-light" th:insert="common/footer :: footer"></div>
 

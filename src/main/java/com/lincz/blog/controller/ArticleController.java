@@ -46,7 +46,7 @@ public class ArticleController {
 	// 获取所有文章文章
 	@GetMapping(value = "/")
 	public ModelAndView paginateGetAllArticles(
-			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+			@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Article> articlePage = articleService.paginateGetAllArticles(pageable);
 		List<Article> articleList = articlePage.get().collect(Collectors.toList());
 		ModelAndView modelAndView = new ModelAndView();
@@ -57,7 +57,7 @@ public class ArticleController {
 
 	// 根据文章id查看文章 //TODO 分页获取评论
 	@GetMapping(value = "/{articleId}")
-	public ModelAndView articleDetails(@PathVariable Long articleId, @PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+	public ModelAndView articleDetails(@PathVariable Long articleId, @PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
 		Article article = articleService.getArticleByArticleId(articleId);
 		Page<Comment> commentPage = commentService.paginateGetCommetsByArticle(article, pageable);
 		List<Comment> commentList = commentPage.get().collect(Collectors.toList());

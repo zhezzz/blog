@@ -53,7 +53,7 @@ public class AccountController {
 	@GetMapping(value = "/")
 	@PreAuthorize("hasAuthority('获取所有账号')")
 	public ModelAndView paginateGetAllAccount(
-			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+			@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Account> accountPage = accountService.paginateGetAllAccount(pageable);
 		List<Account> accountList = accountPage.get().collect(Collectors.toList());
 		ModelAndView modelAndView = new ModelAndView();
@@ -158,7 +158,7 @@ public class AccountController {
 	// 获取用户所有评论（分页）
 	@GetMapping(value = "/{accountId}/comments")
 	public ModelAndView accountComments(@PathVariable Long accountId,
-			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+			@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
 		Account account = accountService.getAccountByAccountId(accountId);
 		Page<Comment> commentPage = commentService.paginateGetCommetsByAccount(account, pageable);
 		List<Comment> commentList = commentPage.get().collect(Collectors.toList());
@@ -171,7 +171,7 @@ public class AccountController {
 	// 获取用户所有文章（分页）
 	@GetMapping(value = "/{accountId}/articles")
 	public ModelAndView accountArticles(@PathVariable Long accountId,
-			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+			@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
 		Account account = accountService.getAccountByAccountId(accountId);
 		Page<Article> articlePage = articleService.paginateGetArticlesByAccount(account, pageable);
 		List<Article> articleList = articlePage.get().collect(Collectors.toList());

@@ -31,13 +31,14 @@ public class MainController {
 
 	@GetMapping(value = "/index")
 	public ModelAndView index(
-			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+			@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
 		List<Tag> tagList = tagService.getAllTag();
 		List<Article> stickArticleList = articleService.getStickArticles();
 		Page<Article> articlePage = articleService.paginateGetArticlesByPublish(true, pageable);
 		List<Article> articleList = articlePage.get().collect(Collectors.toList());
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("Index");
+		modelAndView.addObject("articlePage", articlePage);
 		modelAndView.addObject("tagList", tagList);
 		modelAndView.addObject("articleList", articleList);
 		modelAndView.addObject("stickArticleList", stickArticleList);
@@ -59,7 +60,7 @@ public class MainController {
 
 	@GetMapping(value = "/all")
 	public ModelAndView paginateGetArticlesByPublish(
-			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+			@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Article> articlePage = articleService.paginateGetArticlesByPublish(true, pageable);
 		List<Article> articleList = articlePage.get().collect(Collectors.toList());
 		ModelAndView modelAndView = new ModelAndView();

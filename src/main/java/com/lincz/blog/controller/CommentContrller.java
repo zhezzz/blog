@@ -36,7 +36,7 @@ public class CommentContrller {
 	@GetMapping(value = "/")
 	@PreAuthorize("hasAuthority('获取所有评论')")
 	private ModelAndView getAllComments(
-			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+			@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Comment> commentList = commentService.getAllComments(pageable);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("AccountComments");

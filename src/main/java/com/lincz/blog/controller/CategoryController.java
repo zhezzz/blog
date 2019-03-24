@@ -79,7 +79,7 @@ public class CategoryController {
 	// 分页列出一个分类下的所有文章
 	@GetMapping(value = "/{categoryId}/articles")
 	public ModelAndView getArticlesByCategory(@PathVariable Long categoryId,
-			@PageableDefault(size = 10, sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+			@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
 		Category category = categoryService.getCategoryByCategoryId(categoryId);
 		Page<Article> articlePage = articleService.paginateGetArticlesByCategory(category, pageable);
 		List<Article> articleList = articlePage.get().collect(Collectors.toList());
