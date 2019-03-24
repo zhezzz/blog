@@ -15,7 +15,6 @@
 <textarea id="editor">
     </textarea>
 <input id="publish" type="checkbox" checked="checked">公开
-<input id="allowComment" type="checkbox" checked="checked">允许评论
 <button type="submit" id="submit" onclick="submit()">保存</button>
 
 
@@ -27,7 +26,6 @@
     var myEditor;
     var publish = false;
     var title;
-    var allowComment = false;
     ClassicEditor
         .create(document.querySelector('#editor'), {
             language: 'zh-cn',
@@ -49,15 +47,11 @@
         if ($("#publish").is(":checked")) {
             publish = true;
         }
-        if ($("#allowComment").is(":checked")) {
-            allowComment = true;
-        }
         editorData = myEditor.getData();
         var articleData = {
             title: title,
             content: editorData,
-            publish: publish,
-            allowComment: allowComment
+            publish: publish
         }
         $.ajax({
             type: "PUT",
