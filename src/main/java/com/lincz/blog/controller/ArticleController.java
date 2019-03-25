@@ -73,6 +73,7 @@ public class ArticleController {
 		modelAndView.setViewName("ArticleDetails");
 		modelAndView.addObject("article", article);
 		modelAndView.addObject("commentList", commentList);
+		modelAndView.addObject("commentPage", commentPage);
 		modelAndView.addObject("breadcrumbCategoryList", breadcrumbCategoryList);
 		return modelAndView;
 	}

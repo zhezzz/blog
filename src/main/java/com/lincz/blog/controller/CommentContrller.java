@@ -53,7 +53,9 @@ public class CommentContrller {
 		Account currentAccount = accountService.getAccountByUsername(currentUsername);
 		commentDTO.setArticle(article);
 		commentDTO.setAccount(currentAccount);
-		commentService.createComment(commentDTO);
+		if (commentDTO.getContent().length() >= 30 && commentDTO.getContent().length() <= 200){
+			commentService.createComment(commentDTO);
+		}
 		return "redirect:/article/details/" + articleId;
 	}
 

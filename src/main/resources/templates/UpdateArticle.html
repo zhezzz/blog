@@ -2,22 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
     <title>修改文章</title>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" th:src="@{/static/js/ckeditor/ckeditor.js}"></script>
-    <script type="text/javascript" th:src="@{/static/js/ckeditor/translations/zh-cn.js}"></script>
-    <script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
 </head>
 <body>
-
-
 <input type="text" id="title" th:value="${article.getTitle()}">
 <textarea id="editor">
     </textarea>
 <input id="publish" type="checkbox" checked="checked">公开
 <button type="submit" id="submit" onclick="submit()">保存</button>
 
-
+<script th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/ckeditor/ckeditor.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/ckeditor/translations/zh-cn.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>
 <script th:inline="javascript">
     var content = [[${article.getContent()}]];
     var articleId = [[${article.getArticleId()}]];
