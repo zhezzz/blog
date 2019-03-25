@@ -73,7 +73,7 @@
                 From the Firehose
             </h3>
 
-            <div class="float-right" th:each="article : ${articleList}">
+            <div class="" th:each="article : ${articleList}">
                 <h2 class="" th:text="${article.getTitle()}"></h2>
                 <p class="" th:text="${article.getCreateDate()}"></p>
                  <article th:text="${#strings.abbreviate(article.getRawContent(),100)}"></article>

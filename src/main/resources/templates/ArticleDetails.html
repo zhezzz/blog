@@ -39,7 +39,7 @@
 <div class="container" id="comments">
     <form th:action="${#request.getContextPath()} + '/comment/' + ${article.getArticleId()}" method="post">
         <label for="exampleFormControlTextarea1">Example textarea</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="content" id="content" maxlength="200" minlength="10"></textarea>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="content" maxlength="200" minlength="10"></textarea>
         <button type="submit" class="btn btn-primary mb-2">发布</button>
     </form>
 <ul class="list-unstyled">
@@ -56,16 +56,16 @@
         <ul th:if="${(commentPage.getTotalPages() le 7)&&(commentPage.getTotalPages() gt 0)}" class="pagination justify-content-center">
             <li th:if="${commentPage.getNumber() eq 0}" class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
             <li th:if="${commentPage.getNumber() gt 0}" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + @{(page=${commentPage.getNumber()} - 1,size=${commentPage.getSize()})}  + '#comments'">上一页</a>
+                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} - 1) + '&size=' + ${commentPage.getSize()}  + '#comments'">上一页</a>
             </li>
 
             <li th:each="index:${#numbers.sequence(0,commentPage.getTotalPages() - 1)}" th:classappend="${index eq commentPage.getNumber()}?'active'" class="page-item">
-                <a th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + @{(page=${index},size=${commentPage.getSize()})} + '#comments'" class="page-link"  th:text="${index}"></a>
+                <a th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + ${index} + '&size=' + ${commentPage.getSize()} + '#comments'" class="page-link"  th:text="${index}"></a>
             </li>
 
             <li th:if="${commentPage.getNumber() + 1 eq commentPage.getTotalPages()}" class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
             <li th:if="${commentPage.getNumber() + 1 lt commentPage.getTotalPages()}" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + @{(page=${commentPage.getNumber()} + 1,size=${commentPage.getSize()})} + '#comments'">下一页</a>
+                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} + 1) + '&size=' + ${commentPage.getSize()} + '#comments'">下一页</a>
             </li>
         </ul>
 
@@ -73,49 +73,49 @@
         <ul th:if="${commentPage.getTotalPages() gt 7}" class="pagination justify-content-center">
             <li th:if="${commentPage.getNumber() eq 0}" class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
             <li th:if="${commentPage.getNumber() gt 0}" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + @{(page=${commentPage.getNumber()} - 1,size=${commentPage.getSize()})} + '#comments'">上一页</a>
+                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} - 1) + '&size=' + ${commentPage.getSize()} + '#comments'">上一页</a>
             </li>
 
             <!-- 首页 -->
             <li th:classappend="${commentPage.getNumber() eq 0}?'active'" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + @{(page=0,size=${commentPage.getSize()})} + '#comments'">0</a>
+                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=0' + '&size=' + ${commentPage.getSize()} + '#comments'">0</a>
             </li>
 
             <!-- 当前页面小于等于4 -->
             <li th:if="${commentPage.getNumber() le 3}" th:each="index:${#numbers.sequence(1,4)}" th:classappend="${index eq commentPage.getNumber()}?'active'" class="page-item">
-                <a th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + @{(page=${index},size=${commentPage.getSize()})} + '#comments'" class="page-link"  th:text="${index}"></a>
+                <a th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + ${index} + '&size=' + ${commentPage.getSize()} + '#comments'" class="page-link"  th:text="${index}"></a>
             </li>
             <li th:if="${commentPage.getNumber() le 3}" class="page-item">
-                <a  class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + @{(page=5,size=${commentPage.getSize()})} + '#comments'">...</a>
+                <a  class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=5' + '&size=' + ${commentPage.getSize()} + '#comments'">...</a>
             </li>
 
             <!-- 最后一页与当前页面之差小于等于3 -->
             <li th:if="${commentPage.getTotalPages() - commentPage.getNumber() le 4}" class="page-item">
-                <a  class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + @{(page=${commentPage.getTotalPages() - 6},size=${commentPage.getSize()})} + '#comments'">...</a>
+                <a  class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page='${commentPage.getTotalPages() - 6} + '&size=' + ${commentPage.getSize()} + '#comments'">...</a>
             </li>
             <li th:if="${commentPage.getTotalPages() - commentPage.getNumber() le 4}" th:each="index:${#numbers.sequence(commentPage.getTotalPages() - 5,commentPage.getTotalPages() - 2)}" th:classappend="${index eq commentPage.getNumber()}?'active'" class="page-item">
-                <a th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + @{(page=${index},size=${commentPage.getSize()})} + '#comments'" class="page-link"  th:text="${index}"></a>
+                <a th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + ${index} + '&size=' + ${commentPage.getSize()} + '#comments'" class="page-link"  th:text="${index}"></a>
             </li>
 
             <!-- 最后一页与当前页面之差大于3 且当前页面大于4 -->
             <li th:if="${(commentPage.getNumber() gt 3) && (commentPage.getTotalPages() - commentPage.getNumber() gt 4)}" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + @{(page=${commentPage.getNumber() - 2},size=${commentPage.getSize()})} + '#comments'">...</a>
+                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} - 2) + '&size=' + ${commentPage.getSize()} + '#comments'">...</a>
             </li>
             <li th:if="${(commentPage.getNumber() gt 3) && (commentPage.getTotalPages() - commentPage.getNumber() gt 4)}" th:each="index:${#numbers.sequence(commentPage.getNumber() - 1,commentPage.getNumber() + 1)}" th:classappend="${index eq commentPage.getNumber()}?'active'" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + @{(page=${index},size=${commentPage.getSize()})} + '#comments'" th:text="${index}"></a>
+                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + ${index} + '&size=' + ${commentPage.getSize()} + '#comments'" th:text="${index}"></a>
             </li>
             <li th:if="${(commentPage.getNumber() gt 3) && (commentPage.getTotalPages() - commentPage.getNumber() gt 4)}" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + @{(page=${commentPage.getNumber() + 2},size=${commentPage.getSize()})} + '#comments'">...</a>
+                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} + 2) + '&size=' + ${commentPage.getSize()} + '#comments'">...</a>
             </li>
 
             <!-- 尾页 -->
             <li th:classappend="${commentPage.getNumber() eq commentPage.getTotalPages() - 1}?'active'" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + @{(page=${commentPage.getTotalPages() - 1},size=${commentPage.getSize()})} + '#comments'" th:text="${commentPage.getTotalPages() - 1}">尾页</a>
+                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page='${commentPage.getTotalPages() - 1} + '&size=' + ${commentPage.getSize()} + '#comments'" th:text="${commentPage.getTotalPages() - 1}">尾页</a>
             </li>
 
             <li th:if="${commentPage.getNumber() eq commentPage.getTotalPages() - 1}" class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
             <li th:if="${commentPage.getNumber() lt commentPage.getTotalPages() - 1}" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + @{(page=${commentPage.getNumber()} + 1,size=${commentPage.getSize()})} + '#comments'">下一页</a>
+                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} + 1) + '&size=' + ${commentPage.getSize()} + '#comments'">下一页</a>
             </li>
         </ul>
     </nav>
