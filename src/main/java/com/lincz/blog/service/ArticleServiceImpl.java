@@ -37,7 +37,7 @@ public class ArticleServiceImpl implements ArticleService {
 		String rawContent = Jsoup.parse(articleDTO.getContent()).text();
 		articleDTO.setRawContent(rawContent);
 		article.setTitle(articleDTO.getTitle());
-		article.setContent(articleDTO.getContent());
+		article.setContent(articleDTO.getContent().replaceAll("<img", "<img class=\"img-fluid"));
 		article.setRawContent(articleDTO.getRawContent());
 		article.setPublish(articleDTO.isPublish());
 		return articleRepository.save(article);

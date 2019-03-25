@@ -51,7 +51,7 @@ public class AccountController {
 
 	// 分页获取所有用户
 	@GetMapping(value = "/")
-	@PreAuthorize("hasAuthority('获取所有账号')")
+	//	@PreAuthorize("hasAuthority('获取所有账号')")
 	public ModelAndView paginateGetAllAccount(
 			@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Account> accountPage = accountService.paginateGetAllAccount(pageable);
@@ -91,7 +91,7 @@ public class AccountController {
 
 	// 修改用户信息
 	@PutMapping(value = "/{accountId}")
-	@PreAuthorize("hasAuthority('修改账号')")
+	//	@PreAuthorize("hasAuthority('修改账号')")
 	public String updateAccount(@PathVariable Long accountId, @RequestBody Account accountDTO) {
 		accountService.updateAccountInfo(accountId, accountDTO);
 		return "redirect:/";
@@ -99,7 +99,7 @@ public class AccountController {
 
 	// 删除账号
 	@DeleteMapping(value = "/{accountId}")
-	@PreAuthorize("hasAuthority('删除账号')")
+	//	@PreAuthorize("hasAuthority('删除账号')")
 	public void deleteAccount(@PathVariable Long accountId) {
 		accountService.deleteAccountByAccountId(accountId);
 	}
@@ -138,7 +138,7 @@ public class AccountController {
 
 	// 修改头像 //TODO 或者PUT？
 	@PostMapping(value = "/{accountId}/avatar")
-	@PreAuthorize("hasAuthority('修改账号')")
+	//	@PreAuthorize("hasAuthority('修改账号')")
 	public void updateAccountAvatar(@PathVariable Long accountId, @RequestParam(value = "avatar") MultipartFile avatar)
 			throws IOException {
 		if (!avatar.isEmpty()){

@@ -154,15 +154,16 @@
         </div>
 
         <aside class="col-md-4 blog-sidebar">
-            <div class="p-4 mb-3 bg-light rounded">
-                <h4 class="font-italic">关于此站</h4>
-                <p class="mb-0">本站名为<em>大型多人在线吹水博客</em>, 网络并非法外之地，吹水可以，但不能违法咯，就酱。</p>
-            </div>
 
             <div class="p-4">
                 <h4 class="font-italic">标签</h4>
                 <a class="btn btn-outline-secondary" th:each="tag : ${tagList}" th:href="${#request.getContextPath()} + '/tag/' + ${tag.getTagId()} + '/articles'" th:text="${tag.getTagName()}" role="button"></a>
 
+            </div>
+
+            <div class="p-4 mb-3 bg-light rounded">
+                <h4 class="font-italic">关于此站</h4>
+                <p class="mb-0">本站名为<em>大型多人在线吹水博客</em>, 网络并非法外之地，吹水可以，但不能违法咯，就酱。</p>
             </div>
 
             <div class="p-4">

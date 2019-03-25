@@ -34,7 +34,7 @@ public class CommentContrller {
 	private HttpServletRequest request;
 
 	@GetMapping(value = "/")
-	@PreAuthorize("hasAuthority('获取所有评论')")
+	//	@PreAuthorize("hasAuthority('获取所有评论')")
 	private ModelAndView getAllComments(
 			@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<Comment> commentList = commentService.getAllComments(pageable);
@@ -46,7 +46,7 @@ public class CommentContrller {
 
 	// 发表评论
 	@PostMapping(value = "/{articleId}")
-	@PreAuthorize("hasAuthority('发布评论')")
+	//	@PreAuthorize("hasAuthority('发布评论')")
 	public String postComment(@PathVariable Long articleId, @RequestBody Comment commentDTO) {
 		Article article = articleService.getArticleByArticleId(articleId);
 		String currentUsername = request.getUserPrincipal().getName();
@@ -59,14 +59,14 @@ public class CommentContrller {
 
 	// 删除评论
 	@DeleteMapping(value = "/{commentId}")
-	@PreAuthorize("hasAuthority('删除评论')")
+	//	@PreAuthorize("hasAuthority('删除评论')")
 	public void deleteComment(@PathVariable Long commentId) {
 		commentService.deleteCommentByCommentId(commentId);
 	}
 
 	// 修改评论页面
 	@GetMapping(value = "/update/{commentId}")
-	@PreAuthorize("hasAuthority('修改评论')")
+	//	@PreAuthorize("hasAuthority('修改评论')")
 	public ModelAndView updateCommentPage(@PathVariable Long commentId) {
 		Comment comment = commentService.getCommentByCommentId(commentId);
 		ModelAndView modelAndView = new ModelAndView();
@@ -77,7 +77,7 @@ public class CommentContrller {
 
 	// 修改评论
 	@PutMapping(value = "/{commentId}")
-	@PreAuthorize("hasAuthority('修改评论')")
+	//	@PreAuthorize("hasAuthority('修改评论')")
 	public String updateComment(@PathVariable Long commentId, @RequestBody Comment commentDTO) {
 		Comment comment = commentService.updateComment(commentId, commentDTO);
 		return "redirect:/article/details/" + comment.getArticle().getArticleId();
