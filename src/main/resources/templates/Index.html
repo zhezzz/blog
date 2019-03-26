@@ -4,6 +4,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
 <title>大型多人在线吹水博客</title>
+<style>
+    h1, h2, h3, h4, h5, h6 {
+        font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    }
+    .blog-post {
+        margin-bottom: 4rem;
+    }
+    .blog-post-title {
+        margin-bottom: .25rem;
+        font-size: 2.5rem;
+    }
+    .blog-post-meta {
+        margin-bottom: 1.25rem;
+        color: #999;
+    }
+</style>
 <body>
 <div th:replace="common/header :: header"></div>
 
@@ -68,15 +84,14 @@
 </div>
 <main role="main" class="container" id="articles">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 blog-main">
             <h3 class="pb-4 mb-4 font-italic border-bottom">
                 From the Firehose
             </h3>
 
-            <div class="" th:each="article : ${articleList}">
-                <h2 class="" th:text="${article.getTitle()}"></h2>
-                <p class="" th:text="${article.getCreateDate()}"></p>
-                 <article th:text="${#strings.abbreviate(article.getRawContent(),100)}"></article>
+            <div class="blog-post" th:each="article : ${articleList}">
+                <h2 class="blog-post-title" th:text="${article.getTitle()}"></h2>
+                <p class="blog-post-meta" th:text="${#strings.abbreviate(article.getRawContent(),100)}"></p>
                 <hr class="bg-dark">
             </div>
 
@@ -151,7 +166,7 @@
             </nav>
         </div>
 
-        <aside class="col-md-4">
+        <aside class="col-md-4 blog-sidebar">
 
             <div class="p-4">
                 <h4 class="font-italic">标签</h4>
@@ -161,7 +176,7 @@
 
             <div class="p-4 mb-3 bg-light rounded">
                 <h4 class="font-italic">关于此站</h4>
-                <p class="mb-0">本站名为<em>大型多人在线吹水博客</em>, 网络并非法外之地，吹水可以，但不能违法咯，就酱。</p>
+                <p class="mb-0">本站为<em>大型多人在线吹水博客</em>, 网络并非法外之地，吹水可以，但不能违法。</p>
             </div>
 
             <div class="p-4">
@@ -172,14 +187,14 @@
                     <li><a href="#">Facebook</a></li>
                 </ol>
             </div>
-        </aside><!-- /.blog-sidebar -->
+        </aside>
 
-    </div><!-- /.row -->
+    </div>
 
 </main>
 
 
-<div class="container bg-light" th:insert="common/footer :: footer"></div>
+<div class="container bg-light blog-footer" th:insert="common/footer :: footer"></div>
 
 <script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>

@@ -12,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -45,28 +46,30 @@ public class MainController {
 		return modelAndView;
 	}
 
+	@GetMapping(value = "/login")
+	public ModelAndView loginPage(){
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("Login");
+		return modelAndView;
+	}
+
 	@GetMapping(value = "/register")
 	public ModelAndView registerPage() {
-		return new ModelAndView("Register");
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("Register");
+		return modelAndView;
 	}
 
 	// 注册用户
 	@PostMapping(value = "/register")
 	public String createAccount(Account accountDTO) {
+		if (accountService.getAccountByUsername(accountDTO.getUsername()) != null){
+			return "redirect:/register?occupy=yes";
+		}
+		//TODO 更多校验
 		Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail());
 		accountService.createAccount(account);
 		return "redirect:/";
-	}
-
-	@GetMapping(value = "/all")
-	public ModelAndView paginateGetArticlesByPublish(
-			@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
-		Page<Article> articlePage = articleService.paginateGetArticlesByPublish(true, pageable);
-		List<Article> articleList = articlePage.get().collect(Collectors.toList());
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("");
-		modelAndView.addObject(articleList);
-		return modelAndView;
 	}
 
 }

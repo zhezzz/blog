@@ -4,9 +4,24 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<style>
+    /*
+ * Footer
+ */
+    .blog-footer {
+        padding: 2.5rem 0;
+        color: #999;
+        text-align: center;
+        background-color: #f9f9f9;
+        border-top: .05rem solid #e5e5e5;
+    }
+    .blog-footer p:last-child {
+        margin-bottom: 0;
+    }
+</style>
 <body>
 
-<footer th:fragment="footer" class="footer mt-auto py-3">
+<footer th:fragment="footer" class="footer mt-auto py-3 blog-footer">
     <div class="container">
         <span class="text-muted">Place sticky footer content here.</span>
     </div>

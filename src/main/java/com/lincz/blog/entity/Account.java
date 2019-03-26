@@ -30,18 +30,18 @@ public class Account implements UserDetails {
 	private LocalDateTime lastModifiedDate;
 
 	@NotNull(message = "用户名不能为空")
-	@Length(min = 3, max = 16)
+	@Length(min = 2, max = 10)
 	private String username;
 
 	@NotNull(message = "密码不能为空")
-	@Length(min = 4, max = 16)
+	@Length(min = 4, max = 12)
 	private String password;
 
 	@NotNull(message = "电子邮箱地址不能为空")
 	@Email
 	private String email;
 
-	@NotNull
+//	@NotNull
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
 //	@OrderBy("authorityId asc ")
 	@JoinTable(name = "account_authority", joinColumns = {
