@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
-    <title th:text="${article.getTitle()} + ' -- 大型多人在线吹水博客'"></title>
+    <title th:text="${article.getTitle()} + ' -- 南风博客'"></title>
 </head>
 <body>
 <div th:replace="common/header :: header"></div>
@@ -20,105 +20,135 @@
     </ol>
 </nav>
 
+    <h2 class="text-center" th:text="${article.getTitle()}"></h2>
     <div class="media">
         <div class="media-body">
             <a th:href="${#request.getContextPath()} + '/account/' + ${article.getAccount().getAccountId()}"><h5 class="mt-0 mb-1 float-right" th:text="${article.getAccount().getUsername()}"></h5></a>
-            <p th:text="'创建时间：' + ${article.getCreateDate()} + '  上次修改时间：' + ${article.getLastModifiedDate()}"></p>
+            <br>
+            <br>
+            <p class="text-right" th:text="'创建时间：' + ${article.getCreateDate().toString().replace('T','  ')} + '  上次修改时间：' + ${article.getLastModifiedDate().toString().replace('T','  ')}"></p>
         </div>
         <img th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${article.getAccount().getAccountId()} + '.png'" class="ml-3" alt="头像">
     </div>
 
     <div class="jumbotron jumbotron-fluid bg-light">
         <div class="container">
-            <h2 class="display-4" th:text="${article.getTitle()}"></h2>
+
             <article class="lead" th:utext="${article.getContent()}"></article>
         </div>
     </div>
 
 </div>
 <div class="container" id="comments">
-    <form th:action="${#request.getContextPath()} + '/comment/' + ${article.getArticleId()}" method="post">
-        <label for="exampleFormControlTextarea1">Example textarea</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="content" maxlength="200" minlength="10"></textarea>
-        <button type="submit" class="btn btn-primary mb-2">发布</button>
-    </form>
-<ul class="list-unstyled">
-    <li class="media" th:each="comment : ${commentList}">
-        <img th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${comment.getAccount().getAccountId()} + '.png'" class="mr-3" alt="头像">
-        <div class="media-body">
-            <a th:href="${#request.getContextPath()} + '/account/' + ${comment.getAccount().getAccountId()}"><h5 class="mt-0 mb-1" th:text="${comment.getAccount().getUsername()}"></h5></a>
-            <p th:text="${comment.getContent()}"></p>
+    <div class="row">
+        <div class="col-md-8">
+            <form th:action="${#request.getContextPath()} + '/comment/' + ${article.getArticleId()}" method="post">
+                <label for="exampleFormControlTextarea1">评论区</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="content" maxlength="200" minlength="10"></textarea>
+                <button type="submit" class="btn btn-primary mb-2">发布</button>
+            </form>
+            <ul class="list-unstyled">
+                <li class="media" th:each="comment : ${commentList}">
+                    <img th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${comment.getAccount().getAccountId()} + '.png'" class="mr-3" alt="头像">
+                    <div class="media-body">
+                        <a th:href="${#request.getContextPath()} + '/account/' + ${comment.getAccount().getAccountId()}"><h5 class="mt-0 mb-1" th:text="${comment.getAccount().getUsername()}"></h5></a>
+                        <p th:text="${comment.getContent()}"></p>
+                    </div>
+                </li>
+            </ul>
+            <nav aria-label="Page navigation">
+                <!-- 处理页数小于等于7 的情况 -->
+                <ul th:if="${(commentPage.getTotalPages() le 7)&&(commentPage.getTotalPages() gt 0)}" class="pagination justify-content-center">
+                    <li th:if="${commentPage.getNumber() eq 0}" class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
+                    <li th:if="${commentPage.getNumber() gt 0}" class="page-item">
+                        <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} - 1) + '&size=' + ${commentPage.getSize()}  + '#comments'">上一页</a>
+                    </li>
+
+                    <li th:each="index:${#numbers.sequence(0,commentPage.getTotalPages() - 1)}" th:classappend="${index eq commentPage.getNumber()}?'active'" class="page-item">
+                        <a th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + ${index} + '&size=' + ${commentPage.getSize()} + '#comments'" class="page-link"  th:text="${index}"></a>
+                    </li>
+
+                    <li th:if="${commentPage.getNumber() + 1 eq commentPage.getTotalPages()}" class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+                    <li th:if="${commentPage.getNumber() + 1 lt commentPage.getTotalPages()}" class="page-item">
+                        <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} + 1) + '&size=' + ${commentPage.getSize()} + '#comments'">下一页</a>
+                    </li>
+                </ul>
+
+                <!-- 处理页数大于7 的情况 -->
+                <ul th:if="${commentPage.getTotalPages() gt 7}" class="pagination justify-content-center">
+                    <li th:if="${commentPage.getNumber() eq 0}" class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
+                    <li th:if="${commentPage.getNumber() gt 0}" class="page-item">
+                        <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} - 1) + '&size=' + ${commentPage.getSize()} + '#comments'">上一页</a>
+                    </li>
+
+                    <!-- 首页 -->
+                    <li th:classappend="${commentPage.getNumber() eq 0}?'active'" class="page-item">
+                        <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=0' + '&size=' + ${commentPage.getSize()} + '#comments'">0</a>
+                    </li>
+
+                    <!-- 当前页面小于等于4 -->
+                    <li th:if="${commentPage.getNumber() le 3}" th:each="index:${#numbers.sequence(1,4)}" th:classappend="${index eq commentPage.getNumber()}?'active'" class="page-item">
+                        <a th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + ${index} + '&size=' + ${commentPage.getSize()} + '#comments'" class="page-link"  th:text="${index}"></a>
+                    </li>
+                    <li th:if="${commentPage.getNumber() le 3}" class="page-item">
+                        <a  class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=5' + '&size=' + ${commentPage.getSize()} + '#comments'">...</a>
+                    </li>
+
+                    <!-- 最后一页与当前页面之差小于等于3 -->
+                    <li th:if="${commentPage.getTotalPages() - commentPage.getNumber() le 4}" class="page-item">
+                        <a  class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page='${commentPage.getTotalPages() - 6} + '&size=' + ${commentPage.getSize()} + '#comments'">...</a>
+                    </li>
+                    <li th:if="${commentPage.getTotalPages() - commentPage.getNumber() le 4}" th:each="index:${#numbers.sequence(commentPage.getTotalPages() - 5,commentPage.getTotalPages() - 2)}" th:classappend="${index eq commentPage.getNumber()}?'active'" class="page-item">
+                        <a th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + ${index} + '&size=' + ${commentPage.getSize()} + '#comments'" class="page-link"  th:text="${index}"></a>
+                    </li>
+
+                    <!-- 最后一页与当前页面之差大于3 且当前页面大于4 -->
+                    <li th:if="${(commentPage.getNumber() gt 3) && (commentPage.getTotalPages() - commentPage.getNumber() gt 4)}" class="page-item">
+                        <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} - 2) + '&size=' + ${commentPage.getSize()} + '#comments'">...</a>
+                    </li>
+                    <li th:if="${(commentPage.getNumber() gt 3) && (commentPage.getTotalPages() - commentPage.getNumber() gt 4)}" th:each="index:${#numbers.sequence(commentPage.getNumber() - 1,commentPage.getNumber() + 1)}" th:classappend="${index eq commentPage.getNumber()}?'active'" class="page-item">
+                        <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + ${index} + '&size=' + ${commentPage.getSize()} + '#comments'" th:text="${index}"></a>
+                    </li>
+                    <li th:if="${(commentPage.getNumber() gt 3) && (commentPage.getTotalPages() - commentPage.getNumber() gt 4)}" class="page-item">
+                        <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} + 2) + '&size=' + ${commentPage.getSize()} + '#comments'">...</a>
+                    </li>
+
+                    <!-- 尾页 -->
+                    <li th:classappend="${commentPage.getNumber() eq commentPage.getTotalPages() - 1}?'active'" class="page-item">
+                        <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page='${commentPage.getTotalPages() - 1} + '&size=' + ${commentPage.getSize()} + '#comments'" th:text="${commentPage.getTotalPages() - 1}">尾页</a>
+                    </li>
+
+                    <li th:if="${commentPage.getNumber() eq commentPage.getTotalPages() - 1}" class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+                    <li th:if="${commentPage.getNumber() lt commentPage.getTotalPages() - 1}" class="page-item">
+                        <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} + 1) + '&size=' + ${commentPage.getSize()} + '#comments'">下一页</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
-    </li>
-</ul>
-    <nav aria-label="Page navigation">
-        <!-- 处理页数小于等于7 的情况 -->
-        <ul th:if="${(commentPage.getTotalPages() le 7)&&(commentPage.getTotalPages() gt 0)}" class="pagination justify-content-center">
-            <li th:if="${commentPage.getNumber() eq 0}" class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
-            <li th:if="${commentPage.getNumber() gt 0}" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} - 1) + '&size=' + ${commentPage.getSize()}  + '#comments'">上一页</a>
-            </li>
+        <aside class="col-md-4">
 
-            <li th:each="index:${#numbers.sequence(0,commentPage.getTotalPages() - 1)}" th:classappend="${index eq commentPage.getNumber()}?'active'" class="page-item">
-                <a th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + ${index} + '&size=' + ${commentPage.getSize()} + '#comments'" class="page-link"  th:text="${index}"></a>
-            </li>
+            <div class="p-4">
+                <h4 class="font-italic">标签</h4>
+                <a class="btn btn-outline-secondary" th:each="tag : ${tagList}" th:href="${#request.getContextPath()} + '/tag/' + ${tag.getTagId()} + '/articles'" th:text="${tag.getTagName()}" role="button"></a>
 
-            <li th:if="${commentPage.getNumber() + 1 eq commentPage.getTotalPages()}" class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
-            <li th:if="${commentPage.getNumber() + 1 lt commentPage.getTotalPages()}" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} + 1) + '&size=' + ${commentPage.getSize()} + '#comments'">下一页</a>
-            </li>
-        </ul>
+            </div>
 
-        <!-- 处理页数大于7 的情况 -->
-        <ul th:if="${commentPage.getTotalPages() gt 7}" class="pagination justify-content-center">
-            <li th:if="${commentPage.getNumber() eq 0}" class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
-            <li th:if="${commentPage.getNumber() gt 0}" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} - 1) + '&size=' + ${commentPage.getSize()} + '#comments'">上一页</a>
-            </li>
+            <div class="p-4 mb-3 bg-light rounded">
+                <h4 class="font-italic">关于此站</h4>
+                <p class="mb-0">本站为<em>南风博客</em>, 网络并非法外之地，吹水可以，但不能违法。</p>
+            </div>
 
-            <!-- 首页 -->
-            <li th:classappend="${commentPage.getNumber() eq 0}?'active'" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=0' + '&size=' + ${commentPage.getSize()} + '#comments'">0</a>
-            </li>
+            <div class="p-4">
+                <h4 class="font-italic">Elsewhere</h4>
+                <ol class="list-unstyled">
+                    <li><a href="#">GitHub</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Facebook</a></li>
+                </ol>
+            </div>
+        </aside>
+    </div>
 
-            <!-- 当前页面小于等于4 -->
-            <li th:if="${commentPage.getNumber() le 3}" th:each="index:${#numbers.sequence(1,4)}" th:classappend="${index eq commentPage.getNumber()}?'active'" class="page-item">
-                <a th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + ${index} + '&size=' + ${commentPage.getSize()} + '#comments'" class="page-link"  th:text="${index}"></a>
-            </li>
-            <li th:if="${commentPage.getNumber() le 3}" class="page-item">
-                <a  class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=5' + '&size=' + ${commentPage.getSize()} + '#comments'">...</a>
-            </li>
-
-            <!-- 最后一页与当前页面之差小于等于3 -->
-            <li th:if="${commentPage.getTotalPages() - commentPage.getNumber() le 4}" class="page-item">
-                <a  class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page='${commentPage.getTotalPages() - 6} + '&size=' + ${commentPage.getSize()} + '#comments'">...</a>
-            </li>
-            <li th:if="${commentPage.getTotalPages() - commentPage.getNumber() le 4}" th:each="index:${#numbers.sequence(commentPage.getTotalPages() - 5,commentPage.getTotalPages() - 2)}" th:classappend="${index eq commentPage.getNumber()}?'active'" class="page-item">
-                <a th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + ${index} + '&size=' + ${commentPage.getSize()} + '#comments'" class="page-link"  th:text="${index}"></a>
-            </li>
-
-            <!-- 最后一页与当前页面之差大于3 且当前页面大于4 -->
-            <li th:if="${(commentPage.getNumber() gt 3) && (commentPage.getTotalPages() - commentPage.getNumber() gt 4)}" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} - 2) + '&size=' + ${commentPage.getSize()} + '#comments'">...</a>
-            </li>
-            <li th:if="${(commentPage.getNumber() gt 3) && (commentPage.getTotalPages() - commentPage.getNumber() gt 4)}" th:each="index:${#numbers.sequence(commentPage.getNumber() - 1,commentPage.getNumber() + 1)}" th:classappend="${index eq commentPage.getNumber()}?'active'" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + ${index} + '&size=' + ${commentPage.getSize()} + '#comments'" th:text="${index}"></a>
-            </li>
-            <li th:if="${(commentPage.getNumber() gt 3) && (commentPage.getTotalPages() - commentPage.getNumber() gt 4)}" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} + 2) + '&size=' + ${commentPage.getSize()} + '#comments'">...</a>
-            </li>
-
-            <!-- 尾页 -->
-            <li th:classappend="${commentPage.getNumber() eq commentPage.getTotalPages() - 1}?'active'" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page='${commentPage.getTotalPages() - 1} + '&size=' + ${commentPage.getSize()} + '#comments'" th:text="${commentPage.getTotalPages() - 1}">尾页</a>
-            </li>
-
-            <li th:if="${commentPage.getNumber() eq commentPage.getTotalPages() - 1}" class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
-            <li th:if="${commentPage.getNumber() lt commentPage.getTotalPages() - 1}" class="page-item">
-                <a class="page-link" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()} + '?page=' + (${commentPage.getNumber()} + 1) + '&size=' + ${commentPage.getSize()} + '#comments'">下一页</a>
-            </li>
-        </ul>
-    </nav>
 </div>
 
 <div class="container bg-light" th:insert="common/footer :: footer"></div>

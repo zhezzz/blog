@@ -1,12 +1,7 @@
 package com.lincz.blog.controller;
 
-import com.lincz.blog.entity.Article;
-import com.lincz.blog.entity.Account;
-import com.lincz.blog.entity.Category;
-import com.lincz.blog.entity.Comment;
-import com.lincz.blog.service.AccountService;
-import com.lincz.blog.service.ArticleService;
-import com.lincz.blog.service.CommentService;
+import com.lincz.blog.entity.*;
+import com.lincz.blog.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,7 +33,13 @@ public class ArticleController {
 	private AccountService accountService;
 
 	@Autowired
+	private CategoryService categoryService;
+
+	@Autowired
 	private CommentService commentService;
+
+	@Autowired
+	private TagService tagService;
 
 	@Autowired
 	private HttpServletRequest request;
@@ -59,6 +60,8 @@ public class ArticleController {
 	@GetMapping(value = "/{articleId}")
 	public ModelAndView articleDetails(@PathVariable Long articleId, @PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
 		Article article = articleService.getArticleByArticleId(articleId);
+		List<Tag> tagList = tagService.getAllTag();
+		List<Category> categoryList = categoryService.getAllCategory();
 		Page<Comment> commentPage = commentService.paginateGetCommetsByArticle(article, pageable);
 		List<Comment> commentList = commentPage.get().collect(Collectors.toList());
 		List<Category> breadcrumbCategoryList = new ArrayList<>();
@@ -72,8 +75,10 @@ public class ArticleController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("ArticleDetails");
 		modelAndView.addObject("article", article);
+		modelAndView.addObject("categoryList", categoryList);
 		modelAndView.addObject("commentList", commentList);
 		modelAndView.addObject("commentPage", commentPage);
+		modelAndView.addObject("tagList", tagList);
 		modelAndView.addObject("breadcrumbCategoryList", breadcrumbCategoryList);
 		return modelAndView;
 	}

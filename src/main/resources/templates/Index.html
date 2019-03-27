@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
-<title>大型多人在线吹水博客</title>
+<title>南风博客</title>
 <style>
     h1, h2, h3, h4, h5, h6 {
         font-family: "Playfair Display", Georgia, "Times New Roman", serif;
@@ -20,8 +21,9 @@
         color: #999;
     }
 </style>
+</head>
 <body>
-<div th:replace="common/header :: header"></div>
+<div class="container" th:replace="common/header :: header"></div>
 
 <div class="container">
 
@@ -33,10 +35,10 @@
             <div class="carousel-inner">
 
                 <div th:each="article : ${stickArticleList}" th:class="${stickArticleList.indexOf(article)} == 0  ? 'carousel-item active':'carousel-item'" data-interval="5000" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()}">
-                    <img th:src="@{/static/image/4.png}" class="d-block w-100" alt="carousel">
+                    <img th:src="'/static/image/' + ${stickArticleList.indexOf(article)} + '.png'" class="d-block w-100" alt="carousel">
                     <div class="carousel-caption">
                         <h5 th:text="${#strings.abbreviate(article.getTitle(),20)}"></h5>
-                        <p th:text="${#strings.abbreviate(article.getRawContent(),50)}"></p>
+                        <p th:text="${#strings.abbreviate(article.getRawContent(),80)}"></p>
                     </div>
                 </div>
 
@@ -86,7 +88,7 @@
     <div class="row">
         <div class="col-md-8 blog-main">
             <h3 class="pb-4 mb-4 font-italic border-bottom">
-                From the Firehose
+                最新文章
             </h3>
 
             <div class="blog-post" th:each="article : ${articleList}">
@@ -166,7 +168,7 @@
             </nav>
         </div>
 
-        <aside class="col-md-4 blog-sidebar">
+        <aside class="col-md-4">
 
             <div class="p-4">
                 <h4 class="font-italic">标签</h4>
@@ -176,7 +178,7 @@
 
             <div class="p-4 mb-3 bg-light rounded">
                 <h4 class="font-italic">关于此站</h4>
-                <p class="mb-0">本站为<em>大型多人在线吹水博客</em>, 网络并非法外之地，吹水可以，但不能违法。</p>
+                <p class="mb-0">本站为<em>南风博客</em>, 网络并非法外之地，吹水可以，但不能违法。</p>
             </div>
 
             <div class="p-4">
