@@ -24,14 +24,6 @@ public class Category {
 	@OrderBy("createDate desc")
 	private Set<Article> articles;
 
-	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	@OrderBy("createDate desc")
-	private Set<Category> child;
-
-	//TODO 待测试
-	@ManyToOne
-	private Category parent;
-
 	@NotNull
 	@CreatedDate
 	private LocalDateTime createDate;
@@ -69,22 +61,6 @@ public class Category {
 
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
-	}
-
-	public Set<Category> getChild() {
-		return child;
-	}
-
-	public void setChild(Set<Category> child) {
-		this.child = child;
-	}
-
-	public Category getParent() {
-		return parent;
-	}
-
-	public void setParent(Category parent) {
-		this.parent = parent;
 	}
 
 	public LocalDateTime getCreateDate() {

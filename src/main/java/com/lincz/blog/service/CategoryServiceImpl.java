@@ -31,15 +31,6 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category createSubcategory(Long categoryId, Category categoryDTO) {
-		Category category = categoryRepository.findById(categoryId).orElse(null);
-		Category subcategory = new Category(categoryDTO.getCategoryName());
-		subcategory.setParent(category);
-		categoryRepository.save(subcategory);
-		return subcategory;
-	}
-
-	@Override
 	public void deleteCategoryByCategoryId(Long categoryId) {
 		categoryRepository.deleteById(categoryId);
 	}
