@@ -35,7 +35,7 @@
             <div class="carousel-inner">
 
                 <div th:each="article : ${stickArticleList}" th:class="${stickArticleList.indexOf(article)} == 0  ? 'carousel-item active':'carousel-item'" data-interval="5000" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()}">
-                    <img th:src="'/static/image/' + ${stickArticleList.indexOf(article)} + '.png'" class="d-block w-100" alt="carousel">
+                    <img th:src="'/static/image/' + (${stickArticleList.indexOf(article)} + 1) + '.png'" class="d-block w-100" alt="carousel">
                     <div class="carousel-caption">
                         <h5 th:text="${#strings.abbreviate(article.getTitle(),20)}"></h5>
                         <p th:text="${#strings.abbreviate(article.getRawContent(),80)}"></p>

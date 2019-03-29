@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -121,5 +122,11 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public List<Article> getRecent10ArticlesByAccount(Account account) {
 		return articleRepository.findTop10ByAccountOrderByCreateDateDesc(account);
+	}
+
+	@Override
+	public Page<Article> paginateGetArticlesAfterCreatedDateAndPublish(LocalDateTime localDateTime, boolean publish, Pageable pageable) {
+		articleRepository.findAllByCreateDateAfterAndPublish(localDateTime,publish,pageable);
+		return null;
 	}
 }

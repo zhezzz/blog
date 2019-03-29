@@ -12,13 +12,13 @@
 <div class="container">
 
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a th:href="${#request.getContextPath()} + '/'">Home</a></li>
-        <li class="breadcrumb-item" th:if="${breadcrumbCategoryList.size()} != 0" th:each="category : ${breadcrumbCategoryList}"><a th:href="${#request.getContextPath()} + '/category/' + ${category.getCategoryId()} + '/articles'" th:text="${category.getCategoryName()}"></a></li>
-        <li class="breadcrumb-item active" aria-current="page" ><a th:href="${#request.getContextPath()} + '/category/' + ${article.getCategory().getCategoryId()} + '/articles'" th:text="${article.getCategory().getCategoryName()}"></a></li>
-    </ol>
-</nav>
+<!--<nav aria-label="breadcrumb">-->
+<!--    <ol class="breadcrumb">-->
+<!--        <li class="breadcrumb-item"><a th:href="${#request.getContextPath()} + '/'">Home</a></li>-->
+<!--        <li class="breadcrumb-item" th:if="${breadcrumbCategoryList.size()} != 0" th:each="category : ${breadcrumbCategoryList}"><a th:href="${#request.getContextPath()} + '/category/' + ${category.getCategoryId()} + '/articles'" th:text="${category.getCategoryName()}"></a></li>-->
+<!--        <li class="breadcrumb-item active" aria-current="page" ><a th:href="${#request.getContextPath()} + '/category/' + ${article.getCategory().getCategoryId()} + '/articles'" th:text="${article.getCategory().getCategoryName()}"></a></li>-->
+<!--    </ol>-->
+<!--</nav>-->
 
     <h2 class="text-center" th:text="${article.getTitle()}"></h2>
     <div class="media">

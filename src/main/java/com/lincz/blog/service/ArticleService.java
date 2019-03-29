@@ -7,6 +7,7 @@ import com.lincz.blog.entity.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ArticleService {
@@ -42,5 +43,7 @@ public interface ArticleService {
 	List<Article> getStickArticles();
 
 	List<Article> getRecent10ArticlesByAccount(Account account);
+
+	Page<Article> paginateGetArticlesAfterCreatedDateAndPublish(LocalDateTime localDateTime, boolean publish, Pageable pageable);
 
 }

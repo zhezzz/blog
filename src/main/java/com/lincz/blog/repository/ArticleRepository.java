@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -29,5 +30,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 	Page<Article> findAllByCategoryAndPublish(Category category, boolean publish, Pageable pageable);
 
 	List<Article> findAllByStickTrue();
+
+	Page<Article> findAllByCreateDateAfterAndPublish(LocalDateTime localDateTime, boolean publish, Pageable pageable);
 
 }

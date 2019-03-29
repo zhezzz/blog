@@ -64,13 +64,6 @@ public class ArticleController {
 		List<Category> categoryList = categoryService.getAllCategory();
 		Page<Comment> commentPage = commentService.paginateGetCommetsByArticle(article, pageable);
 		List<Comment> commentList = commentPage.get().collect(Collectors.toList());
-		List<Category> breadcrumbCategoryList = new ArrayList<>();
-		Category tempCategory = article.getCategory().getParent();
-		while (tempCategory != null){
-			breadcrumbCategoryList.add(tempCategory);
-			tempCategory = tempCategory.getParent();
-		}
-		Collections.reverse(breadcrumbCategoryList);
 		articleService.increasePageView(articleId);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("ArticleDetails");
@@ -79,7 +72,6 @@ public class ArticleController {
 		modelAndView.addObject("commentList", commentList);
 		modelAndView.addObject("commentPage", commentPage);
 		modelAndView.addObject("tagList", tagList);
-		modelAndView.addObject("breadcrumbCategoryList", breadcrumbCategoryList);
 		return modelAndView;
 	}
 

@@ -20,7 +20,7 @@ public class Article {
 	@ManyToOne
 	private Account account;
 
-	@OneToMany(mappedBy = "article", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "article", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
 	@OrderBy("createDate desc")
 	private Set<Comment> comments;
 

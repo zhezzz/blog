@@ -66,7 +66,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .rememberMeServices(rememberMeServices())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/","/register","/resources/**","/login").permitAll()
+                .antMatchers("/","/register","/resources/**","/static/**","/login").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
