@@ -15,7 +15,7 @@ public class BlogApplication extends SpringBootServletInitializer {
 //		return application.sources(BlogApplication.class);
 //	}
 
-	public static void main(String[] args) {
-		SpringApplication.run(BlogApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BlogApplication.class, args);
+    }
 }

@@ -14,101 +14,101 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 public class Authority implements GrantedAuthority {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long authorityId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long authorityId;
 
-	@NotNull
-	private String authorityName;
+    @NotNull
+    private String authorityName;
 
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 //	@OrderBy("accountId asc ")
-	@JoinTable(name = "account_authority", joinColumns = {
-			@JoinColumn(name = "authorityId", referencedColumnName = "authorityId")}, inverseJoinColumns = {
-					@JoinColumn(name = "accountId", referencedColumnName = "accountId")})
-	private Set<Account> accounts;
+    @JoinTable(name = "account_authority", joinColumns = {
+            @JoinColumn(name = "authorityId", referencedColumnName = "authorityId")}, inverseJoinColumns = {
+            @JoinColumn(name = "accountId", referencedColumnName = "accountId")})
+    private Set<Account> accounts;
 
-	@NotNull
-	@CreatedDate
-	private LocalDateTime createDate;
+    @NotNull
+    @CreatedDate
+    private LocalDateTime createDate;
 
-	@NotNull
-	@LastModifiedDate
-	private LocalDateTime lastModifiedDate;
+    @NotNull
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
 
-	protected Authority() {
-	}
+    protected Authority() {
+    }
 
-	public Authority(String authority) {
-		this.authorityName = authority;
-	}
+    public Authority(String authority) {
+        this.authorityName = authority;
+    }
 
-	@Override
-	public String getAuthority() {
-		return authorityName;
-	}
+    @Override
+    public String getAuthority() {
+        return authorityName;
+    }
 
-	public Long getAuthorityId() {
-		return authorityId;
-	}
+    public Long getAuthorityId() {
+        return authorityId;
+    }
 
-	public void setAuthorityId(Long authorityId) {
-		this.authorityId = authorityId;
-	}
+    public void setAuthorityId(Long authorityId) {
+        this.authorityId = authorityId;
+    }
 
-	public String getAuthorityName() {
-		return authorityName;
-	}
+    public String getAuthorityName() {
+        return authorityName;
+    }
 
-	public void setAuthorityName(String authorityName) {
-		this.authorityName = authorityName;
-	}
+    public void setAuthorityName(String authorityName) {
+        this.authorityName = authorityName;
+    }
 
-	public Set<Account> getAccounts() {
-		return accounts;
-	}
+    public Set<Account> getAccounts() {
+        return accounts;
+    }
 
-	public void setAccounts(Set<Account> accounts) {
-		this.accounts = accounts;
-	}
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts = accounts;
+    }
 
-	public LocalDateTime getCreateDate() {
-		return createDate;
-	}
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
 
-	public void setCreateDate(LocalDateTime createDate) {
-		this.createDate = createDate;
-	}
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
 
-	public LocalDateTime getLastModifiedDate() {
-		return lastModifiedDate;
-	}
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
+    }
 
-	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
 
-		if (obj instanceof Authority) {
-			return authorityName.equals(((Authority)obj).authorityName);
-		}
+        if (obj instanceof Authority) {
+            return authorityName.equals(((Authority) obj).authorityName);
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	@Override
-	public int hashCode() {
-		return this.authorityName.hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return this.authorityName.hashCode();
+    }
 
-	@Override
-	public String toString() {
-		return this.authorityName;
-	}
+    @Override
+    public String toString() {
+        return this.authorityName;
+    }
 
 }

@@ -13,69 +13,69 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 public class Category {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long categoryId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long categoryId;
 
-	@NotNull
-	private String categoryName;
+    @NotNull
+    private String categoryName;
 
-	@OneToMany(mappedBy = "category", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
-	@OrderBy("createDate desc")
-	private Set<Article> articles;
+    @OneToMany(mappedBy = "category", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OrderBy("createDate desc")
+    private Set<Article> articles;
 
-	@NotNull
-	@CreatedDate
-	private LocalDateTime createDate;
+    @NotNull
+    @CreatedDate
+    private LocalDateTime createDate;
 
-	@NotNull
-	@LastModifiedDate
-	private LocalDateTime lastModifiedDate;
+    @NotNull
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
 
-	protected Category() {
-	}
+    protected Category() {
+    }
 
-	public Category(@NotNull String categoryName) {
-		this.categoryName = categoryName;
-	}
+    public Category(@NotNull String categoryName) {
+        this.categoryName = categoryName;
+    }
 
-	public Long getCategoryId() {
-		return categoryId;
-	}
+    public Long getCategoryId() {
+        return categoryId;
+    }
 
-	public void setCategoryId(Long categoryId) {
-		this.categoryId = categoryId;
-	}
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
 
-	public Set<Article> getArticles() {
-		return articles;
-	}
+    public Set<Article> getArticles() {
+        return articles;
+    }
 
-	public void setArticles(Set<Article> articles) {
-		this.articles = articles;
-	}
+    public void setArticles(Set<Article> articles) {
+        this.articles = articles;
+    }
 
-	public String getCategoryName() {
-		return categoryName;
-	}
+    public String getCategoryName() {
+        return categoryName;
+    }
 
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
 
-	public LocalDateTime getCreateDate() {
-		return createDate;
-	}
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
 
-	public void setCreateDate(LocalDateTime createDate) {
-		this.createDate = createDate;
-	}
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
 
-	public LocalDateTime getLastModifiedDate() {
-		return lastModifiedDate;
-	}
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
+    }
 
-	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
 }

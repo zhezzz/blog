@@ -12,38 +12,38 @@ import java.util.List;
 
 public interface ArticleService {
 
-	Article createArticle(Article article);
+    Article createArticle(Article article);
 
-	Article updateArticle(Long articleId, Article articleDTO);
+    Article updateArticle(Long articleId, Article articleDTO);
 
-	void deleteArticleByArticleId(Long articleId);
+    void deleteArticleByArticleId(Long articleId);
 
-	Article getArticleByArticleId(Long articleId);
+    Article getArticleByArticleId(Long articleId);
 
-	void increasePageView(Long articleId);
+    void increasePageView(Long articleId);
 
-	Page<Article> paginateGetAllArticles(Pageable pageable);
+    Page<Article> paginateGetAllArticles(Pageable pageable);
 
-	Page<Article> paginateGetArticlesByPublish(boolean publish, Pageable pageable);
+    Page<Article> paginateGetArticlesByPublish(boolean publish, Pageable pageable);
 
-	Page<Article> paginateGetArticlesByAccount(Account account, Pageable pageable);
+    Page<Article> paginateGetArticlesByAccount(Account account, Pageable pageable);
 
-	Page<Article> paginateGetArticlesByAccountAndPublish(Account account, boolean publish, Pageable pageable);
+    Page<Article> paginateGetArticlesByAccountAndPublish(Account account, boolean publish, Pageable pageable);
 
-	Page<Article> paginateGetArticlesByCategoryAndPublish(Category category, boolean publish, Pageable pageable);
+    Page<Article> paginateGetArticlesByCategoryAndPublish(Category category, boolean publish, Pageable pageable);
 
-	Page<Article> paginateGetArticlesByCategory(Category category, Pageable pageable);
+    Page<Article> paginateGetArticlesByCategory(Category category, Pageable pageable);
 
-	Page<Article> paginateGetArticlesByTags(Tag tag, Pageable pageable);
+    Page<Article> paginateGetArticlesByTags(Tag tag, Pageable pageable);
 
-	boolean isArticleExists(Long articleId);
+    boolean isArticleExists(Long articleId);
 
-	boolean isArticleExistsAndPublish(Long articleId, boolean publish);
+    boolean isArticleExistsAndPublish(Long articleId, boolean publish);
 
-	List<Article> getStickArticles();
+    List<Article> getStickArticles();
 
-	List<Article> getRecent10ArticlesByAccount(Account account);
+    List<Article> getRecent10ArticlesByAccount(Account account);
 
-	Page<Article> paginateGetArticlesAfterCreatedDateAndPublish(LocalDateTime localDateTime, boolean publish, Pageable pageable);
+    Page<Article> paginateGetArticlesAfterCreatedDateAndPublish(LocalDateTime localDateTime, boolean publish, Pageable pageable);
 
 }

@@ -1,57 +1,65 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
-<title>南风博客</title>
-<style>
-    h1, h2, h3, h4, h5, h6 {
-        font-family: "Playfair Display", Georgia, "Times New Roman", serif;
-    }
-    .blog-post {
-        margin-bottom: 4rem;
-    }
-    .blog-post-title {
-        margin-bottom: .25rem;
-        font-size: 2.5rem;
-    }
-    .blog-post-meta {
-        margin-bottom: 1.25rem;
-        color: #999;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
+    <title>南风博客</title>
+    <style>
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+        }
+
+        .blog-post {
+            margin-bottom: 4rem;
+        }
+
+        .blog-post-title {
+            margin-bottom: .25rem;
+            font-size: 2.5rem;
+        }
+
+        .blog-post-meta {
+            margin-bottom: 1.25rem;
+            color: #999;
+        }
+    </style>
 </head>
 <body>
 <div class="container" th:replace="common/header :: header"></div>
 
 <div class="container">
 
-        <div id="stickArticleCarousel" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                <li th:each="article : ${stickArticleList}" data-target="#stickArticleCarousel" th:attr="data-slide-to=${stickArticleList.indexOf(article)}" th:class="${articleList.indexOf(article)} == 0  ? 'active' : ''"></li>
-            </ol>
+    <div id="stickArticleCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li th:each="article : ${stickArticleList}" data-target="#stickArticleCarousel"
+                th:attr="data-slide-to=${stickArticleList.indexOf(article)}"
+                th:class="${articleList.indexOf(article)} == 0  ? 'active' : ''"></li>
+        </ol>
 
-            <div class="carousel-inner">
+        <div class="carousel-inner">
 
-                <div th:each="article : ${stickArticleList}" th:class="${stickArticleList.indexOf(article)} == 0  ? 'carousel-item active':'carousel-item'" data-interval="5000" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()}">
-                    <img th:src="'/static/image/' + (${stickArticleList.indexOf(article)} + 1) + '.png'" class="d-block w-100" alt="carousel">
-                    <div class="carousel-caption">
-                        <h5 th:text="${#strings.abbreviate(article.getTitle(),20)}"></h5>
-                        <p th:text="${#strings.abbreviate(article.getRawContent(),80)}"></p>
-                    </div>
+            <div th:each="article : ${stickArticleList}"
+                 th:class="${stickArticleList.indexOf(article)} == 0  ? 'carousel-item active':'carousel-item'"
+                 data-interval="5000" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()}">
+                <img th:src="'/static/image/' + (${stickArticleList.indexOf(article)} + 1) + '.png'"
+                     class="d-block w-100" alt="carousel">
+                <div class="carousel-caption">
+                    <h5 th:text="${#strings.abbreviate(article.getTitle(),20)}"></h5>
+                    <p th:text="${#strings.abbreviate(article.getRawContent(),80)}"></p>
                 </div>
-
             </div>
-            <a class="carousel-control-prev" href="#stickArticleCarousel" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#stickArticleCarousel" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
+
         </div>
+        <a class="carousel-control-prev" href="#stickArticleCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#stickArticleCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
 
     <div class="row mb-2">
         <div class="col-md-6">
@@ -60,11 +68,17 @@
                     <strong class="d-inline-block mb-2 text-primary">World</strong>
                     <h3 class="mb-0">Featured post</h3>
                     <div class="mb-1 text-muted">Nov 12</div>
-                    <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                    <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to
+                        additional content.</p>
                     <a href="#" class="stretched-link">Continue reading</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
-                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
+                         preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
+                         aria-label="Placeholder: Thumbnail"><title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#55595c"></rect>
+                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+                    </svg>
                 </div>
             </div>
         </div>
@@ -74,11 +88,17 @@
                     <strong class="d-inline-block mb-2 text-success">Design</strong>
                     <h3 class="mb-0">Post title</h3>
                     <div class="mb-1 text-muted">Nov 11</div>
-                    <p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                    <p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to
+                        additional content.</p>
                     <a href="#" class="stretched-link">Continue reading</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
-                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
+                         preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
+                         aria-label="Placeholder: Thumbnail"><title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#55595c"></rect>
+                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+                    </svg>
                 </div>
             </div>
         </div>
@@ -99,72 +119,102 @@
 
 
             <nav aria-label="Page navigation">
-                    <!-- 处理页数小于等于7 的情况 -->
-                    <ul th:if="${(articlePage.getTotalPages() le 7)&&(articlePage.getTotalPages() gt 0)}" class="pagination justify-content-center">
-                        <li th:if="${articlePage.getNumber() eq 0}" class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
-                        <li th:if="${articlePage.getNumber() gt 0}" class="page-item">
-                            <a class="page-link" th:href="${#request.getContextPath()} + '/index?page=' + (${articlePage.getNumber()} - 1) + '&size=' + ${articlePage.getSize()} + '#articles'">上一页</a>
-                        </li>
+                <!-- 处理页数小于等于7 的情况 -->
+                <ul th:if="${(articlePage.getTotalPages() le 7)&&(articlePage.getTotalPages() gt 0)}"
+                    class="pagination justify-content-center">
+                    <li th:if="${articlePage.getNumber() eq 0}" class="page-item disabled"><a class="page-link"
+                                                                                              href="#">上一页</a></li>
+                    <li th:if="${articlePage.getNumber() gt 0}" class="page-item">
+                        <a class="page-link"
+                           th:href="${#request.getContextPath()} + '/index?page=' + (${articlePage.getNumber()} - 1) + '&size=' + ${articlePage.getSize()} + '#articles'">上一页</a>
+                    </li>
 
-                        <li th:each="index:${#numbers.sequence(0,articlePage.getTotalPages() - 1)}" th:classappend="${index eq articlePage.getNumber()}?'active'" class="page-item">
-                            <a th:href="${#request.getContextPath()} + '/index?page=' + ${index} + '&size=' + ${articlePage.getSize()} + '#articles'" class="page-link"  th:text="${index}"></a>
-                        </li>
+                    <li th:each="index:${#numbers.sequence(0,articlePage.getTotalPages() - 1)}"
+                        th:classappend="${index eq articlePage.getNumber()}?'active'" class="page-item">
+                        <a th:href="${#request.getContextPath()} + '/index?page=' + ${index} + '&size=' + ${articlePage.getSize()} + '#articles'"
+                           class="page-link" th:text="${index}"></a>
+                    </li>
 
-                        <li th:if="${articlePage.getNumber() + 1 eq articlePage.getTotalPages()}" class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
-                        <li th:if="${articlePage.getNumber() + 1 lt articlePage.getTotalPages()}" class="page-item">
-                            <a class="page-link" th:href="${#request.getContextPath()} + '/index?page=' + (${articlePage.getNumber()} + 1) + '&size=' + ${articlePage.getSize()} + '#articles'">下一页</a>
-                        </li>
-                    </ul>
+                    <li th:if="${articlePage.getNumber() + 1 eq articlePage.getTotalPages()}"
+                        class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+                    <li th:if="${articlePage.getNumber() + 1 lt articlePage.getTotalPages()}" class="page-item">
+                        <a class="page-link"
+                           th:href="${#request.getContextPath()} + '/index?page=' + (${articlePage.getNumber()} + 1) + '&size=' + ${articlePage.getSize()} + '#articles'">下一页</a>
+                    </li>
+                </ul>
 
-                    <!-- 处理页数大于7 的情况 -->
-                    <ul th:if="${articlePage.getTotalPages() gt 7}" class="pagination justify-content-center">
-                        <li th:if="${articlePage.getNumber() eq 0}" class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
-                        <li th:if="${articlePage.getNumber() gt 0}" class="page-item">
-                            <a class="page-link" th:href="${#request.getContextPath()} + '/index?page=' + (${articlePage.getNumber()} - 1) + '&size=' + ${articlePage.getSize()} + '#articles'">上一页</a>
-                        </li>
+                <!-- 处理页数大于7 的情况 -->
+                <ul th:if="${articlePage.getTotalPages() gt 7}" class="pagination justify-content-center">
+                    <li th:if="${articlePage.getNumber() eq 0}" class="page-item disabled"><a class="page-link"
+                                                                                              href="#">上一页</a></li>
+                    <li th:if="${articlePage.getNumber() gt 0}" class="page-item">
+                        <a class="page-link"
+                           th:href="${#request.getContextPath()} + '/index?page=' + (${articlePage.getNumber()} - 1) + '&size=' + ${articlePage.getSize()} + '#articles'">上一页</a>
+                    </li>
 
-                        <!-- 首页 -->
-                        <li th:classappend="${articlePage.getNumber() eq 0}?'active'" class="page-item">
-                            <a class="page-link" th:href="${#request.getContextPath()} + '/index?page=0' + '&size=' + ${articlePage.getSize()} + '#articles'">0</a>
-                        </li>
+                    <!-- 首页 -->
+                    <li th:classappend="${articlePage.getNumber() eq 0}?'active'" class="page-item">
+                        <a class="page-link"
+                           th:href="${#request.getContextPath()} + '/index?page=0' + '&size=' + ${articlePage.getSize()} + '#articles'">0</a>
+                    </li>
 
-                        <!-- 当前页面小于等于4 -->
-                        <li th:if="${articlePage.getNumber() le 3}" th:each="index:${#numbers.sequence(1,4)}" th:classappend="${index eq articlePage.getNumber()}?'active'" class="page-item">
-                            <a th:href="${#request.getContextPath()} + '/index?page=' + ${index} + '&size=' + ${articlePage.getSize()} + '#articles'" class="page-link"  th:text="${index}"></a>
-                        </li>
-                        <li th:if="${articlePage.getNumber() le 3}" class="page-item">
-                            <a  class="page-link" th:href="${#request.getContextPath()} + '/index?page=5' + '&size=' + ${articlePage.getSize()} + '#articles'">...</a>
-                        </li>
+                    <!-- 当前页面小于等于4 -->
+                    <li th:if="${articlePage.getNumber() le 3}" th:each="index:${#numbers.sequence(1,4)}"
+                        th:classappend="${index eq articlePage.getNumber()}?'active'" class="page-item">
+                        <a th:href="${#request.getContextPath()} + '/index?page=' + ${index} + '&size=' + ${articlePage.getSize()} + '#articles'"
+                           class="page-link" th:text="${index}"></a>
+                    </li>
+                    <li th:if="${articlePage.getNumber() le 3}" class="page-item">
+                        <a class="page-link"
+                           th:href="${#request.getContextPath()} + '/index?page=5' + '&size=' + ${articlePage.getSize()} + '#articles'">...</a>
+                    </li>
 
-                        <!-- 最后一页与当前页面之差小于等于3 -->
-                        <li th:if="${articlePage.getTotalPages() - articlePage.getNumber() le 4}" class="page-item">
-                            <a  class="page-link" th:href="${#request.getContextPath()} + '/index?page=' + (${articlePage.getTotalPages() - 6}) + '&size=' + ${articlePage.getSize()} + '#articles'">...</a>
-                        </li>
-                        <li th:if="${articlePage.getTotalPages() - articlePage.getNumber() le 4}" th:each="index:${#numbers.sequence(articlePage.getTotalPages() - 5,articlePage.getTotalPages() - 2)}" th:classappend="${index eq articlePage.getNumber()}?'active'" class="page-item">
-                            <a th:href="${#request.getContextPath()} + '/index?page=' + ${index} + '&size=' + ${articlePage.getSize()} + '#articles'" class="page-link"  th:text="${index}"></a>
-                        </li>
+                    <!-- 最后一页与当前页面之差小于等于3 -->
+                    <li th:if="${articlePage.getTotalPages() - articlePage.getNumber() le 4}" class="page-item">
+                        <a class="page-link"
+                           th:href="${#request.getContextPath()} + '/index?page=' + (${articlePage.getTotalPages() - 6}) + '&size=' + ${articlePage.getSize()} + '#articles'">...</a>
+                    </li>
+                    <li th:if="${articlePage.getTotalPages() - articlePage.getNumber() le 4}"
+                        th:each="index:${#numbers.sequence(articlePage.getTotalPages() - 5,articlePage.getTotalPages() - 2)}"
+                        th:classappend="${index eq articlePage.getNumber()}?'active'" class="page-item">
+                        <a th:href="${#request.getContextPath()} + '/index?page=' + ${index} + '&size=' + ${articlePage.getSize()} + '#articles'"
+                           class="page-link" th:text="${index}"></a>
+                    </li>
 
-                        <!-- 最后一页与当前页面之差大于3 且当前页面大于4 -->
-                        <li th:if="${(articlePage.getNumber() gt 3) && (articlePage.getTotalPages() - articlePage.getNumber() gt 4)}" class="page-item">
-                            <a class="page-link" th:href="${#request.getContextPath()} + '/index?page=' + (${articlePage.getNumber()} - 2) + '&size=' + ${articlePage.getSize()} + '#articles'">...</a>
-                        </li>
-                        <li th:if="${(articlePage.getNumber() gt 3) && (articlePage.getTotalPages() - articlePage.getNumber() gt 4)}" th:each="index:${#numbers.sequence(articlePage.getNumber() - 1,articlePage.getNumber() + 1)}" th:classappend="${index eq articlePage.getNumber()}?'active'" class="page-item">
-                            <a class="page-link" th:href="${#request.getContextPath()} + '/index?page=' + ${index} + '&size=' + ${articlePage.getSize()} + '#articles'" th:text="${index}"></a>
-                        </li>
-                        <li th:if="${(articlePage.getNumber() gt 3) && (articlePage.getTotalPages() - articlePage.getNumber() gt 4)}" class="page-item">
-                            <a class="page-link" th:href="${#request.getContextPath()} + '/index?page=' + (${articlePage.getNumber()} + 2) + '&size=' + '#articles'">...</a>
-                        </li>
+                    <!-- 最后一页与当前页面之差大于3 且当前页面大于4 -->
+                    <li th:if="${(articlePage.getNumber() gt 3) && (articlePage.getTotalPages() - articlePage.getNumber() gt 4)}"
+                        class="page-item">
+                        <a class="page-link"
+                           th:href="${#request.getContextPath()} + '/index?page=' + (${articlePage.getNumber()} - 2) + '&size=' + ${articlePage.getSize()} + '#articles'">...</a>
+                    </li>
+                    <li th:if="${(articlePage.getNumber() gt 3) && (articlePage.getTotalPages() - articlePage.getNumber() gt 4)}"
+                        th:each="index:${#numbers.sequence(articlePage.getNumber() - 1,articlePage.getNumber() + 1)}"
+                        th:classappend="${index eq articlePage.getNumber()}?'active'" class="page-item">
+                        <a class="page-link"
+                           th:href="${#request.getContextPath()} + '/index?page=' + ${index} + '&size=' + ${articlePage.getSize()} + '#articles'"
+                           th:text="${index}"></a>
+                    </li>
+                    <li th:if="${(articlePage.getNumber() gt 3) && (articlePage.getTotalPages() - articlePage.getNumber() gt 4)}"
+                        class="page-item">
+                        <a class="page-link"
+                           th:href="${#request.getContextPath()} + '/index?page=' + (${articlePage.getNumber()} + 2) + '&size=' + '#articles'">...</a>
+                    </li>
 
-                        <!-- 尾页 -->
-                        <li th:classappend="${articlePage.getNumber() eq articlePage.getTotalPages() - 1}?'active'" class="page-item">
-                            <a class="page-link" th:href="${#request.getContextPath()} + '/index?page=' + (${articlePage.getTotalPages() - 1}) + '&size=' + ${articlePage.getSize()} + '#articles'" th:text="${articlePage.getTotalPages() - 1}">尾页</a>
-                        </li>
+                    <!-- 尾页 -->
+                    <li th:classappend="${articlePage.getNumber() eq articlePage.getTotalPages() - 1}?'active'"
+                        class="page-item">
+                        <a class="page-link"
+                           th:href="${#request.getContextPath()} + '/index?page=' + (${articlePage.getTotalPages() - 1}) + '&size=' + ${articlePage.getSize()} + '#articles'"
+                           th:text="${articlePage.getTotalPages() - 1}">尾页</a>
+                    </li>
 
-                        <li th:if="${articlePage.getNumber() eq articlePage.getTotalPages() - 1}" class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
-                        <li th:if="${articlePage.getNumber() lt articlePage.getTotalPages() - 1}" class="page-item">
-                            <a class="page-link" th:href="${#request.getContextPath()} + '/index?page=' + (${articlePage.getNumber()} + 1) + '&size=' + '#articles'">下一页</a>
-                        </li>
-                    </ul>
+                    <li th:if="${articlePage.getNumber() eq articlePage.getTotalPages() - 1}"
+                        class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+                    <li th:if="${articlePage.getNumber() lt articlePage.getTotalPages() - 1}" class="page-item">
+                        <a class="page-link"
+                           th:href="${#request.getContextPath()} + '/index?page=' + (${articlePage.getNumber()} + 1) + '&size=' + '#articles'">下一页</a>
+                    </li>
+                </ul>
             </nav>
         </div>
 
@@ -172,7 +222,9 @@
 
             <div class="p-4">
                 <h4 class="font-italic">标签</h4>
-                <a class="btn btn-outline-secondary" th:each="tag : ${tagList}" th:href="${#request.getContextPath()} + '/tag/' + ${tag.getTagId()} + '/articles'" th:text="${tag.getTagName()}" role="button"></a>
+                <a class="btn btn-outline-secondary" th:each="tag : ${tagList}"
+                   th:href="${#request.getContextPath()} + '/tag/' + ${tag.getTagId()} + '/articles'"
+                   th:text="${tag.getTagName()}" role="button"></a>
 
             </div>
 

@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface AuthorityService {
 
-	Authority getAuthorityByAuthorityId(Long authorityId);
+    Authority getAuthorityByAuthorityId(Long authorityId);
 
-	List<Authority> getAllAuthorities();
+    List<Authority> getAllAuthorities();
 
-	Authority createAuthority(Authority authorityDTO);
+    Authority createAuthority(Authority authorityDTO);
 
-	void deleteAuthorityByAuthorityId(Long authorityId);
+    void deleteAuthorityByAuthorityId(Long authorityId);
 
-	Authority updateAuthority(Long authorityId, Authority authorityDTO);
+    Authority updateAuthority(Long authorityId, Authority authorityDTO);
 }

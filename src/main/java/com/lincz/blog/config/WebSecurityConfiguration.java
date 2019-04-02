@@ -18,7 +18,7 @@ import org.springframework.session.security.web.authentication.SpringSessionReme
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled =true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -66,7 +66,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .rememberMeServices(rememberMeServices())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/","/register","/resources/**","/static/**","/login").permitAll()
+                .antMatchers("/", "/register", "/resources/**", "/static/**", "/login").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -77,10 +77,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .maxSessionsPreventsLogin(false)
                 .sessionRegistry(sessionRegistry());
     }
-
-
-
-
 
 
 }

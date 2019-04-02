@@ -10,22 +10,22 @@ import java.util.List;
 
 public interface CommentService {
 
-	Page<Comment> getAllComments(Pageable pageable);
+    Page<Comment> getAllComments(Pageable pageable);
 
-	Page<Comment> paginateGetCommetsByAccount(Account account, Pageable pageable);
+    Page<Comment> paginateGetCommetsByAccount(Account account, Pageable pageable);
 
-	Page<Comment> paginateGetCommetsByArticle(Article article, Pageable pageable);
+    Page<Comment> paginateGetCommetsByArticle(Article article, Pageable pageable);
 
-	Comment createComment(Comment commentDTO);
+    Comment createComment(Comment commentDTO);
 
-	void deleteCommentByCommentId(Long commentId);
+    void deleteCommentByCommentId(Long commentId);
 
-	Comment updateComment(Long commentId, Comment commentDTO);
+    Comment updateComment(Long commentId, Comment commentDTO);
 
-	Comment getCommentByCommentId(Long commentId);
+    Comment getCommentByCommentId(Long commentId);
 
-	boolean isCommentExists(Long commentId);
+    boolean isCommentExists(Long commentId);
 
-	List<Comment> getRecent10CommentsByAccount(Account account);
+    List<Comment> getRecent10CommentsByAccount(Account account);
 
 }

@@ -12,24 +12,24 @@ import java.util.Set;
 
 public interface AccountService extends UserDetailsService {
 
-	Page<Account> paginateGetAllAccount(Pageable pageable);
+    Page<Account> paginateGetAllAccount(Pageable pageable);
 
-	Account getAccountByUsername(String username);
+    Account getAccountByUsername(String username);
 
-	Account getAccountByEmail(String email);
+    Account getAccountByEmail(String email);
 
-	Account getAccountByAccountId(Long accountId);
+    Account getAccountByAccountId(Long accountId);
 
-	Account updateAccountAuthority(Long accountId, Set<Authority> authorities);
+    Account updateAccountAuthority(Long accountId, Set<Authority> authorities);
 
-	Account updateAccountInfo(Long accountId, Account accountDTO);
+    Account updateAccountInfo(Long accountId, Account accountDTO);
 
-	Account createAccount(Account accountDTO);
+    Account createAccount(Account accountDTO);
 
-	void deleteAccountByAccountId(Long accountId);
+    void deleteAccountByAccountId(Long accountId);
 
-	@Override
-	UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+    @Override
+    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
-	boolean isAccountExists(Long accountId);
+    boolean isAccountExists(Long accountId);
 }

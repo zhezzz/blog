@@ -11,10 +11,10 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-	Page<Comment> findAllByAccount(Account account, Pageable pageable);
+    Page<Comment> findAllByAccount(Account account, Pageable pageable);
 
-	Page<Comment> findAllByArticle(Article article, Pageable pageable);
+    Page<Comment> findAllByArticle(Article article, Pageable pageable);
 
-	List<Comment> findTop10ByAccountOrderByCreateDateDesc(Account account);
+    List<Comment> findTop10ByAccountOrderByCreateDateDesc(Account account);
 
 }

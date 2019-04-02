@@ -6,16 +6,16 @@ import java.util.List;
 
 public interface CategoryService {
 
-	Category getCategoryByCategoryId(Long categoryId);
+    Category getCategoryByCategoryId(Long categoryId);
 
-	List<Category> getAllCategory();
+    List<Category> getAllCategory();
 
-	Category createCategory(Category categoryDTO);
+    Category createCategory(Category categoryDTO);
 
-	void deleteCategoryByCategoryId(Long categoryId);
+    void deleteCategoryByCategoryId(Long categoryId);
 
-	Category updateCategory(Long categoryId, Category categoryDTO);
+    Category updateCategory(Long categoryId, Category categoryDTO);
 
-	boolean isCategoryExists(Long categoryId);
+    boolean isCategoryExists(Long categoryId);
 
 }

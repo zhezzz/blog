@@ -6,16 +6,16 @@ import java.util.List;
 
 public interface TagService {
 
-	Tag getTagByTagId(Long tagId);
+    Tag getTagByTagId(Long tagId);
 
-	List<Tag> getAllTag();
+    List<Tag> getAllTag();
 
-	Tag createCategory(Tag tagDTO);
+    Tag createCategory(Tag tagDTO);
 
-	void deleteTagByTagId(Long tagId);
+    void deleteTagByTagId(Long tagId);
 
-	Tag updateTag(Long tagId, Tag tagDTO);
+    Tag updateTag(Long tagId, Tag tagDTO);
 
-	boolean isTagExists(Long tagId);
+    boolean isTagExists(Long tagId);
 
 }

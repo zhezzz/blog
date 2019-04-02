@@ -26,9 +26,11 @@
         padding: 15px;
         margin: auto;
     }
+
     .form-signin .checkbox {
         font-weight: 400;
     }
+
     .form-signin .form-control {
         position: relative;
         box-sizing: border-box;
@@ -36,14 +38,17 @@
         padding: 10px;
         font-size: 16px;
     }
+
     .form-signin .form-control:focus {
         z-index: 2;
     }
+
     .form-signin input[type="username"] {
         margin-bottom: -1px;
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
     }
+
     .form-signin input[type="password"] {
         margin-bottom: 10px;
         border-top-left-radius: 0;
@@ -58,10 +63,13 @@
     <h1 class="h3 mb-3 font-weight-normal">注册</h1>
     <div>
         <label for="username" class="sr-only">用户名</label>
-        <input oninput="this.value=this.value.replace(/[^\w\u4e00-\u9fa5]/g,'')" th:classappend="(${#request.getParameter('occupy')} == 'yes')? 'is-invalid':''" type="text" id="username" name="username" class="form-control" placeholder="用户名(1-10个字母、数字或下划线)" minlength="1" maxlength="10" required autofocus>
-    <div th:if="${#request.getParameter('occupy')} == 'yes'" class="invalid-feedback">
-        用户名被占用，请换一个
-    </div>
+        <input oninput="this.value=this.value.replace(/[^\w\u4e00-\u9fa5]/g,'')"
+               th:classappend="(${#request.getParameter('occupy')} == 'yes')? 'is-invalid':''" type="text" id="username"
+               name="username" class="form-control" placeholder="用户名(1-10个字母、数字或下划线)" minlength="1" maxlength="10"
+               required autofocus>
+        <div th:if="${#request.getParameter('occupy')} == 'yes'" class="invalid-feedback">
+            用户名被占用，请换一个
+        </div>
     </div>
     <div>
         <label for="email" class="sr-only">邮箱</label>
@@ -69,7 +77,8 @@
     </div>
     <div>
         <label for="password" class="sr-only">密码</label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="密码(4到12个字符)" minlength="4" maxlength="12" required>
+        <input type="password" id="password" name="password" class="form-control" placeholder="密码(4到12个字符)"
+               minlength="4" maxlength="12" required>
     </div>
     <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
 </form>

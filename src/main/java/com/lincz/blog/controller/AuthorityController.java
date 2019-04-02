@@ -13,57 +13,57 @@ import java.util.List;
 @RequestMapping(value = "/authority")
 public class AuthorityController {
 
-	@Autowired
-	private AuthorityService authorityService;
+    @Autowired
+    private AuthorityService authorityService;
 
-	// 权限管理页面
-	@GetMapping(value = "/management")
-	//	@PreAuthorize("hasAuthority('权限管理')")
-	public ModelAndView authorityManagementPage() {
-		List<Authority> authorityList = authorityService.getAllAuthorities();
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("AuthorityManagement");
-		modelAndView.addObject(authorityList);
-		return modelAndView;
-	}
+    // 权限管理页面
+    @GetMapping(value = "/management")
+    //	@PreAuthorize("hasAuthority('权限管理')")
+    public ModelAndView authorityManagementPage() {
+        List<Authority> authorityList = authorityService.getAllAuthorities();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("AuthorityManagement");
+        modelAndView.addObject(authorityList);
+        return modelAndView;
+    }
 
-	// 增加权限
-	@PostMapping(value = "/")
-	//	@PreAuthorize("hasAuthority('权限管理')")
-	public Authority addAuthority(@RequestBody Authority authorityDTO) {
-		Authority authority = authorityService.createAuthority(authorityDTO);
-		return authority;
-	}
+    // 增加权限
+    @PostMapping(value = "/")
+    //	@PreAuthorize("hasAuthority('权限管理')")
+    public Authority addAuthority(@RequestBody Authority authorityDTO) {
+        Authority authority = authorityService.createAuthority(authorityDTO);
+        return authority;
+    }
 
-	//查找所有权限
-	@GetMapping(value = "/")
-	//	@PreAuthorize("hasAuthority('权限管理')")
-	public List<Authority> getAllAuthority(){
-		List<Authority> authorityList = authorityService.getAllAuthorities();
-		return authorityList;
-	}
+    //查找所有权限
+    @GetMapping(value = "/")
+    //	@PreAuthorize("hasAuthority('权限管理')")
+    public List<Authority> getAllAuthority() {
+        List<Authority> authorityList = authorityService.getAllAuthorities();
+        return authorityList;
+    }
 
-	//根据id查找权限
-	@GetMapping(value = "/{authorityId}")
-	//	@PreAuthorize("hasAuthority('权限管理')")
-	public Authority getAuthorityByAuthorityId(@PathVariable Long authorityId){
-		Authority authority = authorityService.getAuthorityByAuthorityId(authorityId);
-		return authority;
-	}
+    //根据id查找权限
+    @GetMapping(value = "/{authorityId}")
+    //	@PreAuthorize("hasAuthority('权限管理')")
+    public Authority getAuthorityByAuthorityId(@PathVariable Long authorityId) {
+        Authority authority = authorityService.getAuthorityByAuthorityId(authorityId);
+        return authority;
+    }
 
 
-	// 删除权限
-	@DeleteMapping(value = "/{authorityId}")
-	//	@PreAuthorize("hasAuthority('权限管理')")
-	public void deleteAuthority(@PathVariable Long authorityId) {
-		authorityService.deleteAuthorityByAuthorityId(authorityId);
-	}
+    // 删除权限
+    @DeleteMapping(value = "/{authorityId}")
+    //	@PreAuthorize("hasAuthority('权限管理')")
+    public void deleteAuthority(@PathVariable Long authorityId) {
+        authorityService.deleteAuthorityByAuthorityId(authorityId);
+    }
 
-	// 修改权限
-	@PutMapping(value = "/{authorityId}")
-	//	@PreAuthorize("hasAuthority('权限管理')")
-	public Authority updateAuthority(@PathVariable Long authorityId, @RequestBody Authority authorityDTO) {
-		return authorityService.updateAuthority(authorityId, authorityDTO);
-	}
+    // 修改权限
+    @PutMapping(value = "/{authorityId}")
+    //	@PreAuthorize("hasAuthority('权限管理')")
+    public Authority updateAuthority(@PathVariable Long authorityId, @RequestBody Authority authorityDTO) {
+        return authorityService.updateAuthority(authorityId, authorityDTO);
+    }
 
 }

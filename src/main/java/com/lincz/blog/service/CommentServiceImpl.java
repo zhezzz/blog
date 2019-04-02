@@ -15,58 +15,58 @@ import java.util.List;
 @Service
 public class CommentServiceImpl implements CommentService {
 
-	@Autowired
-	private CommentRepository commentRepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
-	@Override
-	public Page<Comment> paginateGetCommetsByAccount(Account account, Pageable pageable) {
-		return commentRepository.findAllByAccount(account, pageable);
-	}
+    @Override
+    public Page<Comment> paginateGetCommetsByAccount(Account account, Pageable pageable) {
+        return commentRepository.findAllByAccount(account, pageable);
+    }
 
-	@Override
-	public Page<Comment> paginateGetCommetsByArticle(Article article, Pageable pageable) {
-		return commentRepository.findAllByArticle(article,pageable);
-	}
+    @Override
+    public Page<Comment> paginateGetCommetsByArticle(Article article, Pageable pageable) {
+        return commentRepository.findAllByArticle(article, pageable);
+    }
 
 
-	@Override
-	public Comment createComment(Comment commentDTO) {
-		Comment comment = new Comment(commentDTO.getContent());
-		comment.setArticle(commentDTO.getArticle());
-		comment.setAccount(commentDTO.getAccount());
-		return commentRepository.save(comment);
-	}
+    @Override
+    public Comment createComment(Comment commentDTO) {
+        Comment comment = new Comment(commentDTO.getContent());
+        comment.setArticle(commentDTO.getArticle());
+        comment.setAccount(commentDTO.getAccount());
+        return commentRepository.save(comment);
+    }
 
-	@Override
-	public Page<Comment> getAllComments(Pageable pageable) {
-		return commentRepository.findAll(pageable);
-	}
+    @Override
+    public Page<Comment> getAllComments(Pageable pageable) {
+        return commentRepository.findAll(pageable);
+    }
 
-	@Override
-	public void deleteCommentByCommentId(Long commentId) {
-		deleteCommentByCommentId(commentId);
-	}
+    @Override
+    public void deleteCommentByCommentId(Long commentId) {
+        deleteCommentByCommentId(commentId);
+    }
 
-	@Transactional
-	@Override
-	public Comment updateComment(Long commentId, Comment commentDTO) {
-		Comment comment = commentRepository.findById(commentId).orElse(null);
-		comment.setContent(commentDTO.getContent());
-		return commentRepository.save(comment);
-	}
+    @Transactional
+    @Override
+    public Comment updateComment(Long commentId, Comment commentDTO) {
+        Comment comment = commentRepository.findById(commentId).orElse(null);
+        comment.setContent(commentDTO.getContent());
+        return commentRepository.save(comment);
+    }
 
-	@Override
-	public Comment getCommentByCommentId(Long commentId) {
-		return commentRepository.findById(commentId).orElse(null);
-	}
+    @Override
+    public Comment getCommentByCommentId(Long commentId) {
+        return commentRepository.findById(commentId).orElse(null);
+    }
 
-	@Override
-	public boolean isCommentExists(Long commentId) {
-		return commentRepository.existsById(commentId);
-	}
+    @Override
+    public boolean isCommentExists(Long commentId) {
+        return commentRepository.existsById(commentId);
+    }
 
-	@Override
-	public List<Comment> getRecent10CommentsByAccount(Account account) {
-		return commentRepository.findTop10ByAccountOrderByCreateDateDesc(account);
-	}
+    @Override
+    public List<Comment> getRecent10CommentsByAccount(Account account) {
+        return commentRepository.findTop10ByAccountOrderByCreateDateDesc(account);
+    }
 }

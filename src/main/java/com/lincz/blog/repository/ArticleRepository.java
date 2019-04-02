@@ -15,22 +15,22 @@ import java.util.List;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-	Page<Article> findAllByPublish(boolean publish, Pageable pageable);
+    Page<Article> findAllByPublish(boolean publish, Pageable pageable);
 
-	Page<Article> findAllByAccount(Account account, Pageable pageable);
+    Page<Article> findAllByAccount(Account account, Pageable pageable);
 
-	List<Article> findTop10ByAccountOrderByCreateDateDesc(Account account);
+    List<Article> findTop10ByAccountOrderByCreateDateDesc(Account account);
 
-	Page<Article> findAllByCategory(Category category, Pageable pageable);
+    Page<Article> findAllByCategory(Category category, Pageable pageable);
 
-	Page<Article> findAllByTags(Tag tag, Pageable pageable);
+    Page<Article> findAllByTags(Tag tag, Pageable pageable);
 
-	Page<Article> findAllByAccountAndPublish(Account account, boolean publish, Pageable pageable);
+    Page<Article> findAllByAccountAndPublish(Account account, boolean publish, Pageable pageable);
 
-	Page<Article> findAllByCategoryAndPublish(Category category, boolean publish, Pageable pageable);
+    Page<Article> findAllByCategoryAndPublish(Category category, boolean publish, Pageable pageable);
 
-	List<Article> findAllByStickTrue();
+    List<Article> findAllByStickTrue();
 
-	Page<Article> findAllByCreateDateAfterAndPublish(LocalDateTime localDateTime, boolean publish, Pageable pageable);
+    Page<Article> findAllByCreateDateAfterAndPublish(LocalDateTime localDateTime, boolean publish, Pageable pageable);
 
 }

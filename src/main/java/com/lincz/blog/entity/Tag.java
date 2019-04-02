@@ -13,73 +13,73 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 public class Tag {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long tagId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long tagId;
 
-	@NotNull
-	private String tagName;
+    @NotNull
+    private String tagName;
 
-	@NotNull
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-	@OrderBy("createDate desc ")
-	@JoinTable(name = "article_tag", joinColumns = {
-			@JoinColumn(name = "tagId", referencedColumnName = "tagId")}, inverseJoinColumns = {
-					@JoinColumn(name = "articleId", referencedColumnName = "articleId")})
-	private Set<Article> articles;
+    @NotNull
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OrderBy("createDate desc ")
+    @JoinTable(name = "article_tag", joinColumns = {
+            @JoinColumn(name = "tagId", referencedColumnName = "tagId")}, inverseJoinColumns = {
+            @JoinColumn(name = "articleId", referencedColumnName = "articleId")})
+    private Set<Article> articles;
 
-	@NotNull
-	@CreatedDate
-	private LocalDateTime createDate;
+    @NotNull
+    @CreatedDate
+    private LocalDateTime createDate;
 
-	@NotNull
-	@LastModifiedDate
-	private LocalDateTime lastModifiedDate;
+    @NotNull
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
 
-	protected Tag() {
-	}
+    protected Tag() {
+    }
 
-	public Tag(@NotNull String tagName) {
-		this.tagName = tagName;
-	}
+    public Tag(@NotNull String tagName) {
+        this.tagName = tagName;
+    }
 
-	public Long getTagId() {
-		return tagId;
-	}
+    public Long getTagId() {
+        return tagId;
+    }
 
-	public void setTagId(Long tagId) {
-		this.tagId = tagId;
-	}
+    public void setTagId(Long tagId) {
+        this.tagId = tagId;
+    }
 
-	public String getTagName() {
-		return tagName;
-	}
+    public String getTagName() {
+        return tagName;
+    }
 
-	public void setTagName(String tagName) {
-		this.tagName = tagName;
-	}
+    public void setTagName(String tagName) {
+        this.tagName = tagName;
+    }
 
-	public Set<Article> getArticles() {
-		return articles;
-	}
+    public Set<Article> getArticles() {
+        return articles;
+    }
 
-	public void setArticles(Set<Article> articles) {
-		this.articles = articles;
-	}
+    public void setArticles(Set<Article> articles) {
+        this.articles = articles;
+    }
 
-	public LocalDateTime getCreateDate() {
-		return createDate;
-	}
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
 
-	public void setCreateDate(LocalDateTime createDate) {
-		this.createDate = createDate;
-	}
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
 
-	public LocalDateTime getLastModifiedDate() {
-		return lastModifiedDate;
-	}
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
+    }
 
-	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
 }
