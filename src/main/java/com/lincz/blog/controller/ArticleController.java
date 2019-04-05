@@ -32,46 +32,65 @@ public class ArticleController {
     @Autowired
     private AccountService accountService;
 
-    @Autowired
-    private CategoryService categoryService;
 
     @Autowired
     private CommentService commentService;
 
-    @Autowired
-    private TagService tagService;
 
     @Autowired
     private HttpServletRequest request;
 
-    // 获取所有文章文章
-    @GetMapping(value = "/")
-    public ModelAndView paginateGetAllArticles(
-            @PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Article> articlePage = articleService.paginateGetAllArticles(pageable);
+    // 获取文章管理页面 TODO spring 能否正确翻译 publish=true
+    @GetMapping(value = "/management")
+    public ModelAndView articleManagementPage(
+            @PageableDefault(sort = {"articleId"}, direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false) Boolean publish) {
+        Page<Article> articlePage;
+        if (publish == null) {
+            articlePage = articleService.paginateGetAllArticles(pageable);
+        } else {
+            articlePage = articleService.paginateGetArticlesByPublish(publish, pageable);
+        }
         List<Article> articleList = articlePage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("");
-        modelAndView.addObject(articleList);
+        modelAndView.setViewName("management/admin/ArticleManagement");
+        modelAndView.addObject("articleList", articleList);
+        modelAndView.addObject("articlePage", articlePage);
         return modelAndView;
     }
 
+    // 获取个人文章管理页面
+    @GetMapping(value = "/mymanagement")
+    public ModelAndView myArticleManagementPage(
+            @PageableDefault(sort = {"articleId"}, direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false) Boolean publish) {
+        String currentUsername = request.getUserPrincipal().getName();
+        Account currentAccount = accountService.getAccountByUsername(currentUsername);
+        Page<Article> articlePage;
+        if (publish == null) {
+            articlePage = articleService.paginateGetArticlesByAccount(currentAccount, pageable);
+        } else {
+            articlePage = articleService.paginateGetArticlesByAccountAndPublish(currentAccount, publish, pageable);
+        }
+        List<Article> articleList = articlePage.get().collect(Collectors.toList());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("management/user/MyArticleManagement");
+        modelAndView.addObject("articleList", articleList);
+        modelAndView.addObject("articlePage", articlePage);
+        return modelAndView;
+    }
+
+
     // 根据文章id查看文章 //TODO 分页获取评论
     @GetMapping(value = "/{articleId}")
-    public ModelAndView articleDetails(@PathVariable Long articleId, @PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+    public ModelAndView articleDetails(@PathVariable Long articleId, @PageableDefault(sort = {"commentId"}, direction = Sort.Direction.DESC) Pageable pageable) {
         Article article = articleService.getArticleByArticleId(articleId);
-        List<Tag> tagList = tagService.getAllTag();
-        List<Category> categoryList = categoryService.getAllCategory();
         Page<Comment> commentPage = commentService.paginateGetCommetsByArticle(article, pageable);
         List<Comment> commentList = commentPage.get().collect(Collectors.toList());
         articleService.increasePageView(articleId);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("ArticleDetails");
         modelAndView.addObject("article", article);
-        modelAndView.addObject("categoryList", categoryList);
         modelAndView.addObject("commentList", commentList);
         modelAndView.addObject("commentPage", commentPage);
-        modelAndView.addObject("tagList", tagList);
         return modelAndView;
     }
 

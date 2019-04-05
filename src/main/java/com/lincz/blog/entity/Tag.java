@@ -22,7 +22,7 @@ public class Tag {
 
     @NotNull
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @OrderBy("createDate desc ")
+    @OrderBy("articleId desc ")
     @JoinTable(name = "article_tag", joinColumns = {
             @JoinColumn(name = "tagId", referencedColumnName = "tagId")}, inverseJoinColumns = {
             @JoinColumn(name = "articleId", referencedColumnName = "articleId")})

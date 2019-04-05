@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/comment")
@@ -33,11 +35,35 @@ public class CommentContrller {
     @Autowired
     private HttpServletRequest request;
 
+    @GetMapping(value = "/management")
+    private ModelAndView commentManagementPage(@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Comment> commentPage = commentService.paginateGetAllComments(pageable);
+        List<Comment> commentList = commentPage.get().collect(Collectors.toList());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("management/admin/CommentManagement");
+        modelAndView.addObject("commentList", commentList);
+        modelAndView.addObject("commentPage", commentPage);
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/mymanagement")
+    private ModelAndView myCommentManagementPage(@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        String currentUsername = request.getUserPrincipal().getName();
+        Account currentAccount = accountService.getAccountByUsername(currentUsername);
+        Page<Comment> commentPage = commentService.paginateGetCommetsByAccount(currentAccount,pageable);
+        List<Comment> commentList = commentPage.get().collect(Collectors.toList());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("management/admin/CommentManagement");
+        modelAndView.addObject("commentList", commentList);
+        modelAndView.addObject("commentPage", commentPage);
+        return modelAndView;
+    }
+
     @GetMapping(value = "/")
     //	@PreAuthorize("hasAuthority('获取所有评论')")
     private ModelAndView getAllComments(
             @PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Comment> commentList = commentService.getAllComments(pageable);
+        Page<Comment> commentList = commentService.paginateGetAllComments(pageable);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("AccountComments");
         modelAndView.addObject(commentList);

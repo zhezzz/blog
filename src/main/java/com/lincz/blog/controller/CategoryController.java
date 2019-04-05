@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,7 +35,7 @@ public class CategoryController {
     public ModelAndView categoryManagementPage() {
         List<Category> categoryList = categoryService.getAllCategory();
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("CategoryManagement");
+        modelAndView.setViewName("management/admin/CategoryManagement");
         modelAndView.addObject(categoryList);
         return modelAndView;
     }

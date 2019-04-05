@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>分类管理</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/ManagementPage.css}">
+    <link rel="stylesheet" th:href="@{/static/css/themify-icons/themify-icons.css}">
+</head>
+<body>
+<div th:replace="common/management :: headerbar"></div>
+<div class="wrapper">
+    <div th:replace="common/management :: sidebar"></div>
+    <div class="container content-area">
+
+    </div>
+
+</div>
+
+
+<script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+    });
+
+</script>
+<script th:inline="javascript">
+    var contextPath = [[${#request.getContextPath()}]];
+
+    function submit() {
+        var categoryData = {
+            categoryName: "yi级分类",
+        }
+        $.ajax({
+            type: "POST",
+            url: contextPath + '/category',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(categoryData)
+        })
+    }
+</script>
+</body>
+</html>

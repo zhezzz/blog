@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<header th:fragment="header" class="blog-header py-1">
+    <div class="row flex-nowrap justify-content-between align-items-center">
+        <div class="col-4 pt-1">
+            <a class="text-muted" th:href="${#request.getContextPath()} + '/index'">首页</a>
+        </div>
+        <div class="col-4 text-center">
+            <a class="blog-header-logo text-dark">南风博客</a>
+        </div>
+        <div class="col-4 d-flex justify-content-end align-items-center">
+            <a class="text-muted" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+                     stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img"
+                     viewBox="0 0 24 24" focusable="false"><title>Search</title>
+                    <circle cx="10.5" cy="10.5" r="7.5"></circle>
+                    <path d="M21 21l-5.2-5.2"></path>
+                </svg>
+            </a>
+            <a th:if="${#request.getUserPrincipal()} == null" class="btn btn-sm btn-outline-secondary"
+               th:href="${#request.getContextPath()} + '/login'">登录</a>
+            欢迎，<a th:if="${#request.getUserPrincipal()} != null" class="btn btn-sm btn-secondary"
+                  th:href="${#request.getContextPath()} + '/account/management'"
+                  th:text="${#request.getUserPrincipal().getName()}"></a>
+        </div>
+    </div>
+
+</header>
+
+<div th:fragment="category" class="nav-scroller mb-2">
+    <nav class="nav d-flex justify-content-between">
+        <a class="p-2 text-muted" href="#" th:each="category : ${@categoryServiceImpl.getAllCategory()}"
+           th:text="${category.getCategoryName()}"></a>
+    </nav>
+</div>
+
+<aside th:fragment="aside" class="col-md-4">
+
+    <div class="p-4">
+        <h4 class="font-italic">标签</h4>
+        <a class="btn btn-outline-secondary" th:each="tag : ${@tagServiceImpl.getAllTag()}"
+           th:href="${#request.getContextPath()} + '/tag/' + ${tag.getTagId()} + '/articles'"
+           th:text="${tag.getTagName()}" role="button"></a>
+
+    </div>
+
+    <div class="p-4 mb-3 bg-light rounded">
+        <h4 class="font-italic">关于此站</h4>
+        <p class="mb-0">本站为<em>南风博客</em>, 网络并非法外之地，吹水可以，但不能违法。</p>
+    </div>
+
+    <div class="p-4">
+        <h4 class="font-italic">Elsewhere</h4>
+        <ol class="list-unstyled">
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Facebook</a></li>
+        </ol>
+    </div>
+</aside>
+
+<footer th:fragment="footer" class="footer mt-auto py-3 blog-footer">
+    <div class="container">
+        <span class="text-muted">Place sticky footer content here.</span>
+    </div>
+</footer>
+
+
+<nav th:fragment="pagination (page,addition)" th:with="totalPages=${page.getTotalPages()},pageNumber=${page.getNumber()},pageSize=${page.getSize()}" aria-label="Page navigation">
+    <!-- 处理页数小于等于7 的情况 -->
+    <ul th:if="${(totalPages le 7)&&(totalPages gt 0)}"
+        class="pagination justify-content-center">
+        <li th:if="${pageNumber eq 0}" class="page-item disabled"><a class="page-link"
+                                                                     href="#">上一页</a></li>
+        <li th:if="${pageNumber gt 0}" class="page-item">
+            <a class="page-link"
+               th:href="${#request.getContextPath()} + ${#request.getRequestURI()} + '?page=' + (${pageNumber} - 1) + '&size=' + ${pageSize} + ${addition}">上一页</a>
+        </li>
+
+        <li th:each="index:${#numbers.sequence(0,totalPages - 1)}"
+            th:classappend="${index eq pageNumber}?'active'" class="page-item">
+            <a th:href="${#request.getContextPath()} + ${#request.getRequestURI()} + '?page=' + ${index} + '&size=' + ${pageSize} + ${addition}"
+               class="page-link" th:text="${index}"></a>
+        </li>
+
+        <li th:if="${pageNumber + 1 eq totalPages}"
+            class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+        <li th:if="${pageNumber + 1 lt totalPages}" class="page-item">
+            <a class="page-link"
+               th:href="${#request.getContextPath()} + ${#request.getRequestURI()} + '?page=' + (${pageNumber} + 1) + '&size=' + ${pageSize} + ${addition}">下一页</a>
+        </li>
+    </ul>
+
+    <!-- 处理页数大于7 的情况 -->
+    <ul th:if="${totalPages gt 7}" class="pagination justify-content-center">
+        <li th:if="${pageNumber eq 0}" class="page-item disabled"><a class="page-link"
+                                                                     href="#">上一页</a></li>
+        <li th:if="${pageNumber gt 0}" class="page-item">
+            <a class="page-link"
+               th:href="${#request.getContextPath()} + ${#request.getRequestURI()} + '?page=' + (${pageNumber} - 1) + '&size=' + ${pageSize} + ${addition}">上一页</a>
+        </li>
+
+        <!-- 首页 -->
+        <li th:classappend="${pageNumber eq 0}?'active'" class="page-item">
+            <a class="page-link"
+               th:href="${#request.getContextPath()} + ${#request.getRequestURI()} + '?page=0' + '&size=' + ${pageSize} + ${addition}">0</a>
+        </li>
+
+        <!-- 当前页面小于等于4 -->
+        <li th:if="${pageNumber le 3}" th:each="index:${#numbers.sequence(1,4)}"
+            th:classappend="${index eq pageNumber}?'active'" class="page-item">
+            <a th:href="${#request.getContextPath()} + ${#request.getRequestURI()} + '?page=' + ${index} + '&size=' + ${pageSize} + ${addition}"
+               class="page-link" th:text="${index}"></a>
+        </li>
+        <li th:if="${pageNumber le 3}" class="page-item">
+            <a class="page-link"
+               th:href="${#request.getContextPath()} + ${#request.getRequestURI()} + '?page=5' + '&size=' + ${pageSize} + ${addition}">...</a>
+        </li>
+
+        <!-- 最后一页与当前页面之差小于等于3 -->
+        <li th:if="${totalPages - pageNumber le 4}" class="page-item">
+            <a class="page-link"
+               th:href="${#request.getContextPath()} + ${#request.getRequestURI()} + '?page=' + (${totalPages - 6}) + '&size=' + ${pageSize} + ${addition}">...</a>
+        </li>
+        <li th:if="${totalPages - pageNumber le 4}"
+            th:each="index:${#numbers.sequence(totalPages - 5,totalPages - 2)}"
+            th:classappend="${index eq pageNumber}?'active'" class="page-item">
+            <a th:href="${#request.getContextPath()} + ${#request.getRequestURI()} + '?page=' + ${index} + '&size=' + ${pageSize} + ${addition}"
+               class="page-link" th:text="${index}"></a>
+        </li>
+
+        <!-- 最后一页与当前页面之差大于3 且当前页面大于4 -->
+        <li th:if="${(pageNumber gt 3) && (totalPages - pageNumber gt 4)}"
+            class="page-item">
+            <a class="page-link"
+               th:href="${#request.getContextPath()} + ${#request.getRequestURI()} + '?page=' + (${pageNumber} - 2) + '&size=' + ${pageSize} + ${addition}">...</a>
+        </li>
+        <li th:if="${(pageNumber gt 3) && (totalPages - pageNumber gt 4)}"
+            th:each="index:${#numbers.sequence(pageNumber - 1,pageNumber + 1)}"
+            th:classappend="${index eq pageNumber}?'active'" class="page-item">
+            <a class="page-link"
+               th:href="${#request.getContextPath()} + ${#request.getRequestURI()} + '?page=' + ${index} + '&size=' + ${pageSize} + ${addition}"
+               th:text="${index}"></a>
+        </li>
+        <li th:if="${(pageNumber gt 3) && (totalPages - pageNumber gt 4)}"
+            class="page-item">
+            <a class="page-link"
+               th:href="${#request.getContextPath()} + ${#request.getRequestURI()} + '?page=' + (${pageNumber} + 2) + '&size=' + ${addition}">...</a>
+        </li>
+
+        <!-- 尾页 -->
+        <li th:classappend="${pageNumber eq totalPages - 1}?'active'"
+            class="page-item">
+            <a class="page-link"
+               th:href="${#request.getContextPath()} + ${#request.getRequestURI()} + '?page=' + (${totalPages - 1}) + '&size=' + ${pageSize} + ${addition}"
+               th:text="${totalPages - 1}">尾页</a>
+        </li>
+
+        <li th:if="${pageNumber eq totalPages - 1}"
+            class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+        <li th:if="${pageNumber lt totalPages - 1}" class="page-item">
+            <a class="page-link"
+               th:href="${#request.getContextPath()} + ${#request.getRequestURI()} + '?page=' + (${pageNumber} + 1) + '&size=' + ${addition}">下一页</a>
+        </li>
+    </ul>
+</nav>
+
+</body>
+</html>

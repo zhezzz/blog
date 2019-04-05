@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,6 +48,31 @@ public class AccountController {
     @Autowired
     private HttpServletRequest request;
 
+    // 获取账户信息修改界面
+    @GetMapping(value = "/management")
+    public ModelAndView accountManagementPage(@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Account> accountPage = accountService.paginateGetAllAccount(pageable);
+        List<Account> accountList = accountPage.get().collect(Collectors.toList());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("management/admin/AccountManagement");
+        modelAndView.addObject("accountPage",accountPage);
+        modelAndView.addObject("accountList",accountList);
+        return modelAndView;
+    }
+
+
+    // 获取账户信息修改界面 TODO
+    @GetMapping(value = "/mymanagement")
+    public ModelAndView myAccountManagementPage(@PathVariable Long accountId) {
+        String currentUsername = request.getUserPrincipal().getName();
+        Account currentAccount = accountService.getAccountByUsername(currentUsername);
+        Account account = accountService.getAccountByAccountId(accountId);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("management/admin/AccountManagement");
+        modelAndView.addObject(account);
+        return modelAndView;
+    }
+
     // 分页获取所有用户
     @GetMapping(value = "/")
     //	@PreAuthorize("hasAuthority('获取所有账号')")
@@ -62,22 +86,16 @@ public class AccountController {
         return modelAndView;
     }
 
-    // 根据id获取用户主页，若是本人跳转到管理页面，否则跳转到游客浏览页面
+    // 根据id获取用户主页，
     @GetMapping(value = "/{accountId}")
     public ModelAndView getAccountHomePame(@PathVariable Long accountId) {
         Account account = accountService.getAccountByAccountId(accountId);
-        String currentUsername = request.getUserPrincipal().getName();
-        Account currentAccount = accountService.getAccountByUsername(currentUsername);
         List<Article> recentArticlesList = articleService.getRecent10ArticlesByAccount(account);
         List<Comment> recentCommentsList = commentService.getRecent10CommentsByAccount(account);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject(recentArticlesList);
         modelAndView.addObject(recentCommentsList);
-        if (currentAccount.getAccountId().equals(accountId)) {
-            modelAndView.setViewName("AccountOverview");
-        } else {
-            modelAndView.setViewName("AccountHomePage");
-        }
+        modelAndView.setViewName("AccountHomePage");
         return modelAndView;
     }
 
@@ -103,15 +121,7 @@ public class AccountController {
         accountService.deleteAccountByAccountId(accountId);
     }
 
-    // 获取账户信息修改界面
-    @GetMapping(value = "/{accountId}/management")
-    public ModelAndView accountManagementPage(@PathVariable Long accountId) {
-        Account account = accountService.getAccountByAccountId(accountId);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("AccountManagenment");
-        modelAndView.addObject(account);
-        return modelAndView;
-    }
+
 
     // 修改用户权限
     // TODO 待定
@@ -175,7 +185,7 @@ public class AccountController {
         Page<Article> articlePage = articleService.paginateGetArticlesByAccount(account, pageable);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("AccountArticles");
+        modelAndView.setViewName("AccountHomePage");
         modelAndView.addObject(articleList);
         return modelAndView;
     }

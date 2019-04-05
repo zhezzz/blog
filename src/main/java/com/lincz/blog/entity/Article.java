@@ -22,12 +22,12 @@ public class Article {
     private Account account;
 
     @OneToMany(mappedBy = "article", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
-    @OrderBy("createDate desc")
+    @OrderBy("commentId desc")
     private Set<Comment> comments;
 
     // @NotNull
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @OrderBy("tagId asc ")
+    @OrderBy("tagId desc")
     @JoinTable(name = "article_tag", joinColumns = {
             @JoinColumn(name = "articleId", referencedColumnName = "articleId")}, inverseJoinColumns = {
             @JoinColumn(name = "tagId", referencedColumnName = "tagId")})

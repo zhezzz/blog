@@ -21,7 +21,7 @@ public class Category {
     private String categoryName;
 
     @OneToMany(mappedBy = "category", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
-    @OrderBy("createDate desc")
+    @OrderBy("articleId desc")
     private Set<Article> articles;
 
     @NotNull

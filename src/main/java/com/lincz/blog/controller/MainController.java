@@ -38,16 +38,12 @@ public class MainController {
     @GetMapping(value = "/index")
     public ModelAndView index(
             @PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
-        List<Tag> tagList = tagService.getAllTag();
         List<Article> stickArticleList = articleService.getStickArticles();
         Page<Article> articlePage = articleService.paginateGetArticlesByPublish(true, pageable);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());
-        List<Category> categoryList = categoryService.getAllCategory();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("Index");
-        modelAndView.addObject("categoryList", categoryList);
         modelAndView.addObject("articlePage", articlePage);
-        modelAndView.addObject("tagList", tagList);
         modelAndView.addObject("articleList", articleList);
         modelAndView.addObject("stickArticleList", stickArticleList);
         return modelAndView;
@@ -57,16 +53,12 @@ public class MainController {
             @PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime currentMonthStartTime = now.minusDays(now.getDayOfMonth() - 1).minusHours(now.getHour()).minusMinutes(now.getMinute()).minusSeconds(now.getSecond()).minusNanos(now.getNano() + 1);
-        List<Tag> tagList = tagService.getAllTag();
         List<Article> stickArticleList = articleService.getStickArticles();
         Page<Article> articlePage = articleService.paginateGetArticlesByPublish(true, pageable);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());
-        List<Category> categoryList = categoryService.getAllCategory();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("Index");
-        modelAndView.addObject("categoryList", categoryList);
         modelAndView.addObject("articlePage", articlePage);
-        modelAndView.addObject("tagList", tagList);
         modelAndView.addObject("articleList", articleList);
         modelAndView.addObject("stickArticleList", stickArticleList);
         return modelAndView;

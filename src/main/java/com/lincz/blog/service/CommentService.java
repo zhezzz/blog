@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface CommentService {
 
-    Page<Comment> getAllComments(Pageable pageable);
+    Page<Comment> paginateGetAllComments(Pageable pageable);
 
     Page<Comment> paginateGetCommetsByAccount(Account account, Pageable pageable);
 

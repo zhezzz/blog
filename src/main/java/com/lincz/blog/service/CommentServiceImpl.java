@@ -38,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Page<Comment> getAllComments(Pageable pageable) {
+    public Page<Comment> paginateGetAllComments(Pageable pageable) {
         return commentRepository.findAll(pageable);
     }
 

@@ -50,11 +50,11 @@ public class Account implements UserDetails {
     private Set<Authority> authorities;
 
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
-    @OrderBy("createDate desc")
+    @OrderBy("articleId desc")
     private Set<Article> articles;
 
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
-    @OrderBy("createDate desc")
+    @OrderBy("commentId desc")
     private Set<Comment> comments;
 
     @NotNull

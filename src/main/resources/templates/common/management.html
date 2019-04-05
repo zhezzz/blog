@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<head th:fragment="head (title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title th:replace="${title}">123</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/ManagementPage.css}">
+    <link rel="stylesheet" th:href="@{/static/css/themify-icons/themify-icons.css}">
+</head>
+
+<header th:fragment="headerbar" th:with="account=${@accountServiceImpl.getAccountByUsername(#request.getUserPrincipal().getName())}" class="main-navbar-header">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top theme-color">
+        <div class="menu-toggle-button">
+            <a class="nav-link wave-effect" href="#" id="sidebarCollapse">
+                <span class="ti-menu"></span>
+            </a>
+        </div>
+        <a class="navbar-brand" href="#">博客管理</a>
+
+        <ul class="navbar-nav ml-auto navbar-top-links">
+            <li class="dropdown">
+                <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${account.getAccountId()} + '.png'" alt="user-img" width="36" class="img-circle">
+                    <b th:text="${account.getUsername()}" class="d-none d-sm-inline-block"></b></a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li>
+                        <div class="dw-usefr-box">
+                            <div class="u-text">
+                                <h4 th:text="${account.getUsername()}"></h4>
+                                <p class="text-muted" th:text="${account.getEmail()}"></p>
+                            </div>
+                        </div>
+                    </li>
+                    <div class="dropdown-divider"></div>
+                    <li><a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()}"><i class="ti-home"></i> 我的主页</a></li>
+                    <div class="dropdown-divider"></div>
+                    <li><a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()} + '?tab=article'"><i class="ti-receipt"></i> 我的文章</a></li>
+                    <li><a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()} + '?tab=comment'"><i class="ti-comment-alt"></i> 我的评论</a></li>
+                    <div class="dropdown-divider"></div>
+                    <li><a th:href="${#request.getContextPath()} + '/logout'"><i class="ti-power-off"></i> 登出</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<nav th:fragment="sidebar" id="sidebar" class="nav-sidebar">
+    <ul class="list-unstyled components slimescroll-id" id="accordion">
+        <div class="user-profile">
+            <div>
+<!--                <div><img th:src="" alt="user-img" class="img-circle"></div>-->
+            </div>
+        </div>
+
+        <li>
+            <a href="login.html" class="wave-effect">
+                <i class="ti-bar-chart m-r-10"></i>总览
+            </a>
+        </li>
+        <li>
+            <a href="login.html" class="wave-effect">
+                <i class="ti-receipt m-r-10"></i>个人文章管理
+            </a>
+        </li>
+        <li>
+            <a href="login.html" class="wave-effect">
+                <i class="ti-comment-alt m-r-10"></i>个人评论管理
+            </a>
+        </li>
+
+
+<!--        <li class="active">-->
+<!--            <a href="#homeSubmenu" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">-->
+<!--                <i class="ti-home m-r-10"></i> Home-->
+<!--            </a>-->
+<!--            <ul class="collapse list-unstyled" id="homeSubmenu" data-parent="#accordion">-->
+<!--                <li><a href="#">Home 1</a></li>-->
+<!--                <li><a href="#">Home 2</a></li>-->
+<!--                <li><a href="#">Home 3</a></li>-->
+<!--            </ul>-->
+<!--        </li>-->
+
+
+        <li>
+            <a href="login.html" class="wave-effect">
+                <i class="ti-settings m-r-10"></i> 个人账号设置
+            </a>
+        </li>
+
+
+        <li>
+            <a href="login.html" class="wave-effect">
+                <i class="ti-user m-r-10"></i> 账号管理
+            </a>
+        </li>
+        <li>
+            <a href="login.html" class="wave-effect">
+                <i class="ti-receipt m-r-10"></i> 文章管理
+            </a>
+        </li>
+        <li>
+            <a href="login.html" class="wave-effect">
+                <i class="ti-comment-alt m-r-10"></i> 评论管理
+            </a>
+        </li>
+        <li>
+            <a href="login.html" class="wave-effect">
+                <i class="ti-harddrives m-r-10"></i> 分类管理
+            </a>
+        </li>
+        <li>
+            <a href="login.html" class="wave-effect">
+                <i class="ti-tag m-r-10"></i> 标签管理
+            </a>
+        </li>
+
+
+    </ul>
+</nav>
+
+
+
+
+<div th:fragment="articleTable (articleList,articlePage)" class="container-fluid content-area">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header m-b-15">
+                    <h4>文章管理</h4>
+                </div>
+                <div class="table-responsive">
+                    <!--                        <a th:href="${#request.getContextPath()} + '/article/management'" class="btn btn-sm btn-primary">全部文章</a>-->
+                    <!--                        <a th:href="${#request.getContextPath()} + '/article/management?publish=true'" class="btn btn-sm btn-primary">公开文章</a>-->
+                    <!--                        <a th:href="${#request.getContextPath()} + '/article/management?publish=false'" class="btn btn-sm btn-primary">私享文章</a>-->
+                    <table class="table table-bordered table-hover">
+                        <tr>
+                            <th>文章Id</th>
+                            <th>所属分类</th>
+                            <th>标题</th>
+                            <th>作者</th>
+                            <th>发布时间</th>
+                            <th>最近修改时间</th>
+                            <th>文章状态</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr th:each="article : ${articleList}">
+                            <td th:text="${article.getArticleId()}"></td>
+                            <td th:text="${article.getCategory().getCategoryName()}"></td>
+                            <td th:text="${article.getTitle()}"></td>
+                            <td th:text="${article.getAccount().getUsername()}"></td>
+                            <td th:text="${article.getCreateDate().toString().replace('T',' ')}"></td>
+                            <td th:text="${article.getLastModifiedDate().toString().replace('T',' ')}"></td>
+                            <td th:text="${article.isPublish()} ? '公开' : '私享'"></td>
+                            <td>
+                                <a th:if="${article.isPublish()} == false" th:onclick="'setPublish(true,' + ${article.getArticleId()} + ');'" href="#" class="btn btn-sm btn-outline-secondary"><i class="ti-unlock"></i> 设为公开</a>
+                                <a th:if="${article.isPublish()} == true" th:onclick="'setPublish(false,' + ${article.getArticleId()} + ');'" href="#" class="btn btn-sm btn-outline-secondary"><i class="ti-lock"></i> 设为私享</a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#deleteconfirm"  th:onclick="'setArticleId(' + ${article.getArticleId()} + ');'"><i class="ti-trash"></i> 删除</a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary"><i class="ti-pencil-alt"></i> 修改</a>
+                                <a th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()}" class="btn btn-sm btn-outline-secondary"><i class="ti-new-window"></i> 查看</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div th:replace="/common/common :: pagination (page=${articlePage},addition='')"></div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteconfirm" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">警告！</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        是否确认删除文章？
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" onclick="deleteArticle();">删除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+</html>
