@@ -10,6 +10,37 @@
     <link rel="stylesheet" th:href="@{/static/css/waves/waves.min.css}">
 </head>
 <body>
+<div th:replace="common/management :: headerbar"></div>
+<div class="wrapper">
+    <div th:replace="common/management :: sidebar"></div>
+    <div th:replace="common/management :: commentTable (commentList=${commentList},commentPage=${commentPage})"></div>
+</div>
 
+
+<script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>
+<script th:inline="javascript">
+    $(document).ready(function() {
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+    });
+
+    var commentId;
+    function setCommentId(value) {
+        commentId = value;
+    }
+
+    var contextPath = [[${#request.getContextPath()}]];
+    function deleteArticle() {
+        $.ajax({
+            type: "DELETE",
+            url: contextPath + '/comment/' + commentId,
+            success : function (data) {
+                window.location.reload();
+            }
+        })
+    }
+</script>
 </body>
 </html>

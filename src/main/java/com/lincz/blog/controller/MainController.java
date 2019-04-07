@@ -38,7 +38,7 @@ public class MainController {
     @GetMapping(value = "/index")
     public ModelAndView index(
             @PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
-        List<Article> stickArticleList = articleService.getStickArticles();
+        List<Article> stickArticleList = articleService.getArticlesByStick(true);
         Page<Article> articlePage = articleService.paginateGetArticlesByPublish(true, pageable);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
@@ -53,7 +53,7 @@ public class MainController {
             @PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime currentMonthStartTime = now.minusDays(now.getDayOfMonth() - 1).minusHours(now.getHour()).minusMinutes(now.getMinute()).minusSeconds(now.getSecond()).minusNanos(now.getNano() + 1);
-        List<Article> stickArticleList = articleService.getStickArticles();
+        List<Article> stickArticleList = articleService.getArticlesByStick(true);
         Page<Article> articlePage = articleService.paginateGetArticlesByPublish(true, pageable);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();

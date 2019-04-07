@@ -40,7 +40,7 @@ public class ArticleController {
     @Autowired
     private HttpServletRequest request;
 
-    // 获取文章管理页面 TODO spring 能否正确翻译 publish=true
+    // 获取文章管理页面
     @GetMapping(value = "/management")
     public ModelAndView articleManagementPage(
             @PageableDefault(sort = {"articleId"}, direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false) Boolean publish) {
@@ -78,10 +78,25 @@ public class ArticleController {
         return modelAndView;
     }
 
-
-    // 根据文章id查看文章 //TODO 分页获取评论
-    @GetMapping(value = "/{articleId}")
+    // 根据文章id查看文章
+    @GetMapping(value = "/details/{articleId}")
     public ModelAndView articleDetails(@PathVariable Long articleId, @PageableDefault(sort = {"commentId"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        Article article = articleService.getArticleByArticleId(articleId);
+        Page<Comment> commentPage = commentService.paginateGetCommetsByArticle(article, pageable);
+        List<Comment> commentList = commentPage.get().collect(Collectors.toList());
+        articleService.increasePageView(articleId);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("ArticleDetails");
+        modelAndView.addObject("article", article);
+        modelAndView.addObject("commentList", commentList);
+        modelAndView.addObject("commentPage", commentPage);
+        return modelAndView;
+    }
+
+
+    // 根据文章id查看文章 json
+    @GetMapping(value = "/{articleId}")
+    public ModelAndView article(@PathVariable Long articleId, @PageableDefault(sort = {"commentId"}, direction = Sort.Direction.DESC) Pageable pageable) {
         Article article = articleService.getArticleByArticleId(articleId);
         Page<Comment> commentPage = commentService.paginateGetCommetsByArticle(article, pageable);
         List<Comment> commentList = commentPage.get().collect(Collectors.toList());
@@ -134,7 +149,7 @@ public class ArticleController {
 
     //分页获取置顶文章
     public ModelAndView getStickArticles() {
-        List<Article> articleList = articleService.getStickArticles();
+        List<Article> articleList = articleService.getArticlesByStick(true);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("Index");
         modelAndView.addObject(articleList);

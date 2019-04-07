@@ -36,7 +36,7 @@ public class CommentContrller {
     private HttpServletRequest request;
 
     @GetMapping(value = "/management")
-    private ModelAndView commentManagementPage(@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+    private ModelAndView commentManagementPage(@PageableDefault(sort = {"commentId"}, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Comment> commentPage = commentService.paginateGetAllComments(pageable);
         List<Comment> commentList = commentPage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
@@ -47,7 +47,7 @@ public class CommentContrller {
     }
 
     @GetMapping(value = "/mymanagement")
-    private ModelAndView myCommentManagementPage(@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+    private ModelAndView myCommentManagementPage(@PageableDefault(sort = {"commentId"}, direction = Sort.Direction.DESC) Pageable pageable) {
         String currentUsername = request.getUserPrincipal().getName();
         Account currentAccount = accountService.getAccountByUsername(currentUsername);
         Page<Comment> commentPage = commentService.paginateGetCommetsByAccount(currentAccount,pageable);

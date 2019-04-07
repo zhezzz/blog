@@ -115,8 +115,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> getStickArticles() {
-        return articleRepository.findAllByStickTrue();
+    public List<Article> getArticlesByStick(boolean stick) {
+        return articleRepository.findAllByStick(stick);
     }
 
     @Override
@@ -125,8 +125,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<Article> paginateGetArticlesAfterCreatedDateAndPublish(LocalDateTime localDateTime, boolean publish, Pageable pageable) {
-        articleRepository.findAllByCreateDateAfterAndPublish(localDateTime, publish, pageable);
+    public Page<Article> paginateGetArticlesByCreatedDateBetweenAndPublish(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime, boolean publish, Pageable pageable) {
+        articleRepository.findAllByCreateDateBetweenAndPublish(startLocalDateTime, endLocalDateTime, publish, pageable);
         return null;
     }
 }

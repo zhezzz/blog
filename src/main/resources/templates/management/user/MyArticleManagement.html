@@ -7,7 +7,6 @@
     <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/ManagementPage.css}">
     <link rel="stylesheet" th:href="@{/static/css/themify-icons/themify-icons.css}">
-    <link rel="stylesheet" th:href="@{/static/css/waves/waves.min.css}">
 </head>
 <body>
 
@@ -21,13 +20,13 @@
 <script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>
 <script th:inline="javascript">
-    $(document).ready(function() {
-        $('#sidebarCollapse').on('click', function() {
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
             $('#sidebar').toggleClass('active');
         });
     });
 
-    function setPublish(publish,articleId) {
+    function setPublish(publish, articleId) {
         if (publish == 'true') {
             publish = true;
         }
@@ -38,16 +37,18 @@
     }
 
     var articleId;
+
     function setArticleId(value) {
         articleId = value;
     }
 
     var contextPath = [[${#request.getContextPath()}]];
+
     function deleteArticle() {
         $.ajax({
             type: "DELETE",
             url: contextPath + '/article/' + articleId,
-            success : function (data) {
+            success: function (data) {
                 window.location.reload();
             }
         })

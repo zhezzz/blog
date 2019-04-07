@@ -40,10 +40,10 @@ public interface ArticleService {
 
     boolean isArticleExistsAndPublish(Long articleId, boolean publish);
 
-    List<Article> getStickArticles();
+    List<Article> getArticlesByStick(boolean stick);
 
     List<Article> getRecent10ArticlesByAccount(Account account);
 
-    Page<Article> paginateGetArticlesAfterCreatedDateAndPublish(LocalDateTime localDateTime, boolean publish, Pageable pageable);
+    Page<Article> paginateGetArticlesByCreatedDateBetweenAndPublish(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime, boolean publish, Pageable pageable);
 
 }

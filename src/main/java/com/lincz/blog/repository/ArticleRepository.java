@@ -29,8 +29,17 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Page<Article> findAllByCategoryAndPublish(Category category, boolean publish, Pageable pageable);
 
-    List<Article> findAllByStickTrue();
+    List<Article> findAllByStick(boolean stick);
 
-    Page<Article> findAllByCreateDateAfterAndPublish(LocalDateTime localDateTime, boolean publish, Pageable pageable);
+//    Page<Article> findAllByCreateDateAfterAndPublish(LocalDateTime localDateTime, boolean publish, Pageable pageable);
+
+    Page<Article> findAllByCreateDateBetweenAndPublish(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime, boolean publish, Pageable pageable);
+
+    Page<Article> findAllByCreateDateBetween(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime, Pageable pageable);
+
+    Page<Article> findAllByTitleContaining(String keyword);
+
+    Page<Article> findAllByAccount_Username(String username);
+
 
 }
