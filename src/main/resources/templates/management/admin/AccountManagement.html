@@ -10,16 +10,92 @@
 </head>
 <body>
 
-<form th:action="${#request.getContextPath()} + '/account/update/info/' + ${account.getAccountId()}" method="post">
-    密码<input th:text="${account.getPassword()}" type="password" name="password">
-    邮箱<input th:text="${account.getEmail()}" type="text" name="email">
-    <p><input type="submit" value="提交"/></p>
-</form>
+<div th:replace="common/management :: headerbar"></div>
+<div class="wrapper">
+    <div th:replace="common/management :: sidebar"></div>
+    <div class="container-fluid content-area">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header m-b-15">
+                        <h4>账号管理</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <a th:href="${#request.getContextPath()} + '/account/management'"
+                           class="btn btn-sm btn-primary">全部账号</a>
+                        <a th:href="${#request.getContextPath()} + '/account/management?publish=true'"
+                           class="btn btn-sm btn-primary">正常账号</a>
+                        <a th:href="${#request.getContextPath()} + '/account/management?publish=false'"
+                           class="btn btn-sm btn-primary">封禁账号</a>
+                        <table class="table table-bordered table-hover">
+                            <tr>
+                                <th>账号id</th>
+                                <th>用户名</th>
+                                <th>电子邮箱</th>
+                                <th>角色</th>
+                                <th>创建时间</th>
+                                <th>最近修改时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                            <tr th:each="article : ${articleList}">
+                                <td th:text="${article.getArticleId()}"></td>
+                                <td th:text="${article.getCategory().getCategoryName()}"></td>
+                                <td th:text="${#strings.abbreviate(article.getTitle(),35)}"></td>
+                                <td th:text="${article.getAccount().getUsername()}"></td>
+                                <td th:text="${article.getCreateDate().toString().replace('T',' ')}"></td>
+                                <td th:text="${article.getLastModifiedDate().toString().replace('T',' ')}"></td>
+                                <td th:text="${article.isPublish()} ? '公开' : '私享'"></td>
+                                <td>
+                                    <!--                                <a th:if="${article.isPublish()} == false"-->
+                                    <!--                                   th:onclick="'setPublish(true,' + ${article.getArticleId()} + ');'" href="#"-->
+                                    <!--                                   class="btn btn-sm btn-outline-secondary"><i class="ti-unlock"></i> 设为公开</a>-->
+                                    <!--                                <a th:if="${article.isPublish()} == true"-->
+                                    <!--                                   th:onclick="'setPublish(false,' + ${article.getArticleId()} + ');'" href="#"-->
+                                    <!--                                   class="btn btn-sm btn-outline-secondary"><i class="ti-lock"></i> 设为私享</a>-->
+                                    <a href="#" class="btn btn-sm btn-outline-secondary" data-toggle="modal"
+                                       data-target="#deleteArticleConfirm"
+                                       th:onclick="setArticleId([[${article.getArticleId()}]]);"><i
+                                            class="ti-trash"></i> 删除</a>
+                                    <a th:href="${#request.getContextPath()} + '/article/update/' + ${article.getArticleId()}"
+                                       class="btn btn-sm btn-outline-secondary"><i class="ti-pencil-alt"></i>
+                                        修改</a>
+                                    <a th:href="${#request.getContextPath()} + '/article/details/' + ${article.getArticleId()}"
+                                       class="btn btn-sm btn-outline-secondary"><i class="ti-new-window"></i> 查看</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <nav th:replace="/common/common :: pagination (page=${articlePage},addition='')"></nav>
+                </div>
+            </div>
 
-<form th:action="${#request.getContextPath()} + '/account/update/' + ${account.getAccountId()} + '/avatar/'" method="post" enctype="multipart/form-data">
-    头像<p>选择文件: <input type="file" name="avatar"/></p>
-    <p><input type="submit" value="提交"/></p>
-</form>
+            <!-- Modal -->
+            <div class="modal fade" id="deleteArticleConfirm" tabindex="-1" role="dialog"
+                 aria-labelledby="articleModalTitle"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="articleModalTitle">警告！</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            是否确认删除文章？
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" onclick="deleteArticle();">删除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
 

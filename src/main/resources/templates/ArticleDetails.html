@@ -107,7 +107,7 @@
             <form th:action="${#request.getContextPath()} + '/comment/' + ${article.getArticleId()}" method="post">
                 <label for="exampleFormControlTextarea1">评论区</label>
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="content" maxlength="200"
-                          minlength="10"></textarea>
+                          minlength="5"></textarea>
                 <button type="submit" class="btn btn-primary mb-2">发布</button>
             </form>
             <ul class="list-unstyled">

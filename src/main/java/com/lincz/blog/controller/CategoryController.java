@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,41 +32,36 @@ public class CategoryController {
 
     // 分类管理页面
     @GetMapping(value = "/management")
-    //	@PreAuthorize("hasAuthority('类目管理')")
-    public ModelAndView categoryManagementPage() {
-        List<Category> categoryList = categoryService.getAllCategory();
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
+    public ModelAndView categoryManagementPage(@PageableDefault(sort = {"categoryId"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Category> categoryPage = categoryService.paginateGetAllCategory(pageable);
+        List<Category> categoryList = categoryPage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("management/admin/CategoryManagement");
-        modelAndView.addObject(categoryList);
+        modelAndView.addObject("categoryPage", categoryPage);
+        modelAndView.addObject("categoryList", categoryList);
         return modelAndView;
     }
 
     // 添加分类
     @PostMapping(value = "/")
-    //	@PreAuthorize("hasAuthority('类目管理')")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
     public Category addCategory(@RequestBody Category categoryDTO) {
         return categoryService.createCategory(categoryDTO);
     }
 
-    // 删除分类，级联删除分类下的所有文章
+    // 删除分类，级联删除分类下的所有文章 仅限ROOT操作
     @DeleteMapping(value = "/{categoryId}")
-    //	@PreAuthorize("hasAuthority('权限管理')")
+    @PreAuthorize("hasAnyRole('ROOT')")
     public void deleteCategory(@PathVariable Long categoryId) {
         categoryService.deleteCategoryByCategoryId(categoryId);
     }
 
     // 修改分类
     @PutMapping(value = "/{categoryId}")
-    //	@PreAuthorize("hasAuthority('类目管理')")
-    public Category updateCategory(@PathVariable Long categoryId, @RequestBody Category categoryDTO) {
-        return categoryService.updateCategory(categoryId, categoryDTO);
-    }
-
-    //根据id查询分类
-    @GetMapping(value = "/{categoryId}")
-    //	@PreAuthorize("hasAuthority('类目管理')")
-    public Category getCategoryByCategoryId(@PathVariable Long categoryId) {
-        return categoryService.getCategoryByCategoryId(categoryId);
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
+    public void updateCategory(@PathVariable Long categoryId, @RequestBody Category categoryDTO) {
+        categoryService.updateCategory(categoryId, categoryDTO);
     }
 
     // 分页列出一个分类下的所有文章

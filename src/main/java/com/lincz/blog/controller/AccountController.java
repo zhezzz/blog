@@ -1,18 +1,17 @@
 package com.lincz.blog.controller;
 
 import com.lincz.blog.entity.Article;
-import com.lincz.blog.entity.Authority;
 import com.lincz.blog.entity.Comment;
 import com.lincz.blog.entity.Account;
 import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
-import com.lincz.blog.service.AuthorityService;
 import com.lincz.blog.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,27 +41,27 @@ public class AccountController {
     @Autowired
     private CommentService commentService;
 
-    @Autowired
-    private AuthorityService authorityService;
 
     @Autowired
     private HttpServletRequest request;
 
     // 获取账户信息修改界面
     @GetMapping(value = "/management")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
     public ModelAndView accountManagementPage(@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Account> accountPage = accountService.paginateGetAllAccount(pageable);
         List<Account> accountList = accountPage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("management/admin/AccountManagement");
-        modelAndView.addObject("accountPage",accountPage);
-        modelAndView.addObject("accountList",accountList);
+        modelAndView.addObject("accountPage", accountPage);
+        modelAndView.addObject("accountList", accountList);
         return modelAndView;
     }
 
 
-    // 获取账户信息修改界面 TODO
+    // 获取账户信息修改界面
     @GetMapping(value = "/mymanagement")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public ModelAndView myAccountManagementPage(@PathVariable Long accountId) {
         String currentUsername = request.getUserPrincipal().getName();
         Account currentAccount = accountService.getAccountByUsername(currentUsername);
@@ -73,21 +72,10 @@ public class AccountController {
         return modelAndView;
     }
 
-    // 分页获取所有用户
-    @GetMapping(value = "/")
-    //	@PreAuthorize("hasAuthority('获取所有账号')")
-    public ModelAndView paginateGetAllAccount(
-            @PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Account> accountPage = accountService.paginateGetAllAccount(pageable);
-        List<Account> accountList = accountPage.get().collect(Collectors.toList());
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("");
-        modelAndView.addObject(accountList);
-        return modelAndView;
-    }
 
     // 根据id获取用户主页，
-    @GetMapping(value = "/{accountId}")
+    @GetMapping(value = "/homepage/{accountId}")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public ModelAndView getAccountHomePame(@PathVariable Long accountId) {
         Account account = accountService.getAccountByAccountId(accountId);
         List<Article> recentArticlesList = articleService.getRecent10ArticlesByAccount(account);
@@ -100,54 +88,37 @@ public class AccountController {
     }
 
     // 创建新用户
-    @PostMapping(value = "/")
-    public Account createAccount(@RequestBody Account accountDTO) {
-        Account account = accountService.createAccount(accountDTO);
-        return account;
+    @PostMapping(value = "")
+    public ModelAndView createAccount(Account accountDTO) {
+        ModelAndView modelAndView = new ModelAndView();
+        if (accountService.getAccountByUsername(accountDTO.getUsername()) != null) {
+            modelAndView.setViewName("redirect:/register?occupy=yes");
+            return modelAndView;
+        }
+        //TODO 更多校验
+        Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail(),"USER");
+        accountService.createAccount(account);
+        modelAndView.setViewName("redirect:/index");
+        return modelAndView;
     }
 
     // 修改用户信息
     @PutMapping(value = "/{accountId}")
-    //	@PreAuthorize("hasAuthority('修改账号')")
-    public String updateAccount(@PathVariable Long accountId, @RequestBody Account accountDTO) {
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
+    public void updateAccount(@PathVariable Long accountId, @RequestBody Account accountDTO) {
         accountService.updateAccountInfo(accountId, accountDTO);
-        return "redirect:/";
     }
 
     // 删除账号
     @DeleteMapping(value = "/{accountId}")
-    //	@PreAuthorize("hasAuthority('删除账号')")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
     public void deleteAccount(@PathVariable Long accountId) {
         accountService.deleteAccountByAccountId(accountId);
     }
 
-
-
-    // 修改用户权限
-    // TODO 待定
-    @PostMapping(value = "/update/{accountId}/authority")
-    public Account updateAccountAuthority(@PathVariable Long accountId, List<Long> authorityIdList) {
-        Set<Authority> authorities = new HashSet<>();
-        for (Long authorityId : authorityIdList) {
-            Authority authority = authorityService.getAuthorityByAuthorityId(authorityId);
-            if (authority != null) {
-                authorities.add(authority);
-            }
-        }
-        return accountService.updateAccountAuthority(accountId, authorities);
-    }
-
-    //获取用户权限
-    @GetMapping(value = "/getauth")
-    public Collection<? extends GrantedAuthority> getget() {
-        Account account = accountService.getAccountByAccountId(Long.valueOf(1));
-        Collection<? extends GrantedAuthority> authorities = account.getAuthorities();
-        return authorities;
-    }
-
     // 修改头像 //TODO 或者PUT？
     @PostMapping(value = "/{accountId}/avatar")
-    //	@PreAuthorize("hasAuthority('修改账号')")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public void updateAccountAvatar(@PathVariable Long accountId, @RequestParam(value = "avatar") MultipartFile avatar)
             throws IOException {
         if (!avatar.isEmpty()) {
@@ -190,13 +161,4 @@ public class AccountController {
         return modelAndView;
     }
 
-    // 验证用户名唯一性
-    @PostMapping(value = "/verify_username_uniqueness")
-    public boolean verifyUniqueness(String username) {
-        if (accountService.getAccountByUsername(username) == null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }

@@ -42,6 +42,7 @@ public class ArticleController {
 
     // 获取文章管理页面
     @GetMapping(value = "/management")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
     public ModelAndView articleManagementPage(
             @PageableDefault(sort = {"articleId"}, direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false) Boolean publish) {
         Page<Article> articlePage;
@@ -60,6 +61,7 @@ public class ArticleController {
 
     // 获取个人文章管理页面
     @GetMapping(value = "/mymanagement")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public ModelAndView myArticleManagementPage(
             @PageableDefault(sort = {"articleId"}, direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false) Boolean publish) {
         String currentUsername = request.getUserPrincipal().getName();
@@ -93,25 +95,9 @@ public class ArticleController {
         return modelAndView;
     }
 
-
-    // 根据文章id查看文章 json
-    @GetMapping(value = "/{articleId}")
-    public ModelAndView article(@PathVariable Long articleId, @PageableDefault(sort = {"commentId"}, direction = Sort.Direction.DESC) Pageable pageable) {
-        Article article = articleService.getArticleByArticleId(articleId);
-        Page<Comment> commentPage = commentService.paginateGetCommetsByArticle(article, pageable);
-        List<Comment> commentList = commentPage.get().collect(Collectors.toList());
-        articleService.increasePageView(articleId);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("ArticleDetails");
-        modelAndView.addObject("article", article);
-        modelAndView.addObject("commentList", commentList);
-        modelAndView.addObject("commentPage", commentPage);
-        return modelAndView;
-    }
-
     // 发布文章
     @GetMapping(value = "/post")
-    //	@PreAuthorize("hasAuthority('发布文章')")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public ModelAndView postArticleView() {
         String currentUsername = request.getUserPrincipal().getName();
         Account currentAccount = accountService.getAccountByUsername(currentUsername);
@@ -123,6 +109,7 @@ public class ArticleController {
 
     // 获取修改文章页面
     @GetMapping(value = "/update/{articleId}")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public ModelAndView updateArticlePage(@PathVariable Long articleId) {
         Article article = articleService.getArticleByArticleId(articleId);
         ModelAndView modelAndView = new ModelAndView();
@@ -131,9 +118,9 @@ public class ArticleController {
         return modelAndView;
     }
 
-    // 修改文章
+    // 修改文章 TODO tiaozhaun
     @PutMapping(value = "/{articleId}")
-    //	@PreAuthorize("hasAuthority('修改文章')")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public ModelAndView putArticle(@PathVariable Long articleId, @RequestBody Article articleDTO) {
         articleService.updateArticle(articleId, articleDTO);
         ModelAndView modelAndView = new ModelAndView("redirect:/article/details/" + articleId);
@@ -142,23 +129,14 @@ public class ArticleController {
 
     // 删除文章
     @DeleteMapping(value = "/{articleId}")
-    //	@PreAuthorize("hasAuthority('删除文章')")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public void delete(@PathVariable Long articleId) {
         articleService.deleteArticleByArticleId(articleId);
     }
 
-    //分页获取置顶文章
-    public ModelAndView getStickArticles() {
-        List<Article> articleList = articleService.getArticlesByStick(true);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("Index");
-        modelAndView.addObject(articleList);
-        return modelAndView;
-    }
-
     // 上传图片
     @PostMapping(value = "/{articleId}/upload")
-//	@PreAuthorize("hasAuthority('发布文章')")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public Response uploadImage(@PathVariable Long articleId, @RequestPart(value = "upload") MultipartFile imageFile)
             throws IOException {
         String originalFileName = imageFile.getOriginalFilename();

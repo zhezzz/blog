@@ -49,7 +49,7 @@ public class MainController {
         return modelAndView;
     }
 
-    public ModelAndView hotest(
+    public ModelAndView hotest( //TODO
             @PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime currentMonthStartTime = now.minusDays(now.getDayOfMonth() - 1).minusHours(now.getHour()).minusMinutes(now.getMinute()).minusSeconds(now.getSecond()).minusNanos(now.getNano() + 1);
@@ -64,12 +64,12 @@ public class MainController {
         return modelAndView;
     }
 
-    @GetMapping(value = "/login")
-    public ModelAndView loginPage() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("Login");
-        return modelAndView;
-    }
+//    @GetMapping(value = "/login")
+//    public ModelAndView loginPage() {
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("Login");
+//        return modelAndView;
+//    }
 
     @GetMapping(value = "/register")
     public ModelAndView registerPage() {
@@ -78,16 +78,5 @@ public class MainController {
         return modelAndView;
     }
 
-    // 注册用户
-    @PostMapping(value = "/register")
-    public String createAccount(Account accountDTO) {
-        if (accountService.getAccountByUsername(accountDTO.getUsername()) != null) {
-            return "redirect:/register?occupy=yes";
-        }
-        //TODO 更多校验
-        Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail());
-        accountService.createAccount(account);
-        return "redirect:/";
-    }
 
 }

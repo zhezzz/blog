@@ -36,6 +36,7 @@ public class CommentContrller {
     private HttpServletRequest request;
 
     @GetMapping(value = "/management")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
     private ModelAndView commentManagementPage(@PageableDefault(sort = {"commentId"}, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Comment> commentPage = commentService.paginateGetAllComments(pageable);
         List<Comment> commentList = commentPage.get().collect(Collectors.toList());
@@ -47,6 +48,7 @@ public class CommentContrller {
     }
 
     @GetMapping(value = "/mymanagement")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     private ModelAndView myCommentManagementPage(@PageableDefault(sort = {"commentId"}, direction = Sort.Direction.DESC) Pageable pageable) {
         String currentUsername = request.getUserPrincipal().getName();
         Account currentAccount = accountService.getAccountByUsername(currentUsername);
@@ -59,63 +61,35 @@ public class CommentContrller {
         return modelAndView;
     }
 
-    @GetMapping(value = "/")
-    //	@PreAuthorize("hasAuthority('获取所有评论')")
-    private ModelAndView getAllComments(
-            @PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Comment> commentList = commentService.paginateGetAllComments(pageable);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("AccountComments");
-        modelAndView.addObject(commentList);
-        return modelAndView;
-    }
-
     // 发表评论
     @PostMapping(value = "/{articleId}")
-    //	@PreAuthorize("hasAuthority('发布评论')")
-    public String postComment(@PathVariable Long articleId, @RequestBody Comment commentDTO) {
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
+    public ModelAndView postComment(@PathVariable Long articleId, @RequestBody Comment commentDTO) {
         Article article = articleService.getArticleByArticleId(articleId);
         String currentUsername = request.getUserPrincipal().getName();
         Account currentAccount = accountService.getAccountByUsername(currentUsername);
         commentDTO.setArticle(article);
         commentDTO.setAccount(currentAccount);
-        if (commentDTO.getContent().length() >= 30 && commentDTO.getContent().length() <= 200) {
+        if (commentDTO.getContent().length() >= 5 && commentDTO.getContent().length() <= 200) {
             commentService.createComment(commentDTO);
         }
-        return "redirect:/article/details/" + articleId;
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/article/details/" + articleId);
+        return modelAndView;
     }
 
     // 删除评论
     @DeleteMapping(value = "/{commentId}")
-    //	@PreAuthorize("hasAuthority('删除评论')")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public void deleteComment(@PathVariable Long commentId) {
         commentService.deleteCommentByCommentId(commentId);
     }
 
-    // 修改评论页面
-    @GetMapping(value = "/update/{commentId}")
-    //	@PreAuthorize("hasAuthority('修改评论')")
-    public ModelAndView updateCommentPage(@PathVariable Long commentId) {
-        Comment comment = commentService.getCommentByCommentId(commentId);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("UpdateComment");
-        modelAndView.addObject(comment);
-        return modelAndView;
-    }
-
     // 修改评论
     @PutMapping(value = "/{commentId}")
-    //	@PreAuthorize("hasAuthority('修改评论')")
-    public String updateComment(@PathVariable Long commentId, @RequestBody Comment commentDTO) {
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
+    public void updateComment(@PathVariable Long commentId, @RequestBody Comment commentDTO) {
         Comment comment = commentService.updateComment(commentId, commentDTO);
-        return "redirect:/article/details/" + comment.getArticle().getArticleId();
-    }
-
-    // 根据id查询评论
-    @GetMapping(value = "/{commentId}")
-    public Comment getCommentByCommentId(@PathVariable Long commentId) {
-        Comment comment = commentService.getCommentByCommentId(commentId);
-        return comment;
     }
 
 }

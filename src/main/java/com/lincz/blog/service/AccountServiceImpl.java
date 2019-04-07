@@ -1,7 +1,6 @@
 package com.lincz.blog.service;
 
 import com.lincz.blog.entity.Account;
-import com.lincz.blog.entity.Authority;
 import com.lincz.blog.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,9 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -40,13 +37,6 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account updateAccountAuthority(Long accountId, Set<Authority> authorities) {
-        Account account = accountRepository.findById(accountId).orElse(null);
-        account.setAuthorities(authorities);
-        return account;
-    }
-
-    @Override
     public Account updateAccountInfo(Long accountId, Account accountDTO) {
         Account account = accountRepository.findById(accountId).orElse(null);
         account.setEmail(accountDTO.getEmail());
@@ -61,7 +51,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account createAccount(Account accountDTO) {
-        Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail());
+        Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail(),"USER");
         return accountRepository.save(account);
     }
 

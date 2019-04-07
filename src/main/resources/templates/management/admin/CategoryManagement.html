@@ -13,7 +13,97 @@
 <div class="wrapper">
     <div th:replace="common/management :: sidebar"></div>
     <div class="container content-area">
+        <div class="container-fluid content-area">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header m-b-15">
+                            <h4>分类管理</h4>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <tr>
+                                    <th>分类id</th>
+                                    <th>分类名称</th>
+                                    <th>发布时间</th>
+                                    <th>最近修改时间</th>
+                                    <th>操作</th>
+                                </tr>
+                                <tr th:each="category : ${categoryList}">
+                                    <td th:text="${category.getCategoryId()}"></td>
+                                    <td th:text="${category.getCategoryName()}"></td>
+                                    <td th:text="${category.getCreateDate().toString().replace('T',' ')}"></td>
+                                    <td th:text="${category.getLastModifiedDate().toString().replace('T',' ')}"></td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-outline-secondary" data-toggle="modal"
+                                           data-target="#deleteCategoryConfirm"
+                                           th:onclick="setCategory([[${category.getCategoryId()}]],'');">
+                                            <i class="ti-trash"></i> 删除</a>
+                                        <a href="#" class="btn btn-sm btn-outline-secondary" data-toggle="modal"
+                                           data-target="#updateCategory"
+                                           th:onclick="setCategory([[${category.getCategoryId()}]],[[${category.getCategoryName()}]]);">
+                                            <i class="ti-pencil-alt"></i> 修改</a>
+                                        <a th:href="${#request.getContextPath()} + '/category/' +  + ${category.getCategoryId()} + '/articles/'"
+                                           class="btn btn-sm btn-outline-secondary"><i class="ti-new-window"></i> 查看</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div th:replace="/common/common :: pagination (page=${categoryPage},addition='')"></div>
+                    </div>
+                </div>
 
+                <!-- Modal -->
+                <div class="modal fade" id="deleteCategoryConfirm" tabindex="-1" role="dialog"
+                     aria-labelledby="deleteCategoryModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteCategoryModalTitle">警告！</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                是否确认删除分类，分类下的所有文章都会同时删除？
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-primary" onclick="deleteCategory();">删除</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="updateCategory" tabindex="-1" role="dialog"
+                     aria-labelledby="updateCategoryModalTitle"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="updateCategoryModalTitle">修改分类</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="category-name" class="col-form-label">分类名称:</label>
+                                        <textarea class="form-control" id="category-name" maxlength="200"
+                                                  minlength="10"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-primary" onclick="updateCategory();">保存</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -22,26 +112,48 @@
 <script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('#sidebarCollapse').on('click', function() {
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
             $('#sidebar').toggleClass('active');
         });
     });
 
-</script>
-<script th:inline="javascript">
+    var categoryId;
+
+    function setCategory(id, name) {
+        categoryId = id;
+        document.getElementById('category-name').value = name;
+    }
+
     var contextPath = [[${#request.getContextPath()}]];
 
-    function submit() {
-        var categoryData = {
-            categoryName: "yi级分类",
+    function updateCategory() {
+        var name = document.getElementById('category-name').value;
+        var categorytData = {
+            categoryName: name
         }
         $.ajax({
-            type: "POST",
-            url: contextPath + '/category',
+            type: "PUT",
+            url: contextPath + '/category/' + categoryId,
             dataType: 'json',
             contentType: 'application/json',
-            data: JSON.stringify(categoryData)
+            data: JSON.stringify(categorytData),
+            success: function (data) {
+                window.location.reload();
+            },
+            error: function (data) {
+                window.location.reload();
+            }
+        })
+    }
+
+    function deleteCategory() {
+        $.ajax({
+            type: "DELETE",
+            url: contextPath + '/category/' + commentId,
+            success: function (data) {
+                window.location.reload();
+            }
         })
     }
 </script>

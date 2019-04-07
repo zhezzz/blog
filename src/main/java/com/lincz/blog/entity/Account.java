@@ -5,6 +5,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -41,13 +42,8 @@ public class Account implements UserDetails {
     @Email
     private String email;
 
-    //	@NotNull
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-//	@OrderBy("authorityId asc ")
-    @JoinTable(name = "account_authority", joinColumns = {
-            @JoinColumn(name = "accountId", referencedColumnName = "accountId")}, inverseJoinColumns = {
-            @JoinColumn(name = "authorityId", referencedColumnName = "authorityId")})
-    private Set<Authority> authorities;
+    @NotNull
+    private String role;
 
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
     @OrderBy("articleId desc")
@@ -74,21 +70,11 @@ public class Account implements UserDetails {
 
     public Account(@NotNull(message = "用户名不能为空") @Length(min = 3, max = 16) String username,
                    @NotNull(message = "密码不能为空") @Length(min = 4, max = 16) String password,
-                   @NotNull(message = "电子邮箱地址不能为空") @Email String email) {
-//		Set<Authority> authorities = new HashSet<>();
-//		authorities.add(new Authority("发布文章"));
-//		authorities.add(new Authority("删除文章"));
-//		authorities.add(new Authority("修改文章"));
-//		authorities.add(new Authority("获取文章"));
-//		authorities.add(new Authority("发布评论"));
-//		authorities.add(new Authority("删除评论"));
-//		authorities.add(new Authority("修改评论"));
-//		authorities.add(new Authority("删除账号"));
-//		authorities.add(new Authority("修改账号"));
+                   @NotNull(message = "电子邮箱地址不能为空") @Email String email, @NotNull String role) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.authorities = authorities;
+        this.role = role;
         this.accountNonExpired = true;
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
@@ -96,7 +82,9 @@ public class Account implements UserDetails {
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        Collection<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + this.role));
+        return grantedAuthorities;
     }
 
     public Set<Article> getArticles() {
@@ -199,8 +187,11 @@ public class Account implements UserDetails {
         this.comments = comments;
     }
 
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
+    public String getRole() {
+        return role;
     }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

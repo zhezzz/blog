@@ -26,24 +26,13 @@
         });
     });
 
-    function setPublish(publish, articleId) {
-        if (publish == 'true') {
-            publish = true;
-        }
-        if (publish == 'false') {
-            publish = false;
-        }
-
-    }
 
     var articleId;
-
-    function setArticleId(value) {
-        articleId = value;
+    function setArticleId(id) {
+        articleId = id;
     }
 
     var contextPath = [[${#request.getContextPath()}]];
-
     function deleteArticle() {
         $.ajax({
             type: "DELETE",

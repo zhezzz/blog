@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,6 +28,7 @@ public class TagController {
 
     // 标签管理页面
     @GetMapping(value = "/management")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
     public ModelAndView tagManagementPage() {
         List<Tag> tagList = tagService.getAllTag();
         ModelAndView modelAndView = new ModelAndView();
@@ -35,35 +37,25 @@ public class TagController {
         return modelAndView;
     }
 
-    //获取所有标签
-    @GetMapping(value = "/")
-    public List<Tag> getAllTag() {
-        List<Tag> tagList = tagService.getAllTag();
-        return tagList;
-    }
-
     // 添加标签
     @PostMapping(value = "/")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public Tag addTag(@RequestBody Tag tagDTO) {
         return tagService.createCategory(tagDTO);
     }
 
     // 删除标签
     @DeleteMapping(value = "/{tagId}")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
     public void deleteTag(@PathVariable Long tagId) {
         tagService.deleteTagByTagId(tagId);
     }
 
     // 修改标签
     @PutMapping(value = "/{tagId}")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
     public Tag updateTag(@PathVariable Long tagId, @RequestBody Tag tagDTO) {
         return tagService.updateTag(tagId, tagDTO);
-    }
-
-    //根据id查询标签
-    @GetMapping(value = "/{tagId}")
-    public Tag getTagByTagId(@PathVariable Long tagId) {
-        return tagService.getTagByTagId(tagId);
     }
 
     // 分页列出一个标签对应的所有文章

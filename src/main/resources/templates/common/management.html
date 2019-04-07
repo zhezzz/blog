@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 
-<header th:fragment="headerbar" th:with="account=${@accountServiceImpl.getAccountByUsername(#request.getUserPrincipal().getName())}" class="main-navbar-header">
+<header th:fragment="headerbar"
+        th:with="account=${@accountServiceImpl.getAccountByUsername(#request.getUserPrincipal().getName())}"
+        class="main-navbar-header">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top theme-color">
         <div class="menu-toggle-button">
             <a class="nav-link wave-effect" href="#" id="sidebarCollapse">
@@ -17,7 +19,9 @@
 
         <ul class="navbar-nav ml-auto navbar-top-links">
             <li class="dropdown">
-                <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${account.getAccountId()} + '.png'" alt="user-img" width="36" class="img-circle">
+                <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img
+                        th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${account.getAccountId()} + '.png'"
+                        alt="user-img" width="36" class="img-circle">
                     <b th:text="${account.getUsername()}" class="d-none d-sm-inline-block"></b></a>
                 <ul class="dropdown-menu dropdown-user">
                     <li>
@@ -29,10 +33,15 @@
                         </div>
                     </li>
                     <div class="dropdown-divider"></div>
-                    <li><a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()}"><i class="ti-home"></i> 我的主页</a></li>
+                    <li><a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()}"><i
+                            class="ti-home"></i> 我的主页</a></li>
                     <div class="dropdown-divider"></div>
-                    <li><a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()} + '?tab=article'"><i class="ti-receipt"></i> 我的文章</a></li>
-                    <li><a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()} + '?tab=comment'"><i class="ti-comment-alt"></i> 我的评论</a></li>
+                    <li>
+                        <a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()} + '?tab=article'"><i
+                                class="ti-receipt"></i> 我的文章</a></li>
+                    <li>
+                        <a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()} + '?tab=comment'"><i
+                                class="ti-comment-alt"></i> 我的评论</a></li>
                     <div class="dropdown-divider"></div>
                     <li><a th:href="${#request.getContextPath()} + '/logout'"><i class="ti-power-off"></i> 登出</a></li>
                 </ul>
@@ -46,7 +55,7 @@
     <ul class="list-unstyled components" id="accordion">
         <div class="user-profile">
             <div>
-<!--                <div><img th:src="" alt="user-img" class="img-circle"></div>-->
+                <!--                <div><img th:src="" alt="user-img" class="img-circle"></div>-->
             </div>
         </div>
 
@@ -56,58 +65,58 @@
             </a>
         </li>
         <li>
-            <a href="login.html">
+            <a th:href="${#request.getContextPath()} + '/article/mymanagement">
                 <i class="ti-receipt m-r-10"></i>个人文章管理
             </a>
         </li>
         <li>
-            <a href="login.html">
+            <a th:href="${#request.getContextPath()} + '/comment/mymanagement">
                 <i class="ti-comment-alt m-r-10"></i>个人评论管理
             </a>
         </li>
 
 
-<!--        <li class="active">-->
-<!--            <a href="#homeSubmenu" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">-->
-<!--                <i class="ti-home m-r-10"></i> Home-->
-<!--            </a>-->
-<!--            <ul class="collapse list-unstyled" id="homeSubmenu" data-parent="#accordion">-->
-<!--                <li><a href="#">Home 1</a></li>-->
-<!--                <li><a href="#">Home 2</a></li>-->
-<!--                <li><a href="#">Home 3</a></li>-->
-<!--            </ul>-->
-<!--        </li>-->
+        <!--        <li class="active">-->
+        <!--            <a href="#homeSubmenu" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">-->
+        <!--                <i class="ti-home m-r-10"></i> Home-->
+        <!--            </a>-->
+        <!--            <ul class="collapse list-unstyled" id="homeSubmenu" data-parent="#accordion">-->
+        <!--                <li><a href="#">Home 1</a></li>-->
+        <!--                <li><a href="#">Home 2</a></li>-->
+        <!--                <li><a href="#">Home 3</a></li>-->
+        <!--            </ul>-->
+        <!--        </li>-->
 
 
         <li>
-            <a href="login.html">
+            <a th:href="${#request.getContextPath()} + '/account/mymanagement">
                 <i class="ti-settings m-r-10"></i> 个人账号设置
             </a>
         </li>
 
 
-        <li>
-            <a href="login.html">
+        <li sec:authorize="hasAnyRole=('ROOT,ADMIN')">
+            <a th:href="${#request.getContextPath()} + '/account/management">
                 <i class="ti-user m-r-10"></i> 账号管理
             </a>
         </li>
-        <li>
-            <a href="login.html">
+        <li sec:authorize="hasAnyRole=('ROOT,ADMIN')">
+            <a th:href="${#request.getContextPath()} + '/article/management">
                 <i class="ti-receipt m-r-10"></i> 文章管理
             </a>
         </li>
-        <li>
-            <a href="login.html">
+        <li sec:authorize="hasAnyRole=('ROOT,ADMIN')">
+            <a th:href="${#request.getContextPath()} + '/comment/management">
                 <i class="ti-comment-alt m-r-10"></i> 评论管理
             </a>
         </li>
-        <li>
-            <a href="login.html">
+        <li sec:authorize="hasAnyRole=('ROOT,ADMIN')">
+            <a th:href="${#request.getContextPath()} + '/category/management">
                 <i class="ti-harddrives m-r-10"></i> 分类管理
             </a>
         </li>
-        <li>
-            <a href="login.html">
+        <li sec:authorize="hasAnyRole=('ROOT,ADMIN')">
+            <a th:href="${#request.getContextPath()} + '/tag/management">
                 <i class="ti-tag m-r-10"></i> 标签管理
             </a>
         </li>
@@ -133,7 +142,7 @@
                        class="btn btn-sm btn-primary">私享文章</a>
                     <table class="table table-bordered table-hover">
                         <tr>
-                            <th>文章Id</th>
+                            <th>文章id</th>
                             <th>所属分类</th>
                             <th>标题</th>
                             <th>作者</th>
@@ -151,17 +160,18 @@
                             <td th:text="${article.getLastModifiedDate().toString().replace('T',' ')}"></td>
                             <td th:text="${article.isPublish()} ? '公开' : '私享'"></td>
                             <td>
-<!--                                <a th:if="${article.isPublish()} == false"-->
-<!--                                   th:onclick="'setPublish(true,' + ${article.getArticleId()} + ');'" href="#"-->
-<!--                                   class="btn btn-sm btn-outline-secondary"><i class="ti-unlock"></i> 设为公开</a>-->
-<!--                                <a th:if="${article.isPublish()} == true"-->
-<!--                                   th:onclick="'setPublish(false,' + ${article.getArticleId()} + ');'" href="#"-->
-<!--                                   class="btn btn-sm btn-outline-secondary"><i class="ti-lock"></i> 设为私享</a>-->
+                                <!--                                <a th:if="${article.isPublish()} == false"-->
+                                <!--                                   th:onclick="'setPublish(true,' + ${article.getArticleId()} + ');'" href="#"-->
+                                <!--                                   class="btn btn-sm btn-outline-secondary"><i class="ti-unlock"></i> 设为公开</a>-->
+                                <!--                                <a th:if="${article.isPublish()} == true"-->
+                                <!--                                   th:onclick="'setPublish(false,' + ${article.getArticleId()} + ');'" href="#"-->
+                                <!--                                   class="btn btn-sm btn-outline-secondary"><i class="ti-lock"></i> 设为私享</a>-->
                                 <a href="#" class="btn btn-sm btn-outline-secondary" data-toggle="modal"
                                    data-target="#deleteArticleConfirm"
-                                   th:onclick="'setArticleId(' + ${article.getArticleId()} + ');'"><i
+                                   th:onclick="setArticleId([[${article.getArticleId()}]]);"><i
                                         class="ti-trash"></i> 删除</a>
-                                <a th:href="${#request.getContextPath()} + '/article/update/' + ${article.getArticleId()}" class="btn btn-sm btn-outline-secondary"><i class="ti-pencil-alt"></i>
+                                <a th:href="${#request.getContextPath()} + '/article/update/' + ${article.getArticleId()}"
+                                   class="btn btn-sm btn-outline-secondary"><i class="ti-pencil-alt"></i>
                                     修改</a>
                                 <a th:href="${#request.getContextPath()} + '/article/details/' + ${article.getArticleId()}"
                                    class="btn btn-sm btn-outline-secondary"><i class="ti-new-window"></i> 查看</a>
@@ -174,7 +184,8 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="deleteArticleConfirm" tabindex="-1" role="dialog" aria-labelledby="articleModalTitle"
+        <div class="modal fade" id="deleteArticleConfirm" tabindex="-1" role="dialog"
+             aria-labelledby="articleModalTitle"
              aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -194,10 +205,9 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
-
-
 
 
 <div th:fragment="commentTable (commentList,commentPage)" class="container-fluid content-area">
@@ -208,12 +218,9 @@
                     <h4>文章管理</h4>
                 </div>
                 <div class="table-responsive">
-                    <!--                        <a th:href="${#request.getContextPath()} + '/article/management'" class="btn btn-sm btn-primary">全部文章</a>-->
-                    <!--                        <a th:href="${#request.getContextPath()} + '/article/management?publish=true'" class="btn btn-sm btn-primary">公开文章</a>-->
-                    <!--                        <a th:href="${#request.getContextPath()} + '/article/management?publish=false'" class="btn btn-sm btn-primary">私享文章</a>-->
                     <table class="table table-bordered table-hover">
                         <tr>
-                            <th>评论Id</th>
+                            <th>评论id</th>
                             <th>所属文章</th>
                             <th>内容</th>
                             <th>作者</th>
@@ -229,9 +236,16 @@
                             <td th:text="${comment.getCreateDate().toString().replace('T',' ')}"></td>
                             <td th:text="${comment.getLastModifiedDate().toString().replace('T',' ')}"></td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#deleteCommentConfirm"  th:onclick="'setCommentId(' + ${comment.getCommentId()} + ');'"><i class="ti-trash"></i> 删除</a>
-                                <a href="#" class="btn btn-sm btn-outline-secondary"><i class="ti-pencil-alt"></i> 修改</a>
-                                <a th:href="${#request.getContextPath()} + '/article/details/' + ${comment.getArticleId()}" class="btn btn-sm btn-outline-secondary"><i class="ti-new-window"></i> 查看</a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary" data-toggle="modal"
+                                   data-target="#deleteCommentConfirm"
+                                   th:onclick="setComment([[${comment.getCommentId()}]],'');"><i
+                                        class="ti-trash"></i> 删除</a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary" data-toggle="modal"
+                                   data-target="#updateComment"
+                                   th:onclick="setComment([[${comment.getCommentId()}]],[[${comment.getContent()}]]);">
+                                    <i class="ti-pencil-alt"></i> 修改</a>
+                                <a th:href="${#request.getContextPath()} + '/article/details/' + ${comment.getArticle().getArticleId()}"
+                                   class="btn btn-sm btn-outline-secondary"><i class="ti-new-window"></i> 查看</a>
                             </td>
                         </tr>
                     </table>
@@ -241,29 +255,55 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="deleteCommentConfirm" tabindex="-1" role="dialog" aria-labelledby="commentModalTitle" aria-hidden="true">
+        <div class="modal fade" id="deleteCommentConfirm" tabindex="-1" role="dialog"
+             aria-labelledby="deleteCommentModalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="commentModalTitle">警告！</h5>
+                        <h5 class="modal-title" id="deleteCommentModalTitle">警告！</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        是否确认删除文章？
+                        是否确认删除评论？
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                        <button type="button" class="btn btn-primary" onclick="deleteArticle();">删除</button>
+                        <button type="button" class="btn btn-primary" onclick="deleteComment();">删除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="updateComment" tabindex="-1" role="dialog" aria-labelledby="updateCommentModalTitle"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateCommentModalTitle">修改评论</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="comment-content" class="col-form-label">评论内容:</label>
+                                <textarea class="form-control" id="comment-content" maxlength="200"
+                                          minlength="10"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" onclick="updateComment();">保存</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
 
 
 </body>

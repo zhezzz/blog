@@ -1,7 +1,6 @@
 package com.lincz.blog.service;
 
 import com.lincz.blog.entity.Account;
-import com.lincz.blog.entity.Authority;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,8 +18,6 @@ public interface AccountService extends UserDetailsService {
     Account getAccountByEmail(String email);
 
     Account getAccountByAccountId(Long accountId);
-
-    Account updateAccountAuthority(Long accountId, Set<Authority> authorities);
 
     Account updateAccountInfo(Long accountId, Account accountDTO);
 

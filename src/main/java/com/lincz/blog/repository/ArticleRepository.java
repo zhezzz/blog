@@ -37,9 +37,9 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Page<Article> findAllByCreateDateBetween(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime, Pageable pageable);
 
-    Page<Article> findAllByTitleContaining(String keyword);
+    Page<Article> findAllByTitleContaining(String keyword, Pageable pageable);
 
-    Page<Article> findAllByAccount_Username(String username);
+    Page<Article> findAllByAccount_Username(String username, Pageable pageable);
 
 
 }
