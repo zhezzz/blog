@@ -15,7 +15,7 @@
             <a class="blog-header-logo text-dark">南风博客</a>
         </div>
         <div class="col-4 d-flex justify-content-end align-items-center">
-            <a class="text-muted" href="#">
+            <a class="text-muted">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
                      stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img"
                      viewBox="0 0 24 24" focusable="false"><title>Search</title>
@@ -35,7 +35,7 @@
 
 <div th:fragment="category" class="nav-scroller mb-2">
     <nav class="nav d-flex justify-content-between">
-        <a class="p-2 text-muted" href="#" th:each="category : ${@categoryServiceImpl.getAllCategory()}"
+        <a class="p-2 text-muted" th:each="category : ${@categoryServiceImpl.getAllCategory()}"
            th:text="${category.getCategoryName()}"></a>
     </nav>
 </div>
@@ -58,9 +58,9 @@
     <div class="p-4">
         <h4 class="font-italic">Elsewhere</h4>
         <ol class="list-unstyled">
-            <li><a href="#">GitHub</a></li>
-            <li><a href="#">Twitter</a></li>
-            <li><a href="#">Facebook</a></li>
+            <li><a>GitHub</a></li>
+            <li><a>Twitter</a></li>
+            <li><a>Facebook</a></li>
         </ol>
     </div>
 </aside>
@@ -79,7 +79,7 @@
     <ul th:if="${(totalPages le 7)&&(totalPages gt 0)}"
         class="pagination justify-content-center">
         <li th:if="${pageNumber eq 0}" class="page-item disabled"><a class="page-link"
-                                                                     href="#">上一页</a></li>
+                                                                    >上一页</a></li>
         <li th:if="${pageNumber gt 0}" class="page-item">
             <a class="page-link"
                th:href="${pathparam} + 'page=' + (${pageNumber} - 1) + '&size=' + ${pageSize} + ${addition}">上一页</a>
@@ -92,7 +92,7 @@
         </li>
 
         <li th:if="${pageNumber + 1 eq totalPages}"
-            class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+            class="page-item disabled"><a class="page-link">下一页</a></li>
         <li th:if="${pageNumber + 1 lt totalPages}" class="page-item">
             <a class="page-link"
                th:href="${pathparam} + 'page=' + (${pageNumber} + 1) + '&size=' + ${pageSize} + ${addition}">下一页</a>
@@ -102,7 +102,7 @@
     <!-- 处理页数大于7 的情况 -->
     <ul th:if="${totalPages gt 7}" class="pagination justify-content-center">
         <li th:if="${pageNumber eq 0}" class="page-item disabled"><a class="page-link"
-                                                                     href="#">上一页</a></li>
+                                                                    >上一页</a></li>
         <li th:if="${pageNumber gt 0}" class="page-item">
             <a class="page-link"
                th:href="${pathparam} + 'page=' + (${pageNumber} - 1) + '&size=' + ${pageSize} + ${addition}">上一页</a>
@@ -165,7 +165,7 @@
         </li>
 
         <li th:if="${pageNumber eq totalPages - 1}"
-            class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+            class="page-item disabled"><a class="page-link">下一页</a></li>
         <li th:if="${pageNumber lt totalPages - 1}" class="page-item">
             <a class="page-link"
                th:href="${pathparam} + 'page=' + (${pageNumber} + 1) + '&size=' + ${addition}">下一页</a>

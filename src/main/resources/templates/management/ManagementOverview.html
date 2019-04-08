@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="common/management :: managementhead (~{::title})">
-    <title>标签管理</title>
+    <title>总览</title>
 </head>
 <body>
+
 <div th:replace="common/management :: headerbar"></div>
 <div class="wrapper">
     <div th:replace="common/management :: sidebar"></div>
     <div class="container-fluid content-area">
+        <div class="row">
+            <div class="col-6">
 
+            </div>
+            <div class="col-6">
+
+            </div>
+        </div>
     </div>
 </div>
 <div th:replace="common/management :: script"></div>
 <script th:inline="javascript">
-    $(document).ready(function() {
-        $('#sidebarCollapse').on('click', function() {
-            $('#sidebar').toggleClass('active');
-        });
-    });
 </script>
 </body>
 </html>

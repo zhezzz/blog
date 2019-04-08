@@ -21,6 +21,8 @@ public interface AccountService extends UserDetailsService {
 
     Account updateAccountInfo(Long accountId, Account accountDTO);
 
+    Account updateAccountStatus(Long accountId, Account accountDTO);
+
     Account createAccount(Account accountDTO);
 
     void deleteAccountByAccountId(Long accountId);

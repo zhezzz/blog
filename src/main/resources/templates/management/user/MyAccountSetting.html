@@ -1,13 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head th:replace="common/management :: managementhead (~{::title})">
     <title>个人账号设置</title>
-    <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/static/css/ManagementPage.css}">
-    <link rel="stylesheet" th:href="@{/static/css/themify-icons/themify-icons.css}">
-    <link rel="stylesheet" th:href="@{/static/css/waves/waves.min.css}">
 </head>
 <body>
 <form th:action="${#request.getContextPath()} + '/account/update/info/' + ${account.getAccountId()}" method="post">
@@ -16,9 +10,13 @@
     <p><input type="submit" value="提交"/></p>
 </form>
 
-<form th:action="${#request.getContextPath()} + '/account/update/' + ${account.getAccountId()} + '/avatar/'" method="post" enctype="multipart/form-data">
+<form th:action="${#request.getContextPath()} + '/account/update/' + ${account.getAccountId()} + '/avatar/'"
+      method="post" enctype="multipart/form-data">
     头像<p>选择文件: <input type="file" name="avatar"/></p>
     <p><input type="submit" value="提交"/></p>
 </form>
+<div th:replace="common/management :: script"></div>
+<script th:inline="javascript">
+</script>
 </body>
 </html>

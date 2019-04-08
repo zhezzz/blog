@@ -6,23 +6,46 @@
 </head>
 <body>
 
+<head th:fragment="managementhead (title)">
+    <meta charset="UTF-8">
+    <title th:replace="${title}">管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/ManagementPage.css}">
+    <link rel="stylesheet" th:href="@{/static/css/themify-icons/themify-icons.css}">
+</head>
+
+<th:block th:fragment="script">
+    <script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/fontawesome/all.min.js}"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+</th:block>
+
 <header th:fragment="headerbar"
         th:with="account=${@accountServiceImpl.getAccountByUsername(#request.getUserPrincipal().getName())}"
         class="main-navbar-header">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top theme-color">
         <div class="menu-toggle-button">
-            <a class="nav-link wave-effect" href="#" id="sidebarCollapse">
-                <span class="ti-menu"></span>
+            <a class="nav-link wave-effect" id="sidebarCollapse">
+                <i class="fas fa-bars"></i>
             </a>
         </div>
-        <a class="navbar-brand" href="#">博客管理</a>
+        <a class="navbar-brand">博客管理</a>
 
         <ul class="navbar-nav ml-auto navbar-top-links">
             <li class="dropdown">
-                <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img
+                <a class="dropdown-toggle profile-pic" data-toggle="dropdown" aria-expanded="false"> <img
                         th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${account.getAccountId()} + '.png'"
                         alt="user-img" width="36" class="img-circle">
-                    <b th:text="${account.getUsername()}" class="d-none d-sm-inline-block"></b></a>
+                    <b th:text="${account.getUsername()}" class="d-none d-sm-inline-block"></b>
+                </a>
                 <ul class="dropdown-menu dropdown-user">
                     <li>
                         <div class="dw-usefr-box">
@@ -33,17 +56,23 @@
                         </div>
                     </li>
                     <div class="dropdown-divider"></div>
-                    <li><a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()}"><i
-                            class="ti-home"></i> 我的主页</a></li>
+                    <li><a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()}">
+                        <i class="fas fa-home"></i> 我的主页</a>
+                    </li>
                     <div class="dropdown-divider"></div>
                     <li>
-                        <a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()} + '?tab=article'"><i
-                                class="ti-receipt"></i> 我的文章</a></li>
+                        <a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()} + '?tab=article'">
+                            <i class="fas fa-file-alt"></i> 我的文章</a>
+                    </li>
                     <li>
-                        <a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()} + '?tab=comment'"><i
-                                class="ti-comment-alt"></i> 我的评论</a></li>
+                        <a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()} + '?tab=comment'">
+                            <i class="fas fa-comments"></i> 我的评论</a>
+                    </li>
                     <div class="dropdown-divider"></div>
-                    <li><a th:href="${#request.getContextPath()} + '/logout'"><i class="ti-power-off"></i> 登出</a></li>
+                    <li>
+                        <a th:href="${#request.getContextPath()} + '/logout'">
+                            <i class="fas fa-sign-out-alt"></i> 登出</a>
+                    </li>
                 </ul>
             </li>
         </ul>
@@ -61,63 +90,63 @@
 
         <li>
             <a href="login.html">
-                <i class="ti-bar-chart m-r-10"></i>总览
+                <i class="fas fa-globe"></i> 总览
             </a>
         </li>
         <li>
-            <a th:href="${#request.getContextPath()} + '/article/mymanagement">
-                <i class="ti-receipt m-r-10"></i>个人文章管理
+            <a th:href="${#request.getContextPath()} + '/article/mymanagement'">
+                <i class="fas fa-file-alt"></i> 个人文章管理
             </a>
         </li>
         <li>
-            <a th:href="${#request.getContextPath()} + '/comment/mymanagement">
-                <i class="ti-comment-alt m-r-10"></i>个人评论管理
+            <a th:href="${#request.getContextPath()} + '/comment/mymanagement'">
+                <i class="fas fa-comments"></i> 个人评论管理
             </a>
         </li>
 
 
         <!--        <li class="active">-->
         <!--            <a href="#homeSubmenu" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">-->
-        <!--                <i class="ti-home m-r-10"></i> Home-->
+        <!--                <i class=" m-r-10"></i> Home-->
         <!--            </a>-->
         <!--            <ul class="collapse list-unstyled" id="homeSubmenu" data-parent="#accordion">-->
-        <!--                <li><a href="#">Home 1</a></li>-->
-        <!--                <li><a href="#">Home 2</a></li>-->
-        <!--                <li><a href="#">Home 3</a></li>-->
+        <!--                <li><a>Home 1</a></li>-->
+        <!--                <li><a>Home 2</a></li>-->
+        <!--                <li><a>Home 3</a></li>-->
         <!--            </ul>-->
         <!--        </li>-->
 
 
         <li>
-            <a th:href="${#request.getContextPath()} + '/account/mymanagement">
-                <i class="ti-settings m-r-10"></i> 个人账号设置
+            <a th:href="${#request.getContextPath()} + '/account/mymanagement'">
+                <i class="fas fa-user-cog"></i> 个人账号设置
             </a>
         </li>
 
 
         <li sec:authorize="hasAnyRole=('ROOT,ADMIN')">
-            <a th:href="${#request.getContextPath()} + '/account/management">
-                <i class="ti-user m-r-10"></i> 账号管理
+            <a th:href="${#request.getContextPath()} + '/account/management'">
+                <i class="fas fa-users"></i> 账号管理
             </a>
         </li>
         <li sec:authorize="hasAnyRole=('ROOT,ADMIN')">
-            <a th:href="${#request.getContextPath()} + '/article/management">
-                <i class="ti-receipt m-r-10"></i> 文章管理
+            <a th:href="${#request.getContextPath()} + '/article/management'">
+                <i class="fas fa-file-alt"></i> 文章管理
             </a>
         </li>
         <li sec:authorize="hasAnyRole=('ROOT,ADMIN')">
-            <a th:href="${#request.getContextPath()} + '/comment/management">
-                <i class="ti-comment-alt m-r-10"></i> 评论管理
+            <a th:href="${#request.getContextPath()} + '/comment/management'">
+                <i class="fas fa-comments"></i> 评论管理
             </a>
         </li>
         <li sec:authorize="hasAnyRole=('ROOT,ADMIN')">
-            <a th:href="${#request.getContextPath()} + '/category/management">
-                <i class="ti-harddrives m-r-10"></i> 分类管理
+            <a th:href="${#request.getContextPath()} + '/category/management'">
+                <i class="fas fa-server"></i> 分类管理
             </a>
         </li>
         <li sec:authorize="hasAnyRole=('ROOT,ADMIN')">
-            <a th:href="${#request.getContextPath()} + '/tag/management">
-                <i class="ti-tag m-r-10"></i> 标签管理
+            <a th:href="${#request.getContextPath()} + '/tag/management'">
+                <i class="fas fa-tags"></i> 标签管理
             </a>
         </li>
 
@@ -160,21 +189,15 @@
                             <td th:text="${article.getLastModifiedDate().toString().replace('T',' ')}"></td>
                             <td th:text="${article.isPublish()} ? '公开' : '私享'"></td>
                             <td>
-                                <!--                                <a th:if="${article.isPublish()} == false"-->
-                                <!--                                   th:onclick="'setPublish(true,' + ${article.getArticleId()} + ');'" href="#"-->
-                                <!--                                   class="btn btn-sm btn-outline-secondary"><i class="ti-unlock"></i> 设为公开</a>-->
-                                <!--                                <a th:if="${article.isPublish()} == true"-->
-                                <!--                                   th:onclick="'setPublish(false,' + ${article.getArticleId()} + ');'" href="#"-->
-                                <!--                                   class="btn btn-sm btn-outline-secondary"><i class="ti-lock"></i> 设为私享</a>-->
-                                <a href="#" class="btn btn-sm btn-outline-secondary" data-toggle="modal"
+                                <a class="btn btn-sm btn-outline-secondary" data-toggle="modal"
                                    data-target="#deleteArticleConfirm"
-                                   th:onclick="setArticleId([[${article.getArticleId()}]]);"><i
-                                        class="ti-trash"></i> 删除</a>
+                                   th:onclick="setArticleId([[${article.getArticleId()}]]);">
+                                    <i class="fas fa-user-slash"></i> 删除</a>
                                 <a th:href="${#request.getContextPath()} + '/article/update/' + ${article.getArticleId()}"
-                                   class="btn btn-sm btn-outline-secondary"><i class="ti-pencil-alt"></i>
-                                    修改</a>
+                                   class="btn btn-sm btn-outline-secondary"><i class="fas fa-edit"></i> 修改</a>
                                 <a th:href="${#request.getContextPath()} + '/article/details/' + ${article.getArticleId()}"
-                                   class="btn btn-sm btn-outline-secondary"><i class="ti-new-window"></i> 查看</a>
+                                   class="btn btn-sm btn-outline-secondary" target="_Blank">
+                                    <i class="fas fa-external-link-square-alt"></i> 查看</a>
                             </td>
                         </tr>
                     </table>
@@ -236,16 +259,17 @@
                             <td th:text="${comment.getCreateDate().toString().replace('T',' ')}"></td>
                             <td th:text="${comment.getLastModifiedDate().toString().replace('T',' ')}"></td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-outline-secondary" data-toggle="modal"
+                                <a class="btn btn-sm btn-outline-secondary" data-toggle="modal"
                                    data-target="#deleteCommentConfirm"
-                                   th:onclick="setComment([[${comment.getCommentId()}]],'');"><i
-                                        class="ti-trash"></i> 删除</a>
-                                <a href="#" class="btn btn-sm btn-outline-secondary" data-toggle="modal"
+                                   th:onclick="setComment([[${comment.getCommentId()}]],'');">
+                                    <i class="fas fa-trash-alt"></i> 删除</a>
+                                <a class="btn btn-sm btn-outline-secondary" data-toggle="modal"
                                    data-target="#updateComment"
                                    th:onclick="setComment([[${comment.getCommentId()}]],[[${comment.getContent()}]]);">
-                                    <i class="ti-pencil-alt"></i> 修改</a>
+                                    <i class="fas fa-edit"></i> 修改</a>
                                 <a th:href="${#request.getContextPath()} + '/article/details/' + ${comment.getArticle().getArticleId()}"
-                                   class="btn btn-sm btn-outline-secondary"><i class="ti-new-window"></i> 查看</a>
+                                   class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-external-link-square-alt"></i> 查看</a>
                             </td>
                         </tr>
                     </table>

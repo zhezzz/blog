@@ -37,7 +37,7 @@ public class MainController {
 
     @GetMapping(value = "/index")
     public ModelAndView index(
-            @PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(sort = {"articleId"}, direction = Sort.Direction.DESC) Pageable pageable) {
         List<Article> stickArticleList = articleService.getArticlesByStick(true);
         Page<Article> articlePage = articleService.paginateGetArticlesByPublish(true, pageable);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());
@@ -75,6 +75,15 @@ public class MainController {
     public ModelAndView registerPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("Register");
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/management")
+    public ModelAndView management() {
+        List<Article> stickArticleList = articleService.getArticlesByStick(true);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("ManagementOverview");
+        modelAndView.addObject("stickArticleList", stickArticleList);
         return modelAndView;
     }
 

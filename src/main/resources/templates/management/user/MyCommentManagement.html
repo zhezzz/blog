@@ -1,13 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head th:replace="common/management :: managementhead (~{::title})">
     <title>个人评论管理</title>
-    <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/static/css/ManagementPage.css}">
-    <link rel="stylesheet" th:href="@{/static/css/themify-icons/themify-icons.css}">
-    <link rel="stylesheet" th:href="@{/static/css/waves/waves.min.css}">
 </head>
 <body>
 <div th:replace="common/management :: headerbar"></div>
@@ -15,24 +9,17 @@
     <div th:replace="common/management :: sidebar"></div>
     <div th:replace="common/management :: commentTable (commentList=${commentList},commentPage=${commentPage})"></div>
 </div>
-
-
-<script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>
+<div th:replace="common/management :: script"></div>
 <script th:inline="javascript">
-    $(document).ready(function() {
-        $('#sidebarCollapse').on('click', function() {
-            $('#sidebar').toggleClass('active');
-        });
-    });
-
     var commentId;
-    function setComment(id,content) {
+
+    function setComment(id, content) {
         commentId = id;
         document.getElementById('comment-content').value = content;
     }
 
     var contextPath = [[${#request.getContextPath()}]];
+
     function updateComment() {
         var commentContent = document.getElementById('comment-content').value;
         var commentData = {
@@ -44,7 +31,7 @@
             dataType: 'json',
             contentType: 'application/json',
             data: JSON.stringify(commentData),
-            success : function (data) {
+            success: function (data) {
                 window.location.reload();
             },
             error: function (data) {
@@ -58,7 +45,7 @@
         $.ajax({
             type: "DELETE",
             url: contextPath + '/comment/' + commentId,
-            success : function (data) {
+            success: function (data) {
                 window.location.reload();
             }
         })

@@ -1,12 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="common/management :: managementhead (~{::title})">
     <title>账号管理</title>
-    <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/static/css/ManagementPage.css}">
-    <link rel="stylesheet" th:href="@{/static/css/themify-icons/themify-icons.css}">
 </head>
 <body>
 
@@ -14,6 +9,13 @@
 <div class="wrapper">
     <div th:replace="common/management :: sidebar"></div>
     <div class="container-fluid content-area">
+        <div th:if="${#request.getParameter('occupy')} == 'yes'" class="alert alert-danger alert-dismissible fade show"
+             role="alert">
+            用户名被占用，请换一个!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -23,9 +25,9 @@
                     <div class="table-responsive">
                         <a th:href="${#request.getContextPath()} + '/account/management'"
                            class="btn btn-sm btn-primary">全部账号</a>
-                        <a th:href="${#request.getContextPath()} + '/account/management?publish=true'"
+                        <a th:href="${#request.getContextPath()} + '/account/management?enabled=true'"
                            class="btn btn-sm btn-primary">正常账号</a>
-                        <a th:href="${#request.getContextPath()} + '/account/management?publish=false'"
+                        <a th:href="${#request.getContextPath()} + '/account/management?enabled=false'"
                            class="btn btn-sm btn-primary">封禁账号</a>
                         <table class="table table-bordered table-hover">
                             <tr>
@@ -38,69 +40,173 @@
                                 <th>状态</th>
                                 <th>操作</th>
                             </tr>
-                            <tr th:each="article : ${articleList}">
-                                <td th:text="${article.getArticleId()}"></td>
-                                <td th:text="${article.getCategory().getCategoryName()}"></td>
-                                <td th:text="${#strings.abbreviate(article.getTitle(),35)}"></td>
-                                <td th:text="${article.getAccount().getUsername()}"></td>
-                                <td th:text="${article.getCreateDate().toString().replace('T',' ')}"></td>
-                                <td th:text="${article.getLastModifiedDate().toString().replace('T',' ')}"></td>
-                                <td th:text="${article.isPublish()} ? '公开' : '私享'"></td>
+                            <tr th:each="account : ${accountList}">
+                                <td th:text="${account.getAccountId()}"></td>
+                                <td th:text="${account.getUsername()}"></td>
+                                <td th:text="${account.getEmail()}"></td>
+                                <td th:text="${account.getRole()}"></td>
+                                <td th:text="${account.getCreateDate().toString().replace('T',' ')}"></td>
+                                <td th:text="${account.getLastModifiedDate().toString().replace('T',' ')}"></td>
+                                <td th:text="${account.isEnabled()} ? '正常' : '已封禁'"></td>
                                 <td>
-                                    <!--                                <a th:if="${article.isPublish()} == false"-->
-                                    <!--                                   th:onclick="'setPublish(true,' + ${article.getArticleId()} + ');'" href="#"-->
-                                    <!--                                   class="btn btn-sm btn-outline-secondary"><i class="ti-unlock"></i> 设为公开</a>-->
-                                    <!--                                <a th:if="${article.isPublish()} == true"-->
-                                    <!--                                   th:onclick="'setPublish(false,' + ${article.getArticleId()} + ');'" href="#"-->
-                                    <!--                                   class="btn btn-sm btn-outline-secondary"><i class="ti-lock"></i> 设为私享</a>-->
-                                    <a href="#" class="btn btn-sm btn-outline-secondary" data-toggle="modal"
-                                       data-target="#deleteArticleConfirm"
-                                       th:onclick="setArticleId([[${article.getArticleId()}]]);"><i
-                                            class="ti-trash"></i> 删除</a>
-                                    <a th:href="${#request.getContextPath()} + '/article/update/' + ${article.getArticleId()}"
-                                       class="btn btn-sm btn-outline-secondary"><i class="ti-pencil-alt"></i>
-                                        修改</a>
-                                    <a th:href="${#request.getContextPath()} + '/article/details/' + ${article.getArticleId()}"
-                                       class="btn btn-sm btn-outline-secondary"><i class="ti-new-window"></i> 查看</a>
+                                    <a th:id="'deleteAccount' + ${account.getAccountId()}"
+                                       class="btn btn-sm btn-outline-secondary" data-toggle="modal"
+                                       data-target="#deleteAccountModal" th:attr="accountId=${account.getAccountId()}">
+                                        <i class="fas fa-user-slash"></i> 删除</a>
+                                    <a th:id="'updateAccount' + ${account.getAccountId()}"
+                                       class="btn btn-sm btn-outline-secondary" data-toggle="modal"
+                                       data-target="#updateAccountModal" th:attr="accountId=${account.getAccountId()}"
+                                       th:attr="username=${account.getUsername()}" th:attr="role=${account.getRole()}">
+                                        <i class="fas fa-user-edit"></i> 修改</a>
+                                    <a th:href="${#request.getContextPath()} + '/account/homepage/' + ${account.getAccountId()}"
+                                       class="btn btn-sm btn-outline-secondary" target="_Blank">
+                                        <i class="fas fa-external-link-square-alt"></i> 查看</a>
                                 </td>
                             </tr>
                         </table>
                     </div>
-                    <nav th:replace="/common/common :: pagination (page=${articlePage},addition='')"></nav>
+                    <nav th:replace="/common/common :: pagination (page=${accountPage},addition='')"></nav>
                 </div>
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="deleteArticleConfirm" tabindex="-1" role="dialog"
-                 aria-labelledby="articleModalTitle"
+            <div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog"
+                 aria-labelledby="accountModalTitle"
                  aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="articleModalTitle">警告！</h5>
+                            <h5 class="modal-title" id="accountModalTitle">警告！</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            是否确认删除文章？
+                            是否确认删除该账号，同时会删除账号的所有文章和评论？
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-primary" onclick="deleteArticle();">删除</button>
+                            <button id="confirmDelete" type="button" class="btn btn-primary">删除</button>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="updateAccountModal" tabindex="-1" role="dialog"
+                 aria-labelledby="updateAccountModalTitle"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updateAccountModalTitle">修改账号状态</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="username" class="col-form-label">用户名</label>
+                                    <input disabled type="text" class="form-control" id="username">
+                                </div>
+                                <div sec:authorize="hasAnyRole=('ROOT')" class="form-group">
+                                    <label for="roleSelector">设置角色</label>
+                                    <select class="custom-select" id="roleSelector">
+                                        <option value="USER">USER</option>
+                                        <option value="ADMIN">ADMIN</option>
+                                        <option value="ROOT">ROOT</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="statusSelector">更改账号状态</label>
+                                    <select class="custom-select" id="statusSelector">
+                                        <option value="normal">正常</option>
+                                        <option value="ban">封禁</option>
+                                    </select>
+                                </div>
 
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button id="saveAccount" type="button" class="btn btn-primary">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 
+<div th:replace="common/management :: script"></div>
+<script th:inline="javascript">
 
+    var accountId;
 
+    var role = $("#updateAccount").attr("role");
+    ;
 
+    //填充数据
+    $(document).ready(function () {
+        $("a[id^='updateAccount']").click(function () {
+            accountId = $("#updateAccount").attr("accountId");
+            var username = $("#updateAccount").attr("username");
+            $("#username").val(username);
+        })
+    });
 
+    //提交
+    $(document).ready(function () {
+        $("#saveAccount").click(function () {
+            if ($("#roleSelector") != null) {
+                role = $('#roleSelector option:selected').val();
+            }
+            var enabled = true;
+            if ($('#statusSelector option:selected').val() == "normal") {
+                enabled = true;
+            }
+            if ($('#statusSelector option:selected').val() == "ban") {
+                enabled = false;
+            }
+            var accountData = {
+                role: role,
+                enabled: enabled
+            }
+            $.ajax({
+                type: "PUT",
+                url: contextPath + '/account/' + accountId,
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(accountData),
+                success: function (data) {
+                    window.location.reload();
+                },
+                error: function (data) {
+                    window.location.reload();
+                }
+            })
+        })
+    });
+
+    $(document).ready(function () {
+        $("a[id^='deleteAccount']").click(function () {
+            accountId = $("#deleteAccount").attr("accountId");
+        })
+    });
+
+    $(document).ready(function () {
+        $("#confirmDelete").click(function () {
+            $.ajax({
+                type: "DELETE",
+                url: contextPath + '/account/' + accountId,
+                success: function (data) {
+                    window.location.reload();
+                }
+            })
+        })
+    });
+
+</script>
 </body>
 </html>

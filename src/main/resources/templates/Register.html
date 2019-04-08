@@ -68,7 +68,7 @@
                name="username" class="form-control" placeholder="用户名(1-10个字母、数字或下划线)" minlength="1" maxlength="10"
                required autofocus>
         <div th:if="${#request.getParameter('occupy')} == 'yes'" class="invalid-feedback">
-            用户名被占用，请换一个
+            用户名被占用，请换一个!
         </div>
     </div>
     <div>

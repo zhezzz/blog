@@ -62,13 +62,12 @@ public class AccountController {
     // 获取账户信息修改界面
     @GetMapping(value = "/mymanagement")
     @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
-    public ModelAndView myAccountManagementPage(@PathVariable Long accountId) {
+    public ModelAndView myAccountManagementPage() {
         String currentUsername = request.getUserPrincipal().getName();
         Account currentAccount = accountService.getAccountByUsername(currentUsername);
-        Account account = accountService.getAccountByAccountId(accountId);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("management/admin/AccountManagement");
-        modelAndView.addObject(account);
+        modelAndView.addObject(currentAccount);
         return modelAndView;
     }
 
@@ -96,10 +95,31 @@ public class AccountController {
             return modelAndView;
         }
         //TODO 更多校验
-        Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail(),"USER");
+        Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail(), "USER");
         accountService.createAccount(account);
         modelAndView.setViewName("redirect:/index");
         return modelAndView;
+    }
+
+    // 修改用户状态
+    @PutMapping(value = "/{accountId}/status")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
+    public void updateAccountStatus(@PathVariable Long accountId, @RequestBody Account accountDTO) {
+        Account account = accountService.getAccountByAccountId(accountId);
+        String role = account.getRole();
+        String currentUsername = request.getUserPrincipal().getName();
+        Account currentAccount = accountService.getAccountByUsername(currentUsername);
+        if (currentAccount.getRole().equals("ROOT")) {
+            if (accountDTO.getRole().equals("ROOT") || accountDTO.getRole().equals("ADMIN") || accountDTO.getRole().equals("USER")){
+                accountService.updateAccountStatus(accountId,accountDTO);
+            }
+        }else{
+            accountDTO.setRole(role);
+            if (accountDTO.getRole().equals("ROOT") || accountDTO.getRole().equals("ADMIN") || accountDTO.getRole().equals("USER")){
+                accountService.updateAccountStatus(accountId,accountDTO);
+            }
+        }
+
     }
 
     // 修改用户信息

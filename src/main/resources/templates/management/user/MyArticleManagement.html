@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head th:replace="common/management :: managementhead (~{::title})">
     <title>个人文章管理</title>
-    <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/static/css/ManagementPage.css}">
-    <link rel="stylesheet" th:href="@{/static/css/themify-icons/themify-icons.css}">
 </head>
 <body>
 
@@ -15,24 +10,16 @@
     <div th:replace="common/management :: sidebar"></div>
     <div th:replace="common/management :: articleTable (articleList=${articleList},articlePage=${articlePage})"></div>
 </div>
-
-
-<script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>
+<div th:replace="common/management :: script"></div>
 <script th:inline="javascript">
-    $(document).ready(function () {
-        $('#sidebarCollapse').on('click', function () {
-            $('#sidebar').toggleClass('active');
-        });
-    });
-
-
     var articleId;
+
     function setArticleId(id) {
         articleId = id;
     }
 
     var contextPath = [[${#request.getContextPath()}]];
+
     function deleteArticle() {
         $.ajax({
             type: "DELETE",
@@ -43,6 +30,5 @@
         })
     }
 </script>
-
 </body>
 </html>

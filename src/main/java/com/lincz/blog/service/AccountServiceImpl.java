@@ -45,6 +45,14 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Account updateAccountStatus(Long accountId, Account accountDTO) {
+        Account account = accountRepository.findById(accountId).orElse(null);
+        account.setEnabled(accountDTO.isEnabled());
+        account.setRole(accountDTO.getRole());
+        return accountRepository.save(account);
+    }
+
+    @Override
     public Account getAccountByEmail(String email) {
         return accountRepository.findAccountByEmail(email);
     }
