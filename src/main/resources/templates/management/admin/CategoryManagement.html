@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="common/management :: managementhead (~{::title})">
+<head th:replace="common/management :: managementhead (~{::title},~{})">
     <title>分类管理</title>
 </head>
 <body>
@@ -45,7 +45,7 @@
                                 </tr>
                             </table>
                         </div>
-                        <div th:replace="/common/common :: pagination (page=${categoryPage},addition='')"></div>
+                        <div th:replace="common/common :: pagination (page=${categoryPage},addition='')"></div>
                     </div>
                 </div>
 

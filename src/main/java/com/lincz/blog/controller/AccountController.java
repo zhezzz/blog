@@ -47,7 +47,7 @@ public class AccountController {
 
     // 获取账户信息修改界面
     @GetMapping(value = "/management")
-    @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
+    @PreAuthorize("hasAnyRole('ROOT')")
     public ModelAndView accountManagementPage(@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Account> accountPage = accountService.paginateGetAllAccount(pageable);
         List<Account> accountList = accountPage.get().collect(Collectors.toList());
@@ -66,7 +66,7 @@ public class AccountController {
         String currentUsername = request.getUserPrincipal().getName();
         Account currentAccount = accountService.getAccountByUsername(currentUsername);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("management/admin/AccountManagement");
+        modelAndView.setViewName("management/user/MyAccountSetting");
         modelAndView.addObject(currentAccount);
         return modelAndView;
     }
@@ -103,27 +103,15 @@ public class AccountController {
 
     // 修改用户状态
     @PutMapping(value = "/{accountId}/status")
-    @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
+    @PreAuthorize("hasAnyRole('ROOT')")
     public void updateAccountStatus(@PathVariable Long accountId, @RequestBody Account accountDTO) {
-        Account account = accountService.getAccountByAccountId(accountId);
-        String role = account.getRole();
-        String currentUsername = request.getUserPrincipal().getName();
-        Account currentAccount = accountService.getAccountByUsername(currentUsername);
-        if (currentAccount.getRole().equals("ROOT")) {
-            if (accountDTO.getRole().equals("ROOT") || accountDTO.getRole().equals("ADMIN") || accountDTO.getRole().equals("USER")){
-                accountService.updateAccountStatus(accountId,accountDTO);
-            }
-        }else{
-            accountDTO.setRole(role);
-            if (accountDTO.getRole().equals("ROOT") || accountDTO.getRole().equals("ADMIN") || accountDTO.getRole().equals("USER")){
-                accountService.updateAccountStatus(accountId,accountDTO);
-            }
+        if (accountDTO.getRole().equals("ROOT") || accountDTO.getRole().equals("ADMIN") || accountDTO.getRole().equals("USER")){
+            accountService.updateAccountStatus(accountId,accountDTO);
         }
-
     }
 
-    // 修改用户信息
-    @PutMapping(value = "/{accountId}")
+    // 修改个人信息//TODO
+    @PutMapping(value = "/{accountId}/info")
     @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public void updateAccount(@PathVariable Long accountId, @RequestBody Account accountDTO) {
         accountService.updateAccountInfo(accountId, accountDTO);
@@ -131,19 +119,19 @@ public class AccountController {
 
     // 删除账号
     @DeleteMapping(value = "/{accountId}")
-    @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
+    @PreAuthorize("hasAnyRole('ROOT')")
     public void deleteAccount(@PathVariable Long accountId) {
         accountService.deleteAccountByAccountId(accountId);
     }
 
-    // 修改头像 //TODO 或者PUT？
+    // 修改头像
     @PostMapping(value = "/{accountId}/avatar")
     @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public void updateAccountAvatar(@PathVariable Long accountId, @RequestParam(value = "avatar") MultipartFile avatar)
             throws IOException {
         if (!avatar.isEmpty()) {
             String fileName = avatar.getName();
-            if (fileName.endsWith(".jpg") || fileName.endsWith(".png")) {
+            if (fileName.endsWith(".jpg") || fileName.endsWith(".png") || fileName.endsWith(".gif")) {
                 String classpath = this.getClass().getClassLoader().getResource("").getPath();
                 String avatarFileName = accountId + ".png";
                 File file = new File(classpath + "data/account/avatar/");

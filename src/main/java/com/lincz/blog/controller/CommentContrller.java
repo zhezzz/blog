@@ -55,7 +55,7 @@ public class CommentContrller {
         Page<Comment> commentPage = commentService.paginateGetCommetsByAccount(currentAccount,pageable);
         List<Comment> commentList = commentPage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("management/admin/CommentManagement");
+        modelAndView.setViewName("management/user/MyCommentManagement");
         modelAndView.addObject("commentList", commentList);
         modelAndView.addObject("commentPage", commentPage);
         return modelAndView;

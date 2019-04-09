@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 
-<head th:fragment="managementhead (title)">
+<head th:fragment="managementhead (title,links)">
     <meta charset="UTF-8">
     <title th:replace="${title}">管理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/ManagementPage.css}">
-    <link rel="stylesheet" th:href="@{/static/css/themify-icons/themify-icons.css}">
+    <th:block th:replace="${links}"/>
 </head>
 
 <th:block th:fragment="script">
@@ -100,7 +100,7 @@
         </li>
         <li>
             <a th:href="${#request.getContextPath()} + '/comment/mymanagement'">
-                <i class="fas fa-comments"></i> 个人评论管理
+                <i class="fas fa-comment"></i> 个人评论管理
             </a>
         </li>
 
@@ -124,27 +124,27 @@
         </li>
 
 
-        <li sec:authorize="hasAnyRole=('ROOT,ADMIN')">
+        <li sec:authorize="hasAnyRole('ROOT')">
             <a th:href="${#request.getContextPath()} + '/account/management'">
                 <i class="fas fa-users"></i> 账号管理
             </a>
         </li>
-        <li sec:authorize="hasAnyRole=('ROOT,ADMIN')">
+        <li sec:authorize="hasAnyRole('ROOT','ADMIN')">
             <a th:href="${#request.getContextPath()} + '/article/management'">
                 <i class="fas fa-file-alt"></i> 文章管理
             </a>
         </li>
-        <li sec:authorize="hasAnyRole=('ROOT,ADMIN')">
+        <li sec:authorize="hasAnyRole('ROOT','ADMIN')">
             <a th:href="${#request.getContextPath()} + '/comment/management'">
                 <i class="fas fa-comments"></i> 评论管理
             </a>
         </li>
-        <li sec:authorize="hasAnyRole=('ROOT,ADMIN')">
+        <li sec:authorize="hasAnyRole('ROOT','ADMIN')">
             <a th:href="${#request.getContextPath()} + '/category/management'">
                 <i class="fas fa-server"></i> 分类管理
             </a>
         </li>
-        <li sec:authorize="hasAnyRole=('ROOT,ADMIN')">
+        <li sec:authorize="hasAnyRole('ROOT','ADMIN')">
             <a th:href="${#request.getContextPath()} + '/tag/management'">
                 <i class="fas fa-tags"></i> 标签管理
             </a>
@@ -190,7 +190,7 @@
                             <td th:text="${article.isPublish()} ? '公开' : '私享'"></td>
                             <td>
                                 <a class="btn btn-sm btn-outline-secondary" data-toggle="modal"
-                                   data-target="#deleteArticleConfirm"
+                                   data-target="#deleteArticleModal"
                                    th:onclick="setArticleId([[${article.getArticleId()}]]);">
                                     <i class="fas fa-user-slash"></i> 删除</a>
                                 <a th:href="${#request.getContextPath()} + '/article/update/' + ${article.getArticleId()}"
@@ -202,18 +202,18 @@
                         </tr>
                     </table>
                 </div>
-                <nav th:replace="/common/common :: pagination (page=${articlePage},addition='')"></nav>
+                <nav th:replace="common/common :: pagination (page=${articlePage},addition='')"></nav>
             </div>
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="deleteArticleConfirm" tabindex="-1" role="dialog"
-             aria-labelledby="articleModalTitle"
+        <div class="modal fade" id="deleteArticleModal" tabindex="-1" role="dialog"
+             aria-labelledby="deleteArticleModalTitle"
              aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="articleModalTitle">警告！</h5>
+                        <h5 class="modal-title" id="deleteArticleModalTitle">警告！</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -260,11 +260,11 @@
                             <td th:text="${comment.getLastModifiedDate().toString().replace('T',' ')}"></td>
                             <td>
                                 <a class="btn btn-sm btn-outline-secondary" data-toggle="modal"
-                                   data-target="#deleteCommentConfirm"
+                                   data-target="#deleteCommentModal"
                                    th:onclick="setComment([[${comment.getCommentId()}]],'');">
                                     <i class="fas fa-trash-alt"></i> 删除</a>
                                 <a class="btn btn-sm btn-outline-secondary" data-toggle="modal"
-                                   data-target="#updateComment"
+                                   data-target="#updateCommentModal"
                                    th:onclick="setComment([[${comment.getCommentId()}]],[[${comment.getContent()}]]);">
                                     <i class="fas fa-edit"></i> 修改</a>
                                 <a th:href="${#request.getContextPath()} + '/article/details/' + ${comment.getArticle().getArticleId()}"
@@ -274,12 +274,12 @@
                         </tr>
                     </table>
                 </div>
-                <div th:replace="/common/common :: pagination (page=${commentPage},addition='')"></div>
+                <div th:replace="common/common :: pagination (page=${commentPage},addition='')"></div>
             </div>
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="deleteCommentConfirm" tabindex="-1" role="dialog"
+        <div class="modal fade" id="deleteCommentModal" tabindex="-1" role="dialog"
              aria-labelledby="deleteCommentModalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -300,7 +300,8 @@
             </div>
         </div>
         <!-- Modal -->
-        <div class="modal fade" id="updateComment" tabindex="-1" role="dialog" aria-labelledby="updateCommentModalTitle"
+        <div class="modal fade" id="updateCommentModal" tabindex="-1" role="dialog"
+             aria-labelledby="updateCommentModalTitle"
              aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
