@@ -82,9 +82,7 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="container">
     <div th:replace="common/common :: header"></div>
     <div th:replace="common/common :: category"></div>
@@ -94,13 +92,11 @@
                 th:attr="data-slide-to=${stickArticleList.indexOf(article)}"
                 th:class="${articleList.indexOf(article)} == 0  ? 'active' : ''"></li>
         </ol>
-
         <div class="carousel-inner">
-
             <div th:each="article : ${stickArticleList}"
                  th:class="${stickArticleList.indexOf(article)} == 0  ? 'carousel-item active':'carousel-item'"
                  data-interval="5000" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()}">
-                <img th:src="'/static/image/' + (${stickArticleList.indexOf(article)} + 1) + '.png'"
+                <img th:src="'/static/img/' + (${stickArticleList.indexOf(article)} + 1) + '.png'"
                      class="d-block w-100" alt="carousel">
                 <div class="carousel-caption">
                     <h5 th:text="${#strings.abbreviate(article.getTitle(),20)}"></h5>
@@ -161,31 +157,24 @@
             </div>
         </div>
     </div>
-</div>
-<main role="main" class="container" id="articles">
-    <div class="row">
-        <div class="col-md-8 blog-main">
-            <h3 class="pb-4 mb-4 font-italic border-bottom">
-                最新文章
-            </h3>
-
-            <div class="blog-post" th:each="article : ${articleList}">
-                <h2 class="blog-post-title" th:text="${article.getTitle()}"></h2>
-                <p class="blog-post-meta" th:text="${#strings.abbreviate(article.getRawContent(),100)}"></p>
-                <hr class="bg-dark">
+    <main role="main" class="container" id="articles">
+        <div class="row">
+            <div class="col-md-8 blog-main">
+                <h3 class="pb-4 mb-4 font-italic border-bottom">
+                    最新文章
+                </h3>
+                <div class="blog-post" th:each="article : ${articleList}">
+                    <h2 class="blog-post-title" th:text="${article.getTitle()}"></h2>
+                    <p class="blog-post-meta" th:text="${#strings.abbreviate(article.getRawContent(),100)}"></p>
+                    <hr class="bg-dark">
+                </div>
+                <div th:replace="common/common :: pagination (page=${articlePage},addition='#articles')"></div>
             </div>
-            <div th:replace="common/common :: pagination (page=${articlePage},addition='#articles')"></div>
+            <div th:replace="common/common :: aside"></div>
         </div>
-
-        <div th:replace="common/common :: aside"></div>
-
-    </div>
-
-</main>
-
-
-<div class="container bg-light blog-footer" th:insert="common/common :: footer"></div>
-
+    </main>
+    <footer th:replace="common/footer :: footer"></footer>
+</div>
 <script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>
 </body>

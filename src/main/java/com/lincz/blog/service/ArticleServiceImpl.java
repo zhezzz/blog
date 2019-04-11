@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -45,8 +46,28 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public Article updateArticlePublishStatus(Long articleId, Article articleDTO) {
+        Article article = articleRepository.findById(articleId).orElse(null);
+        article.setPublish(articleDTO.isPublish());
+        return articleRepository.save(article);
+    }
+
+
+    @Override
+    public Article updateArticleStatus(Long articleId, Article articleDTO) {
+        Article article = articleRepository.findById(articleId).orElse(null);
+        article.setStick(articleDTO.isStick());
+        return articleRepository.save(article);
+    }
+
+    @Override
     public void deleteArticleByArticleId(Long articleId) {
         articleRepository.deleteById(articleId);
+        File dir = new File("/root/data/article/image/" + articleId);
+        File[] files = dir.listFiles();
+        for (File file : files) {
+            file.delete();
+        }
     }
 
     @Override

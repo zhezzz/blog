@@ -168,7 +168,7 @@
                     <a th:href="${#request.getContextPath()} + '/article/management?publish=true'"
                        class="btn btn-sm btn-primary">公开文章</a>
                     <a th:href="${#request.getContextPath()} + '/article/management?publish=false'"
-                       class="btn btn-sm btn-primary">私享文章</a>
+                       class="btn btn-sm btn-primary">不公开文章</a>
                     <table class="table table-bordered table-hover">
                         <tr>
                             <th>文章id</th>
@@ -177,7 +177,8 @@
                             <th>作者</th>
                             <th>发布时间</th>
                             <th>最近修改时间</th>
-                            <th>文章状态</th>
+                            <th>状态</th>
+                            <th>状态修改</th>
                             <th>操作</th>
                         </tr>
                         <tr th:each="article : ${articleList}">
@@ -187,7 +188,23 @@
                             <td th:text="${article.getAccount().getUsername()}"></td>
                             <td th:text="${article.getCreateDate().toString().replace('T',' ')}"></td>
                             <td th:text="${article.getLastModifiedDate().toString().replace('T',' ')}"></td>
-                            <td th:text="${article.isPublish()} ? '公开' : '私享'"></td>
+                            <td th:text="(${article.isPublish()} ? '公开' : '不公开') + (${article.isStick()} ? '-置顶' : '')"></td>
+                            <td>
+                                <a th:if="${article.isPublish()} == false"
+                                   th:onclick="setPublish(true,[[${article.getArticleId()}]]);"
+                                   class="btn btn-sm btn-outline-secondary"><i class="fas fa-lock-open"></i> 公开</a>
+                                <a th:if="${article.isPublish()} == true"
+                                   th:onclick="setPublish(false,[[${article.getArticleId()}]]);"
+                                   class="btn btn-sm btn-outline-secondary"><i class="fas fa-lock"></i> 不公开</a>
+                                <a sec:authorize="hasAnyRole('ROOT','ADMIN')" th:if="${article.isStick()} == false"
+                                   class="btn btn-sm btn-outline-secondary"
+                                   th:onclick="setStick([[${article.isStick()}]]);">
+                                    <i class="fas fa-arrow-alt-circle-up"></i> 置顶</a>
+                                <a sec:authorize="hasAnyRole('ROOT','ADMIN')" th:if="${article.isStick()} == true"
+                                   class="btn btn-sm btn-outline-secondary"
+                                   th:onclick="setStick([[${article.isStick()}]]);">
+                                    <i class="fas fa-arrow-alt-circle-down"></i> 取消置顶</a>
+                            </td>
                             <td>
                                 <a class="btn btn-sm btn-outline-secondary" data-toggle="modal"
                                    data-target="#deleteArticleModal"

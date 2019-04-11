@@ -29,6 +29,44 @@
             }
         })
     }
+
+    function setPublish(publish, articleId) {
+        var accountData = {
+            publish: publish
+        }
+        $.ajax({
+            type: "PUT",
+            url: contextPath + '/account/' + articleId + '/publish',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(accountData),
+            success: function (data) {
+                window.location.reload();
+            },
+            error: function (data) {
+                window.location.reload();
+            }
+        })
+    }
+
+    function setStick(stick, articleId) {
+        var accountData = {
+            stick: stick
+        }
+        $.ajax({
+            type: "PUT",
+            url: contextPath + '/article/' + articleId + '/stick',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(accountData),
+            success: function (data) {
+                window.location.reload();
+            },
+            error: function (data) {
+                window.location.reload();
+            }
+        })
+    }
 </script>
 </body>
 </html>

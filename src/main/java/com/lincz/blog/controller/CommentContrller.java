@@ -37,27 +37,28 @@ public class CommentContrller {
 
     @GetMapping(value = "/management")
     @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
-    private ModelAndView commentManagementPage(@PageableDefault(sort = {"commentId"}, direction = Sort.Direction.DESC) Pageable pageable) {
+    public ModelAndView commentManagementPage(@PageableDefault(sort = {"commentId"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        //TODO java.lang.NullPointerException
         Page<Comment> commentPage = commentService.paginateGetAllComments(pageable);
         List<Comment> commentList = commentPage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("management/admin/CommentManagement");
-        modelAndView.addObject("commentList", commentList);
         modelAndView.addObject("commentPage", commentPage);
+        modelAndView.addObject("commentList", commentList);
         return modelAndView;
     }
 
     @GetMapping(value = "/mymanagement")
     @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
-    private ModelAndView myCommentManagementPage(@PageableDefault(sort = {"commentId"}, direction = Sort.Direction.DESC) Pageable pageable) {
+    public ModelAndView myCommentManagementPage(@PageableDefault(sort = {"commentId"}, direction = Sort.Direction.DESC) Pageable pageable) {
         String currentUsername = request.getUserPrincipal().getName();
         Account currentAccount = accountService.getAccountByUsername(currentUsername);
-        Page<Comment> commentPage = commentService.paginateGetCommetsByAccount(currentAccount,pageable);
+        Page<Comment> commentPage = commentService.paginateGetCommetsByAccount(currentAccount, pageable);
         List<Comment> commentList = commentPage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("management/user/MyCommentManagement");
-        modelAndView.addObject("commentList", commentList);
         modelAndView.addObject("commentPage", commentPage);
+        modelAndView.addObject("commentList", commentList);
         return modelAndView;
     }
 

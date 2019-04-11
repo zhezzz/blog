@@ -69,14 +69,10 @@ public class Article {
 
     }
 
-    public Article(@NotNull Account account, @NotNull String title, @NotNull String content, @NotNull String rawContent) {
-        this.account = account;
+    public Article(@NotNull String title, @NotNull String content, @NotNull boolean publish) {
         this.title = title;
         this.content = content;
-        this.rawContent = rawContent;
-        this.pageView = Long.valueOf(0);
-        this.publish = false;
-        this.stick = false;
+        this.publish = publish;
     }
 
     public Long getArticleId() {

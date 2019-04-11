@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="common/management :: managementhead (~{::title})">
+<head th:replace="common/management :: managementhead (~{::title},~{})">
     <title>总览</title>
 </head>
 <body>
-
 <div th:replace="common/management :: headerbar"></div>
-<div class="wrapper">
+<div class="wrapper"
+     th:with="account=${@accountServiceImpl.getAccountByUsername(#request.getUserPrincipal().getName())}">
     <div th:replace="common/management :: sidebar"></div>
     <div class="container-fluid content-area">
         <div class="row">

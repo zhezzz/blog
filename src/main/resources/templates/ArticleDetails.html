@@ -100,9 +100,8 @@
         </div>
     </div>
 
-</div>
-<div class="container" id="comments">
-    <div class="row">
+
+    <div class="row" id="comments">
         <div class="col-md-8">
             <form th:action="${#request.getContextPath()} + '/comment/' + ${article.getArticleId()}" method="post">
                 <label for="exampleFormControlTextarea1">评论区</label>
@@ -126,11 +125,9 @@
         <div th:replace="common/common :: aside"></div>
     </div>
 
+
+    <footer th:replace="common/footer :: footer"></footer>
 </div>
-
-<div class="container bg-light" th:insert="common/footer :: footer"></div>
-
-
 <script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>
 </body>

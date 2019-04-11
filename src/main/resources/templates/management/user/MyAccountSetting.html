@@ -13,51 +13,50 @@
     <div class="container-fluid content-area"
          th:with="account=${@accountServiceImpl.getAccountByUsername(#request.getUserPrincipal().getName())}">
         <div class="row">
-                        <div class="col-sm-6 text-center">
-                            <form class="form form-vertical"
-                                  th:action="${#request.getContextPath()} + '/account/' + ${account.getAccountId()} + '/avatar'"
-                                  method="post" enctype="multipart/form-data">
-                                <div class="kv-avatar">
-                                    <div class="file-loading">
-                                        <input id="avatar" name="avatar" type="file" required>
-                                    </div>
-                                </div>
-                                <div class="kv-avatar-hint">
-                                    <small>图片大小 < 1500 KB</small>
-                                </div>
-                                <div class="form-group">
-                                    <hr>
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">提交头像</button>
-                                    </div>
-                                </div>
-                            </form>
+            <div class="col-sm-6 text-center">
+                <form class="form form-vertical">
+                    <div class="kv-avatar">
+                        <div class="file-loading">
+                            <input id="avatar" name="avatar" type="file" required multiple>
                         </div>
-
-                        <div class="col-sm-4">
-                            <form>
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" class="form-control" name="email" id="email" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="pwd">密码</label>
-                                    <input type="password" class="form-control" name="pwd" id="pwd" required>
-                                </div>
-                                <div class="form-group">
-                                    <hr>
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">提交修改</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
                     </div>
+                    <div class="kv-avatar-hint">
+                        <small>图片大小 < 3 MB</small>
+                        <small>图片格式：JPG，PNG</small>
+                    </div>
+                    <div class="form-group">
+                        <hr>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">提交头像</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
 
-        <div id="kv-avatar-errors-1" class="center-block" style="width:800px;display:none"></div>
+            <div class="col-sm-4">
+                <form>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" name="email" id="email" required
+                               th:value="${account.getEmail()}">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <input type="password" class="form-control" name="password" id="password" required>
+                    </div>
+                    <div class="form-group">
+                        <hr>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" onclick="updateAccountInfo()">提交修改</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <div id="kv-avatar-errors" class="center-block" style="width:800px;display:none"></div>
     </div>
-
 </div>
 
 
@@ -68,27 +67,49 @@
 <script type="text/javascript" th:src="@{/static/js/fileinput/plugins/piexif.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/fileinput/plugins/piexif.js}"></script>
 <script th:inline="javascript">
-
-
-
+    var accountId = [[${account.getAccountId()}]];
+    var contextPath = [[${#request.getContextPath()}]];
     $("#avatar").fileinput({
+        uploadUrl: contextPath + '/account/' + accountId + '/avatar',
         language: "zh",
         theme: "fas",
         overwriteInitial: true,
-        maxFileSize: 1024,
+        maxFileSize: 3072,
         showClose: false,
         showCaption: false,
-        browseLabel: '',
+        showBrowse: false,
+        browseOnZoneClick: true,
         removeLabel: '',
         browseIcon: '<i class="fas fa-folder-open"></i>',
         removeIcon: '<i class="fas fa-trash-alt"></i>',
         removeTitle: '重置头像',
-        elErrorContainer: '#kv-avatar-errors-1',
+        elErrorContainer: '#kv-avatar-errors',
         msgErrorClass: 'alert alert-block alert-danger',
-        defaultPreviewContent: '<img src="http://www.51qianduan.com/uploadfile/article/0/2/2412.png">',
-        layoutTemplates: {main2: '{preview} ' + ' {remove} {browse}'},
+        defaultPreviewContent: '<img src="/static/img/default-avatar.jpg"><h6 class="text-muted">点击选择头像</h6>',
+        // layoutTemplates: {main2: '{preview} ' + ' {remove} {browse}'},
         allowedFileExtensions: ["jpg", "png", "gif"]
     });
+
+    function updateAccountInfo() {
+        var accountData = {
+            email: $("#email").val(),
+            password: $("#password").val()
+        }
+        $.ajax({
+            type: "PUT",
+            url: contextPath + '/account/' + accountId + '/status',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(accountData),
+            success: function (data) {
+                window.location.reload();
+            },
+            error: function (data) {
+                window.location.reload();
+            }
+        })
+    }
+
 </script>
 </body>
 </html>

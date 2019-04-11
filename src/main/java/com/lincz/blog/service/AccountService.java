@@ -6,8 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Set;
+import java.io.IOException;
 
 public interface AccountService extends UserDetailsService {
 
@@ -20,6 +21,8 @@ public interface AccountService extends UserDetailsService {
     Account getAccountByAccountId(Long accountId);
 
     Account updateAccountInfo(Long accountId, Account accountDTO);
+
+    void updateAccountAvatar(Long accountId, MultipartFile avatar) throws IOException;
 
     Account updateAccountStatus(Long accountId, Account accountDTO);
 

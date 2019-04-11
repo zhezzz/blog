@@ -43,6 +43,9 @@ public class Account implements UserDetails {
     private String email;
 
     @NotNull
+    private String avatar;
+
+    @NotNull
     private String role;
 
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -68,17 +71,16 @@ public class Account implements UserDetails {
     protected Account() {
     }
 
-    public Account(@NotNull(message = "用户名不能为空") @Length(min = 3, max = 16) String username,
-                   @NotNull(message = "密码不能为空") @Length(min = 4, max = 16) String password,
-                   @NotNull(message = "电子邮箱地址不能为空") @Email String email, @NotNull String role) {
+    public Account(@NotNull(message = "用户名不能为空") @Length(min = 2, max = 10) String username, @NotNull(message = "密码不能为空") @Length(min = 4, max = 12) String password, @NotNull(message = "电子邮箱地址不能为空") @Email String email, @NotNull String avatar, @NotNull String role, @NotNull boolean accountNonExpired, @NotNull boolean accountNonLocked, @NotNull boolean credentialsNonExpired, @NotNull boolean enabled) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.avatar = avatar;
         this.role = role;
-        this.accountNonExpired = true;
-        this.accountNonLocked = true;
-        this.credentialsNonExpired = true;
-        this.enabled = true;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.enabled = enabled;
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -193,5 +195,13 @@ public class Account implements UserDetails {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

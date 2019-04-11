@@ -9,8 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Set;
+import java.io.File;
+import java.io.IOException;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -59,12 +61,33 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account createAccount(Account accountDTO) {
-        Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail(),"USER");
+        Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail(), "default-avatar.jpg", "USER", true, true, true, true);
         return accountRepository.save(account);
     }
 
     @Override
+    public void updateAccountAvatar(Long accountId, MultipartFile avatar) throws IOException {
+        Account account = accountRepository.findById(accountId).orElse(null);
+        File oldFile = new File("/root/data/account/avatar/" + account.getAvatar());
+        if (oldFile.exists()){
+            oldFile.delete();
+        }
+        String avatarFileName = accountId + avatar.getOriginalFilename().substring(avatar.getOriginalFilename().lastIndexOf("."));
+        File file = new File("/root/data/account/avatar");
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        avatar.transferTo(new File(file.toString() + "/" + avatarFileName));
+        account.setAvatar(avatarFileName);
+    }
+
+    @Override
     public void deleteAccountByAccountId(Long accountId) {
+        Account account = accountRepository.findById(accountId).orElse(null);
+        File file = new File("/root/data/account/avatar/" + account.getAvatar());
+        if (file.exists()){
+            file.delete();
+        }
         accountRepository.deleteById(accountId);
     }
 

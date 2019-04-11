@@ -7,6 +7,7 @@ import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
 import com.lincz.blog.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -95,8 +96,7 @@ public class AccountController {
             return modelAndView;
         }
         //TODO 更多校验
-        Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail(), "USER");
-        accountService.createAccount(account);
+        accountService.createAccount(accountDTO);
         modelAndView.setViewName("redirect:/index");
         return modelAndView;
     }
@@ -105,12 +105,12 @@ public class AccountController {
     @PutMapping(value = "/{accountId}/status")
     @PreAuthorize("hasAnyRole('ROOT')")
     public void updateAccountStatus(@PathVariable Long accountId, @RequestBody Account accountDTO) {
-        if (accountDTO.getRole().equals("ROOT") || accountDTO.getRole().equals("ADMIN") || accountDTO.getRole().equals("USER")){
-            accountService.updateAccountStatus(accountId,accountDTO);
+        if (accountDTO.getRole().equals("ROOT") || accountDTO.getRole().equals("ADMIN") || accountDTO.getRole().equals("USER")) {
+            accountService.updateAccountStatus(accountId, accountDTO);
         }
     }
 
-    // 修改个人信息//TODO
+    // 修改个人信息
     @PutMapping(value = "/{accountId}/info")
     @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public void updateAccount(@PathVariable Long accountId, @RequestBody Account accountDTO) {
@@ -127,20 +127,12 @@ public class AccountController {
     // 修改头像
     @PostMapping(value = "/{accountId}/avatar")
     @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
-    public void updateAccountAvatar(@PathVariable Long accountId, @RequestParam(value = "avatar") MultipartFile avatar)
-            throws IOException {
-        if (!avatar.isEmpty()) {
-            String fileName = avatar.getName();
-            if (fileName.endsWith(".jpg") || fileName.endsWith(".png") || fileName.endsWith(".gif")) {
-                String classpath = this.getClass().getClassLoader().getResource("").getPath();
-                String avatarFileName = accountId + ".png";
-                File file = new File(classpath + "data/account/avatar/");
-                if (!file.exists()) {
-                    file.mkdirs();
-                }
-                avatar.transferTo(new File(file.toString() + "/" + avatarFileName));
-            }
+    public Response updateAccountAvatar(@PathVariable Long accountId, @RequestParam(value = "avatar") MultipartFile avatar) throws IOException {
+        if (!avatar.isEmpty() || avatar.getOriginalFilename().endsWith(".JPG") || avatar.getOriginalFilename().endsWith(".PNG") || avatar.getOriginalFilename().endsWith(".GIF") || avatar.getOriginalFilename().endsWith(".jpg") || avatar.getOriginalFilename().endsWith(".png") || avatar.getOriginalFilename().endsWith(".gif")) {
+            accountService.updateAccountAvatar(accountId, avatar);
+            return new Response(null);
         }
+        return new Response("上传失败");
     }
 
     // 获取用户所有评论（分页）
@@ -167,6 +159,22 @@ public class AccountController {
         modelAndView.setViewName("AccountHomePage");
         modelAndView.addObject(articleList);
         return modelAndView;
+    }
+
+    private class Response {
+        private String error;
+
+        public Response(String error) {
+            this.error = error;
+        }
+
+        public String getError() {
+            return error;
+        }
+
+        public void setError(String error) {
+            this.error = error;
+        }
     }
 
 }

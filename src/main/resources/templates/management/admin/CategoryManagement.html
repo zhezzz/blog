@@ -38,7 +38,7 @@
                                            data-target="#updateCategory"
                                            th:onclick="setCategory([[${category.getCategoryId()}]],[[${category.getCategoryName()}]]);">
                                             <i class="fas fa-edit"></i> 修改</a>
-                                        <a th:href="${#request.getContextPath()} + '/category/' +  + ${category.getCategoryId()} + '/articles/'"
+                                        <a th:href="${#request.getContextPath()} + '/category/' + ${category.getCategoryId()} + '/articles/'"
                                            class="btn btn-sm btn-outline-secondary" target="_Blank">
                                             <i class="fas fa-external-link-square-alt"></i> 查看</a>
                                     </td>
