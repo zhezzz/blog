@@ -145,9 +145,9 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.findTop10ByAccountOrderByCreateDateDesc(account);
     }
 
-    @Override
-    public Page<Article> paginateGetArticlesByCreatedDateBetweenAndPublish(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime, boolean publish, Pageable pageable) {
-        articleRepository.findAllByCreateDateBetweenAndPublish(startLocalDateTime, endLocalDateTime, publish, pageable);
-        return null;
-    }
+//    @Override
+//    public Page<Article> paginateGetArticlesByPublishAndCreateDateAfterOrOrderByPageView(boolean publish, LocalDateTime localDateTime, Pageable pageable) {
+//        articleRepository.findAllByPublishAndCreateDateAfterOrOrderByPageViewDesc(publish, localDateTime, pageable);
+//        return null;
+//    }
 }

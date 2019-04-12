@@ -48,6 +48,6 @@ public interface ArticleService {
 
     List<Article> getRecent10ArticlesByAccount(Account account);
 
-    Page<Article> paginateGetArticlesByCreatedDateBetweenAndPublish(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime, boolean publish, Pageable pageable);
+//    Page<Article> paginateGetArticlesByPublishAndCreateDateAfterOrOrderByPageView(boolean publish, LocalDateTime localDateTime, Pageable pageable);
 
 }
