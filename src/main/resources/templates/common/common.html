@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -26,7 +26,7 @@
             <a th:if="${#request.getUserPrincipal()} == null" class="btn btn-sm btn-outline-secondary"
                th:href="${#request.getContextPath()} + '/login'">登录</a>
             欢迎，<a th:if="${#request.getUserPrincipal()} != null" class="btn btn-sm btn-secondary"
-                  th:href="${#request.getContextPath()} + '/account/management'"
+                  th:href="${#request.getContextPath()} + '/overview'"
                   th:text="${#request.getUserPrincipal().getName()}"></a>
         </div>
     </div>

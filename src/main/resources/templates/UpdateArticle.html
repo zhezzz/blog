@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -8,10 +8,28 @@
 </head>
 <body>
 <div class="container">
-    <input type="text" id="title" th:value="${article.getTitle()}">
+<!--    <input type="text" id="title" th:value="${article.getTitle()}">-->
+    <div class="form-group">
+        <label for="title">标题</label>
+        <input type="text" class="form-control" id="title" th:value="${article.getTitle()}">
+    </div>
+    <div class="form-group">
+        <label for="categorySelector">分类</label>
+        <select class="form-control" id="categorySelector">
+            <option th:each="category : ${@categoryServiceImpl.getAllCategory()}" th:value="${category.getCategoryId()}" th:text="${category.getCategoryName()}">1</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="publishSelector">状态</label>
+        <select class="form-control" id="publishSelector">
+            <option value="true">公开</option>
+            <option value="false">不公开</option>
+        </select>
+    </div>
     <textarea id="editor">
     </textarea>
-    <input id="publish" type="checkbox" checked="checked">公开
+
+<!--    <input id="publish" type="checkbox" checked="checked">公开-->
     <button type="submit" id="submit" onclick="submit()">保存</button>
 </div>
 
@@ -47,21 +65,41 @@
 
     function submit() {
         title = document.getElementById('title').value;
-        if ($("#publish").is(":checked")) {
+        // if ($("#publish").is(":checked")) {
+        //     publish = true;
+        // }
+        var publishValue = $('#publishSelector option:selected').val();
+        if (publishValue == "true"){
             publish = true;
+        }
+        if (publishValue == "false"){
+            publish = false;
+        }
+        var categoryValue = $('#categorySelector option:selected').val();
+        var categoryText = $('#categorySelector').find('option:selected').text();
+        var categoryData = {
+            categoryId: categoryValue,
+            categoryName: categoryText,
         }
         editorData = myEditor.getData();
         var articleData = {
             title: title,
             content: editorData,
-            publish: publish
+            publish: publish,
+            category: categoryData
         }
         $.ajax({
             type: "PUT",
             url: contextPath + '/article/' + articleId,
             dataType: 'json',
             contentType: 'application/json',
-            data: JSON.stringify(articleData)
+            data: JSON.stringify(articleData),
+            success: function (data) {
+                window.location.reload();
+            },
+            error: function (data) {
+                window.location.reload();
+            }
         })
     }
 

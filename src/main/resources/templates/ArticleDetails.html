@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -89,7 +89,7 @@
             <p class="text-right"
                th:text="'创建时间：' + ${article.getCreateDate().toString().replace('T','  ')} + '  上次修改时间：' + ${article.getLastModifiedDate().toString().replace('T','  ')} + '浏览量：' + ${article.getPageView()}"></p>
         </div>
-        <img th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${article.getAccount().getAccountId()} + '.png'"
+        <img th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${article.getAccount().getAvatar()}"
              class="ml-3" alt="头像">
     </div>
 

@@ -65,12 +65,10 @@ public class MainController {
         return modelAndView;
     }
 
-    @GetMapping(value = "/management")
-    public ModelAndView management() {
-        List<Article> stickArticleList = articleService.getArticlesByStick(true);
+    @GetMapping(value = "/overview")
+    public ModelAndView overview() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("ManagementOverview");
-        modelAndView.addObject("stickArticleList", stickArticleList);
         return modelAndView;
     }
 

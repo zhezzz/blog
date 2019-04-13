@@ -42,13 +42,14 @@ public class ArticleServiceImpl implements ArticleService {
         article.setContent(articleDTO.getContent().replaceAll("<img", "<img class=\"img-fluid"));
         article.setRawContent(articleDTO.getRawContent());
         article.setPublish(articleDTO.isPublish());
+        article.setCategory(articleDTO.getCategory());
         return articleRepository.save(article);
     }
 
     @Override
-    public Article updateArticlePublishStatus(Long articleId, Article articleDTO) {
+    public Article updateArticleStick(Long articleId, Article articleDTO) {
         Article article = articleRepository.findById(articleId).orElse(null);
-        article.setPublish(articleDTO.isPublish());
+        article.setStick(articleDTO.isStick());
         return articleRepository.save(article);
     }
 
@@ -56,7 +57,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Article updateArticleStatus(Long articleId, Article articleDTO) {
         Article article = articleRepository.findById(articleId).orElse(null);
-        article.setStick(articleDTO.isStick());
+        article.setPublish(articleDTO.isPublish());
         return articleRepository.save(article);
     }
 

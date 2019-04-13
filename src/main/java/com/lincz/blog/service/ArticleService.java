@@ -16,7 +16,7 @@ public interface ArticleService {
 
     Article updateArticle(Long articleId, Article articleDTO);
 
-    Article updateArticlePublishStatus(Long articleId, Article articleDTO);
+    Article updateArticleStick(Long articleId, Article articleDTO);
 
     Article updateArticleStatus(Long articleId, Article articleDTO);
 

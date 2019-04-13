@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="common/management :: managementhead (~{::title},~{::link})">
     <title>个人账号设置</title>
     <link rel="stylesheet" th:href="@{/static/css/fileinput/fileinput.min.css}">
@@ -22,14 +22,9 @@
                     </div>
                     <div class="kv-avatar-hint">
                         <small>图片大小 < 3 MB</small>
-                        <small>图片格式：JPG，PNG</small>
+                        <small>图片格式：JPG，PNG，GIF</small>
                     </div>
-                    <div class="form-group">
-                        <hr>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">提交头像</button>
-                        </div>
-                    </div>
+                    <hr>
                 </form>
             </div>
 

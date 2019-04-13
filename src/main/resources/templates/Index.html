@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -160,9 +160,9 @@
     <main role="main" class="container" id="articles">
         <div class="row">
             <div class="col-md-8 blog-main">
-                <h3 class="pb-4 mb-4 font-italic border-bottom">
-                    最新文章
-                </h3>
+<!--                <h3 class="pb-4 mb-4 font-italic border-bottom">-->
+<!--                    最新文章-->
+<!--                </h3>-->
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
                         <a class="nav-link font-italic border-bottom" th:classappend="${#request.getParameter('type') == null} ? 'active' : ''" th:href="${#request.getContextPath()} + '/index'">最新文章</a>

@@ -34,6 +34,8 @@ public class ArticleController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private CategoryService categoryService;
 
     @Autowired
     private HttpServletRequest request;
@@ -118,31 +120,27 @@ public class ArticleController {
         return modelAndView;
     }
 
-    // 修改文章 TODO tiaozhaun
+    // 修改文章
     @PutMapping(value = "/{articleId}")
     @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
-    public ModelAndView updateArticle(@PathVariable Long articleId, @RequestBody Article articleDTO) {
+    public void updateArticle(@PathVariable Long articleId, @RequestBody Article articleDTO) {
+        Category category = categoryService.getCategoryByCategoryId(articleDTO.getCategory().getCategoryId());
+        articleDTO.setCategory(category);
         articleService.updateArticle(articleId, articleDTO);
-        ModelAndView modelAndView = new ModelAndView("redirect:/article/details/" + articleId);
-        return modelAndView;
     }
 
     //修改文章状态
     @PutMapping(value = "/{articleId}/publish")
     @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
-    public ModelAndView updateArticleStatus(@PathVariable Long articleId, @RequestBody Article articleDTO) {
-        articleService.updateArticle(articleId, articleDTO);
-        ModelAndView modelAndView = new ModelAndView("redirect:/article/details/" + articleId);
-        return modelAndView;
+    public void updateArticleStatus(@PathVariable Long articleId, @RequestBody Article articleDTO) {
+        articleService.updateArticleStatus(articleId, articleDTO);
     }
 
     //置顶文章
     @PutMapping(value = "/{articleId}/stick")
     @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
-    public ModelAndView updateArticleStick(@PathVariable Long articleId, @RequestBody Article articleDTO) {
-        articleService.updateArticle(articleId, articleDTO);
-        ModelAndView modelAndView = new ModelAndView("redirect:/article/details/" + articleId);
-        return modelAndView;
+    public void updateArticleStick(@PathVariable Long articleId, @RequestBody Article articleDTO) {
+        articleService.updateArticleStick(articleId, articleDTO);
     }
 
     // 删除文章

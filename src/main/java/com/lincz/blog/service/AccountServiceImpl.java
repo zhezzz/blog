@@ -29,6 +29,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Page<Account> paginateGetAccountsByEnable(boolean enable, Pageable pageable) {
+        return accountRepository.findAllByEnabled(enable, pageable);
+    }
+
+    @Override
     public Account getAccountByUsername(String username) {
         return accountRepository.findAccountByUsername(username);
     }

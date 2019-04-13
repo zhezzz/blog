@@ -14,6 +14,8 @@ public interface AccountService extends UserDetailsService {
 
     Page<Account> paginateGetAllAccount(Pageable pageable);
 
+    Page<Account> paginateGetAccountsByEnable(boolean enable, Pageable pageable);
+
     Account getAccountByUsername(String username);
 
     Account getAccountByEmail(String email);

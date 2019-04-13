@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="common/management :: managementhead (~{::title},~{})">
     <title>分类管理</title>
 </head>
@@ -30,12 +30,12 @@
                                     <td th:text="${category.getCreateDate().toString().replace('T',' ')}"></td>
                                     <td th:text="${category.getLastModifiedDate().toString().replace('T',' ')}"></td>
                                     <td>
-                                        <a class="btn btn-sm btn-outline-secondary" data-toggle="modal"
-                                           data-target="#deleteCategoryConfirm"
+                                        <a sec:authorize="hasAnyRole('ROOT')" class="btn btn-sm btn-outline-secondary" data-toggle="modal"
+                                           data-target="#deleteCategoryModal"
                                            th:onclick="setCategory([[${category.getCategoryId()}]],'');">
                                             <i class="fas fa-trash-alt"></i> 删除</a>
                                         <a class="btn btn-sm btn-outline-secondary" data-toggle="modal"
-                                           data-target="#updateCategory"
+                                           data-target="#updateCategoryModal"
                                            th:onclick="setCategory([[${category.getCategoryId()}]],[[${category.getCategoryName()}]]);">
                                             <i class="fas fa-edit"></i> 修改</a>
                                         <a th:href="${#request.getContextPath()} + '/category/' + ${category.getCategoryId()} + '/articles/'"
@@ -50,7 +50,7 @@
                 </div>
 
                 <!-- Modal -->
-                <div class="modal fade" id="deleteCategoryConfirm" tabindex="-1" role="dialog"
+                <div class="modal fade" id="deleteCategoryModal" tabindex="-1" role="dialog"
                      aria-labelledby="deleteCategoryModalTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
@@ -71,7 +71,7 @@
                     </div>
                 </div>
                 <!-- Modal -->
-                <div class="modal fade" id="updateCategory" tabindex="-1" role="dialog"
+                <div class="modal fade" id="updateCategoryModal" tabindex="-1" role="dialog"
                      aria-labelledby="updateCategoryModalTitle"
                      aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -139,7 +139,7 @@
     function deleteCategory() {
         $.ajax({
             type: "DELETE",
-            url: contextPath + '/category/' + commentId,
+            url: contextPath + '/category/' + categoryId,
             success: function (data) {
                 window.location.reload();
             }
