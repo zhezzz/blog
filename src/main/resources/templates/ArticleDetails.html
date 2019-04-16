@@ -4,105 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/front.css}">
     <title th:text="${article.getTitle()} + ' -- 南风博客'"></title>
-    <style>
-        .blog-header {
-            line-height: 1;
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        .blog-header-logo {
-            font-family: "Playfair Display", Georgia, "Times New Roman", serif;
-            font-size: 2.25rem;
-        }
-
-        .blog-header-logo:hover {
-            text-decoration: none;
-        }
-
-        .nav-scroller {
-            position: relative;
-            z-index: 2;
-            height: 2.75rem;
-            overflow-y: hidden;
-        }
-
-        .nav-scroller .nav {
-            display: -ms-flexbox;
-            display: flex;
-            -ms-flex-wrap: nowrap;
-            flex-wrap: nowrap;
-            padding-bottom: 1rem;
-            margin-top: -1px;
-            overflow-x: auto;
-            text-align: center;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .nav-scroller .nav-link {
-            padding-top: .75rem;
-            padding-bottom: .75rem;
-            font-size: .875rem;
-        }
-    </style>
-    <style>
-        /*
-     * Footer
-     */
-        .blog-footer {
-            padding: 2.5rem 0;
-            color: #999;
-            text-align: center;
-            background-color: #f9f9f9;
-            border-top: .05rem solid #e5e5e5;
-        }
-
-        .blog-footer p:last-child {
-            margin-bottom: 0;
-        }
-    </style>
 </head>
 
 <body>
 
 <div class="container">
     <div th:replace="common/common :: header"></div>
-    <div th:replace="common/common :: category"></div>
-
-
-    <!--<nav aria-label="breadcrumb">-->
-    <!--    <ol class="breadcrumb">-->
-    <!--        <li class="breadcrumb-item"><a th:href="${#request.getContextPath()} + '/'">Home</a></li>-->
-    <!--        <li class="breadcrumb-item" th:if="${breadcrumbCategoryList.size()} != 0" th:each="category : ${breadcrumbCategoryList}"><a th:href="${#request.getContextPath()} + '/category/' + ${category.getCategoryId()} + '/articles'" th:text="${category.getCategoryName()}"></a></li>-->
-    <!--        <li class="breadcrumb-item active" aria-current="page" ><a th:href="${#request.getContextPath()} + '/category/' + ${article.getCategory().getCategoryId()} + '/articles'" th:text="${article.getCategory().getCategoryName()}"></a></li>-->
-    <!--    </ol>-->
-    <!--</nav>-->
-
-    <h2 class="text-center" th:text="${article.getTitle()}"></h2>
-    <div class="media">
-        <div class="media-body">
-            <a th:href="${#request.getContextPath()} + '/account/' + ${article.getAccount().getAccountId()}"><h5
-                    class="mt-0 mb-1 float-right" th:text="${article.getAccount().getUsername()}"></h5></a>
-            <br>
-            <br>
-            <p class="text-right"
-               th:text="'创建时间：' + ${article.getCreateDate().toString().replace('T','  ')} + '  上次修改时间：' + ${article.getLastModifiedDate().toString().replace('T','  ')} + '浏览量：' + ${article.getPageView()}"></p>
-        </div>
-        <img th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${article.getAccount().getAvatar()}"
-             class="ml-3" alt="头像">
-    </div>
-
-    <div class="jumbotron jumbotron-fluid bg-light">
-        <div class="container">
-
-            <article class="lead" th:utext="${article.getContent()}"></article>
+    <div class="row viewpost">
+        <div class="content">
+            <table class="threadtitle">
+                <tr>
+                    <td style="width: 90px;" class="writeimg">
+                        <img th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${article.getAccount().getAvatar()}"
+                             class="hdimg">
+                    </td>
+                    <td>
+                        <h3 itemprop="name" th:text="${article.getTitle()}"></h3>
+                        <p>
+                            <a th:href="${#request.getContextPath()} + '/account/homepage/' + ${article.getAccount().getAccountId()}"
+                               target="_blank" itemprop="publisher"
+                               th:text="${article.getAccount().getUsername()}"></a>
+                            <span th:text="' 发表于：' + ${article.getCreateDate().toString().replace('T','  ')} + ' 上次修改于：' + ${article.getLastModifiedDate().toString().replace('T','  ')} + ' 浏览量：' + ${article.getPageView()}"></span>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <hr>
+            <div class="thread" itemprop="articleBody" th:utext="${article.getContent()}"></div>
         </div>
     </div>
-
-
-    <div class="row" id="comments">
-        <div class="col-md-8">
+    <div class="row content" id="comments">
+        <div class="col-md-9">
             <form th:action="${#request.getContextPath()} + '/comment/' + ${article.getArticleId()}" method="post">
                 <label for="exampleFormControlTextarea1">评论区</label>
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="content" maxlength="200"
@@ -111,8 +45,8 @@
             </form>
             <ul class="list-unstyled">
                 <li class="media" th:each="comment : ${commentList}">
-                    <img th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${comment.getAccount().getAccountId()} + '.png'"
-                         class="mr-3" alt="头像">
+                    <img th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${comment.getAccount().getAvatar()}"
+                         class="mr-3 avatar" alt="头像">
                     <div class="media-body">
                         <a th:href="${#request.getContextPath()} + '/account/' + ${comment.getAccount().getAccountId()}">
                             <h5 class="mt-0 mb-1" th:text="${comment.getAccount().getUsername()}"></h5></a>

@@ -6,23 +6,32 @@
 </head>
 <body>
 
-<header th:fragment="header" class="blog-header py-1">
-    <div class="row flex-nowrap justify-content-between align-items-center">
-        <div class="col-4 pt-1">
-            <a class="text-muted" th:href="${#request.getContextPath()} + '/index'">首页</a>
+<div th:fragment="header">
+    <div class="topbar row"
+         th:style="'background-image: url(https://www.zerobbs.net/content/ZeroDream/images/banner.jpg?s=1);'">
+        <div class="logo">
+            <p>
+                <span class="name">SouthWind</span>
+                <span class="description">南风博客</span>
+            </p>
         </div>
-        <div class="col-4 text-center">
-            <a class="blog-header-logo text-dark">南风博客</a>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="selectnode col-sm-9">
+            <div class="nodelistdiv">
+                <a class="btn btn-light" th:each="category : ${@categoryServiceImpl.getAllCategory()}"
+                   th:href="${#request.getContextPath()} + '/category/' + ${category.getCategoryId()} + '/articles'"
+                   th:text="${category.getCategoryName()}">
+                </a>
+            </div>
         </div>
-        <div class="col-4 d-flex justify-content-end align-items-center">
-            <a class="text-muted">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
-                     stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img"
-                     viewBox="0 0 24 24" focusable="false"><title>Search</title>
-                    <circle cx="10.5" cy="10.5" r="7.5"></circle>
-                    <path d="M21 21l-5.2-5.2"></path>
-                </svg>
-            </a>
+        <div class="col-sm-1 text-sm-right">
+            <button type="button" class="btn btn-light" data-toggle="collapse" data-target="#searchCollapse"
+                    aria-expanded="false" aria-controls="searchCollapse"><i class="fas fa-search"></i></button>
+        </div>
+
+        <div class="col-sm-2 text-sm-right">
             <a th:if="${#request.getUserPrincipal()} == null" class="btn btn-sm btn-outline-secondary"
                th:href="${#request.getContextPath()} + '/login'">登录</a>
             欢迎，<a th:if="${#request.getUserPrincipal()} != null" class="btn btn-sm btn-secondary"
@@ -30,26 +39,24 @@
                   th:text="${#request.getUserPrincipal().getName()}"></a>
         </div>
     </div>
-
-</header>
-
-<div th:fragment="category" class="nav-scroller mb-2">
-    <nav class="nav d-flex justify-content-between">
-        <a class="p-2 text-muted" th:each="category : ${@categoryServiceImpl.getAllCategory()}"
-           th:text="${category.getCategoryName()}"></a>
-    </nav>
+    <div class="collapse" id="searchCollapse">
+        <div class="card card-body">
+            <form th:action="${#request.getContextPath()} + ''" method="get">
+                <div class="form-row">
+                    <div class="col-10">
+                        <input type="text" class="form-control" id="search" placeholder="搜索">
+                    </div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-light"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr>
 </div>
 
-<aside th:fragment="aside" class="col-md-4">
-
-    <div class="p-4">
-        <h4 class="font-italic">标签</h4>
-        <a class="btn btn-outline-secondary" th:each="tag : ${@tagServiceImpl.getAllTag()}"
-           th:href="${#request.getContextPath()} + '/tag/' + ${tag.getTagId()} + '/articles'"
-           th:text="${tag.getTagName()}" role="button"></a>
-
-    </div>
-
+<aside th:fragment="aside" class="col-sm-3">
     <div class="p-4 mb-3 bg-light rounded">
         <h4 class="font-italic">关于此站</h4>
         <p class="mb-0">本站为<em>南风博客</em>, 网络并非法外之地，吹水可以，但不能违法。</p>
@@ -79,7 +86,7 @@
     <ul th:if="${(totalPages le 7)&&(totalPages gt 0)}"
         class="pagination justify-content-center">
         <li th:if="${pageNumber eq 0}" class="page-item disabled"><a class="page-link"
-                                                                    >上一页</a></li>
+        >上一页</a></li>
         <li th:if="${pageNumber gt 0}" class="page-item">
             <a class="page-link"
                th:href="${pathparam} + 'page=' + (${pageNumber} - 1) + '&size=' + ${pageSize} + ${addition}">上一页</a>
@@ -102,7 +109,7 @@
     <!-- 处理页数大于7 的情况 -->
     <ul th:if="${totalPages gt 7}" class="pagination justify-content-center">
         <li th:if="${pageNumber eq 0}" class="page-item disabled"><a class="page-link"
-                                                                    >上一页</a></li>
+        >上一页</a></li>
         <li th:if="${pageNumber gt 0}" class="page-item">
             <a class="page-link"
                th:href="${pathparam} + 'page=' + (${pageNumber} - 1) + '&size=' + ${pageSize} + ${addition}">上一页</a>

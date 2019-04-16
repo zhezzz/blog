@@ -3,23 +3,14 @@ package com.lincz.blog.service;
 import com.lincz.blog.entity.Account;
 import com.lincz.blog.entity.Article;
 import com.lincz.blog.entity.Category;
-import com.lincz.blog.entity.Tag;
 import com.lincz.blog.repository.ArticleRepository;
-//import org.hibernate.search.jpa.FullTextEntityManager;
-//import org.hibernate.search.query.dsl.QueryBuilder;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 import java.io.File;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -89,8 +80,17 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<Article> paginateGetArticlesByAccount(Account account, Pageable pageable) {
-        Page<Article> articles = articleRepository.findAllByAccount(account, pageable);
-        return articles;
+        return articleRepository.findAllByAccount(account, pageable);
+    }
+
+    @Override
+    public Page<Article> paginateGetArticlesByUsername(String username, Pageable pageable) {
+        return articleRepository.findAllByAccount_Username(username, pageable);
+    }
+
+    @Override
+    public Page<Article> paginateGetArticlesByTitleContianing(String keyword, Pageable pageable) {
+        return articleRepository.findAllByTitleContaining(keyword,pageable);
     }
 
     @Override
@@ -102,11 +102,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Page<Article> paginateGetArticlesByCategory(Category category, Pageable pageable) {
         return articleRepository.findAllByCategory(category, pageable);
-    }
-
-    @Override
-    public Page<Article> paginateGetArticlesByTags(Tag tag, Pageable pageable) {
-        return articleRepository.findAllByTags(tag, pageable);
     }
 
     @Override
@@ -137,8 +132,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> getArticlesByStick(boolean stick) {
-        return articleRepository.findAllByStick(stick);
+    public Page<Article> getArticlesByStick(boolean stick, Pageable pageable) {
+        return articleRepository.findAllByStick(stick, pageable);
     }
 
     @Override

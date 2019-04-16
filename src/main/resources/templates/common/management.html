@@ -11,7 +11,7 @@
     <title th:replace="${title}">管理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/static/css/ManagementPage.css}">
+    <link rel="stylesheet" th:href="@{/static/css/management.css}">
     <th:block th:replace="${links}"/>
 </head>
 
@@ -144,13 +144,6 @@
                 <i class="fas fa-server"></i> 分类管理
             </a>
         </li>
-        <li sec:authorize="hasAnyRole('ROOT','ADMIN')">
-            <a th:href="${#request.getContextPath()} + '/tag/management'">
-                <i class="fas fa-tags"></i> 标签管理
-            </a>
-        </li>
-
-
     </ul>
 </nav>
 
@@ -163,39 +156,36 @@
                     <h4>文章管理</h4>
                 </div>
                 <div class="table-responsive">
-                    <a th:href="${#request.getContextPath()} + '/article/management'"
-                       class="btn btn-sm btn-primary">全部文章</a>
-                    <a th:href="${#request.getContextPath()} + '/article/management?publish=true'"
-                       class="btn btn-sm btn-primary">公开文章</a>
-                    <a th:href="${#request.getContextPath()} + '/article/management?publish=false'"
-                       class="btn btn-sm btn-primary">不公开文章</a>
-                    <div class="form-group">
-                        <label for="articleStatusSelector">文章状态</label>
-                        <select class="custom-select" id="articleStatusSelector">
-                            <option th:value="null">全部文章</option>
-                            <option th:value="true">公开文章</option>
-                            <option th:value="false">不公开文章</option>
-                        </select>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <select class="form-control" id="articleStatusSelector"
+                                    onchange="window.location.href=this.options[selectedIndex].value">
+                                <option th:value="${#request.getRequestURI()}"
+                                        th:attrappend="${#request.getParameter('publish') == null} ? 'selected'">全部文章
+                                </option>
+                                <option th:value="${#request.getRequestURI()} + '?publish=true'"
+                                        th:attrappend="${#request.getParameter('publish') == true} ? 'selected'">公开文章
+                                </option>
+                                <option th:value="${#request.getRequestURI()} + '/?publish=false'"
+                                        th:attrappend="${#request.getParameter('publish') == false} ? 'selected'">不公开文章
+                                </option>
+                                <option sec:authorize="hasAnyRole('ROOT','ADMIN')"
+                                        th:value="${#request.getRequestURI()} + '?stick=true"
+                                        th:attrappend="${#request.getParameter('stick') == true} ? 'selected'">置顶文章
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4" sec:authorize="hasAnyRole('ROOT','ADMIN')">
+                            <form th:action="${#request.getRequestURI()} + '/article/management'" method="get">
+                                <select class="form-control" id="searchTypeSelector" name="searchtype">
+                                    <option th:value="title">搜索标题</option>
+                                    <option th:value="username">搜索作者</option>
+                                </select>
+                                <input type="text" class="form-control" id="search" placeholder="关键字" name="keyword">
+                                <button type="submit" class="btn btn-light"><i class="fas fa-search"></i></button>
+                            </form>
+                        </div>
                     </div>
-<!--                    <div class="form-group">-->
-<!--                        <label for="categorySelector">分类</label>-->
-<!--                        <select class="custom-select" id="categorySelector">-->
-<!--                            <option th:each="category : ${@categoryServiceImpl.getAllCategory()}"-->
-<!--                                    th:value="${category.getCategoryId()}"-->
-<!--                                    th:text="${category.getCategoryName()}"></option>-->
-<!--                        </select>-->
-<!--                    </div>-->
-<!--                    <div>-->
-<!--                        &lt;!&ndash;                            <label for="username" class="sr-only">按用户名搜索</label>&ndash;&gt;-->
-<!--                        <input type="text" id="username" name="username" placeholder="用户名" class="form-control" required>-->
-<!--                    </div>-->
-<!--                    <button class="btn btn-lg btn-primary btn-block" type="submit">按用户名搜索</button>-->
-<!--                    <div>-->
-<!--                        &lt;!&ndash;                            <label for="title" class="sr-only">按标题搜索</label>&ndash;&gt;-->
-<!--                        <input type="text" id="title" name="title" placeholder="标题" class="form-control" required>-->
-<!--                    </div>-->
-<!--                    <button class="btn btn-lg btn-primary btn-block" type="submit">按标题搜索</button>-->
-
                     <table class="table table-bordered table-hover">
                         <tr>
                             <th>文章id</th>
@@ -238,7 +228,8 @@
                                    th:onclick="setArticleId([[${article.getArticleId()}]]);">
                                     <i class="fas fa-trash-alt"></i> 删除</a>
                                 <a th:href="${#request.getContextPath()} + '/article/update/' + ${article.getArticleId()}"
-                                   class="btn btn-sm btn-outline-secondary" target="_Blank"><i class="fas fa-edit"></i> 修改</a>
+                                   class="btn btn-sm btn-outline-secondary" target="_Blank"><i class="fas fa-edit"></i>
+                                    修改</a>
                                 <a th:href="${#request.getContextPath()} + '/article/details/' + ${article.getArticleId()}"
                                    class="btn btn-sm btn-outline-secondary" target="_Blank">
                                     <i class="fas fa-external-link-square-alt"></i> 查看</a>

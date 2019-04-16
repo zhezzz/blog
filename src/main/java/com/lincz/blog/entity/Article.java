@@ -26,14 +26,6 @@ public class Article {
     private Set<Comment> comments;
 
     // @NotNull
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @OrderBy("tagId desc")
-    @JoinTable(name = "article_tag", joinColumns = {
-            @JoinColumn(name = "articleId", referencedColumnName = "articleId")}, inverseJoinColumns = {
-            @JoinColumn(name = "tagId", referencedColumnName = "tagId")})
-    private Set<Tag> tags;
-
-    // @NotNull
     @ManyToOne
     private Category category;
 
@@ -97,14 +89,6 @@ public class Article {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
-    }
-
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
     }
 
     public Category getCategory() {

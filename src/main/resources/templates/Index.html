@@ -4,88 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/front.css}">
     <title>南风博客</title>
-    <style>
-        h1, h2, h3, h4, h5, h6 {
-            font-family: "Playfair Display", Georgia, "Times New Roman", serif;
-        }
-
-        .blog-post {
-            margin-bottom: 4rem;
-        }
-
-        .blog-post-title {
-            margin-bottom: .25rem;
-            font-size: 2.5rem;
-        }
-
-        .blog-post-meta {
-            margin-bottom: 1.25rem;
-            color: #999;
-        }
-    </style>
-    <style>
-        .blog-header {
-            line-height: 1;
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        .blog-header-logo {
-            font-family: "Playfair Display", Georgia, "Times New Roman", serif;
-            font-size: 2.25rem;
-        }
-
-        .blog-header-logo:hover {
-            text-decoration: none;
-        }
-
-        .nav-scroller {
-            position: relative;
-            z-index: 2;
-            height: 2.75rem;
-            overflow-y: hidden;
-        }
-
-        .nav-scroller .nav {
-            display: -ms-flexbox;
-            display: flex;
-            -ms-flex-wrap: nowrap;
-            flex-wrap: nowrap;
-            padding-bottom: 1rem;
-            margin-top: -1px;
-            overflow-x: auto;
-            text-align: center;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .nav-scroller .nav-link {
-            padding-top: .75rem;
-            padding-bottom: .75rem;
-            font-size: .875rem;
-        }
-    </style>
-    <style>
-        /*
-     * Footer
-     */
-        .blog-footer {
-            padding: 2.5rem 0;
-            color: #999;
-            text-align: center;
-            background-color: #f9f9f9;
-            border-top: .05rem solid #e5e5e5;
-        }
-
-        .blog-footer p:last-child {
-            margin-bottom: 0;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
     <div th:replace="common/common :: header"></div>
-    <div th:replace="common/common :: category"></div>
     <div id="stickArticleCarousel" class="carousel slide carousel-fade" data-ride="carousel">
         <ol class="carousel-indicators">
             <li th:each="article : ${stickArticleList}" data-target="#stickArticleCarousel"
@@ -114,77 +38,34 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-
-<!--    <div class="row mb-2">-->
-<!--        <div class="col-md-6">-->
-<!--            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">-->
-<!--                <div class="col p-4 d-flex flex-column position-static">-->
-<!--                    <strong class="d-inline-block mb-2 text-primary">World</strong>-->
-<!--                    <h3 class="mb-0">Featured post</h3>-->
-<!--                    <div class="mb-1 text-muted">Nov 12</div>-->
-<!--                    <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to-->
-<!--                        additional content.</p>-->
-<!--                    <a class="stretched-link">Continue reading</a>-->
-<!--                </div>-->
-<!--                <div class="col-auto d-none d-lg-block">-->
-<!--                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"-->
-<!--                         preserveAspectRatio="xMidYMid slice" focusable="false" role="img"-->
-<!--                         aria-label="Placeholder: Thumbnail"><title>Placeholder</title>-->
-<!--                        <rect width="100%" height="100%" fill="#55595c"></rect>-->
-<!--                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>-->
-<!--                    </svg>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">-->
-<!--                <div class="col p-4 d-flex flex-column position-static">-->
-<!--                    <strong class="d-inline-block mb-2 text-success">Design</strong>-->
-<!--                    <h3 class="mb-0">Post title</h3>-->
-<!--                    <div class="mb-1 text-muted">Nov 11</div>-->
-<!--                    <p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to-->
-<!--                        additional content.</p>-->
-<!--                    <a class="stretched-link">Continue reading</a>-->
-<!--                </div>-->
-<!--                <div class="col-auto d-none d-lg-block">-->
-<!--                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"-->
-<!--                         preserveAspectRatio="xMidYMid slice" focusable="false" role="img"-->
-<!--                         aria-label="Placeholder: Thumbnail"><title>Placeholder</title>-->
-<!--                        <rect width="100%" height="100%" fill="#55595c"></rect>-->
-<!--                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>-->
-<!--                    </svg>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-    <main role="main" class="container" id="articles">
-        <div class="row">
-            <div class="col-md-8 blog-main">
-<!--                <h3 class="pb-4 mb-4 font-italic border-bottom">-->
-<!--                    最新文章-->
-<!--                </h3>-->
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link font-italic border-bottom" th:classappend="${#request.getParameter('type') == null} ? 'active' : ''" th:href="${#request.getContextPath()} + '/index'">最新文章</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link font-italic border-bottom" th:classappend="${#request.getParameter('type') == 'popular'} ? 'active' : ''" th:href="${#request.getContextPath()} + '/index?type=popular'">本月热门</a>
-                    </li>
-                </ul>
-                <div class="blog-post" th:each="article : ${articleList}">
-                    <h2 class="blog-post-title" th:text="${article.getTitle()}"></h2>
-                    <p class="blog-post-meta" th:text="${#strings.abbreviate(article.getRawContent(),100)}"></p>
-                    <hr class="bg-dark">
+    <div class="row" id="articles">
+        <div class="col-sm-9 postlist">
+            <a th:each="article : ${articleList}" th:href="${#request.getContextPath()} + '/article/details/' + ${article.getArticleId()}" class='post-a'>
+                <div class='post-box'>
+                    <table>
+                        <tr>
+                            <td>
+                                <h4 th:text="${article.getTitle()}"></h4>
+                                <p th:text="${#strings.abbreviate(article.getRawContent(),100)}"></p>
+                            </td>
+                            <td class='writer'>
+                                <p><a th:href="${#request.getContextPath()} + '/account/homepage/' + ${article.getAccount().getAccountId()}" target='_blank' th:text="${article.getAccount().getUsername()}"></a></p>
+                                <p th:text="${article.getCreateDate().toString().replace('T','  ')}"></p>
+                                <p th:text="${article.getPageView()}"><em><i class="fas fa-eye"></i></em></p>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                <div th:replace="common/common :: pagination (page=${articlePage},addition='#articles')"></div>
-            </div>
-            <div th:replace="common/common :: aside"></div>
+            </a>
+            <div th:replace="common/common :: pagination (page=${articlePage},addition='#articles')"></div>
         </div>
-    </main>
+        <div th:replace="common/common :: aside"></div>
+    </div>
     <footer th:replace="common/common :: footer"></footer>
 </div>
 <script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/fontawesome/all.min.js}"></script>
 </body>
 </html>
 

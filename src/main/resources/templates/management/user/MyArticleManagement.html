@@ -36,7 +36,7 @@
         }
         $.ajax({
             type: "PUT",
-            url: contextPath + '/account/' + articleId + '/publish',
+            url: contextPath + '/article/' + articleId + '/publish',
             dataType: 'json',
             contentType: 'application/json',
             data: JSON.stringify(accountData),

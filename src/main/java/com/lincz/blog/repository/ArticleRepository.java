@@ -3,7 +3,6 @@ package com.lincz.blog.repository;
 import com.lincz.blog.entity.Account;
 import com.lincz.blog.entity.Article;
 import com.lincz.blog.entity.Category;
-import com.lincz.blog.entity.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,13 +22,11 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Page<Article> findAllByCategory(Category category, Pageable pageable);
 
-    Page<Article> findAllByTags(Tag tag, Pageable pageable);
-
     Page<Article> findAllByAccountAndPublish(Account account, boolean publish, Pageable pageable);
 
     Page<Article> findAllByCategoryAndPublish(Category category, boolean publish, Pageable pageable);
 
-    List<Article> findAllByStick(boolean stick);
+    Page<Article> findAllByStick(boolean stick, Pageable pageable);
 
 //    Page<Article> findAllByPublishAndCreateDateAfterOrOrderByPageViewDesc(boolean publish, LocalDateTime localDateTime, Pageable pageable);
 
@@ -39,5 +36,13 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Page<Article> findAllByAccount_Username(String username, Pageable pageable);
 
+
+    Long countAllByAccount(Account account);
+
+    Long countAllByAccountAndPublish(Account account, boolean publish);
+
+    Long countAllByCategory(Category category);
+
+    Long countAllByPublish(boolean publish);
 
 }

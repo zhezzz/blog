@@ -19,4 +19,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Page<Comment> findAllByAccount_Username(String username, Pageable pageable);
 
+    Long countCommentsByAccount(Account account);
+
 }

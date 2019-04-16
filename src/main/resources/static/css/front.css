@@ -1,0 +1,638 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+}
+
+.blog-post {
+    margin-bottom: 4rem;
+}
+
+.blog-post-title {
+    margin-bottom: .25rem;
+    font-size: 2.5rem;
+}
+
+.blog-post-meta {
+    margin-bottom: 1.25rem;
+    color: #999;
+}
+.blog-header {
+    line-height: 1;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.blog-header-logo {
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    font-size: 2.25rem;
+}
+
+.blog-header-logo:hover {
+    text-decoration: none;
+}
+
+.nav-scroller {
+    position: relative;
+    z-index: 2;
+    height: 2.75rem;
+    overflow-y: hidden;
+}
+
+.nav-scroller .nav {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    padding-bottom: 1rem;
+    margin-top: -1px;
+    overflow-x: auto;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.nav-scroller .nav-link {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    font-size: .875rem;
+}
+
+/*
+* Footer
+*/
+.blog-footer {
+    padding: 2.5rem 0;
+    color: #999;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-top: .05rem solid #e5e5e5;
+}
+
+.blog-footer p:last-child {
+    margin-bottom: 0;
+}
+
+/*
+Index
+ */
+
+a {
+    color: #1b92d3;
+    text-decoration: none;
+    cursor: pointer
+}
+
+a:hover {
+    color: #1b92d3;
+    text-decoration: none!important
+}
+
+* {
+    transition-duration: .5s
+}
+
+body {
+    min-height: 100%;
+    font-weight: 400;
+    font-family: ĺžŽč˝Żééť,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif!important;
+    background-color: #f1f1f1;
+    overflow-x: hidden;
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center;
+    background-attachment: fixed
+}
+
+.container {
+    min-height: 100%;
+    box-shadow: 0 0 16px rgba(0,0,0,.35);
+    min-height: 1024;
+    background-color: #fff
+}
+
+.container:after {
+    ăăcontent: "";
+    ăăvisibility: hidden;
+    ăădisplay: block;
+    ăăclear: both;
+    ăăheight: 0
+}
+
+.topbar {
+    background-image: url(/content/ZeroDream/images/banner.jpg?s=1);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom
+}
+
+.topbar .logo {
+    padding-left: 48px;
+    padding-top: 120px;
+    padding-bottom: 28px;
+    color: #000
+}
+
+.topbar .logo .name {
+    font-size: 48px
+}
+
+.topbar .logo .description {
+    margin-left: 16px;
+    font-size: 20px
+}
+
+.topbar .menu {
+    width: 100%;
+    height: 45px;
+    border-top: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    background: #424242
+}
+
+.topbar .menu .item {
+    display: inline-block;
+    line-height: 44px
+}
+
+.topbar .menu .item:hover {
+    background: rgba(0,0,0,.2)
+}
+
+.topbar .menu .item a {
+    display: block;
+    height: 100%;
+    color: #fff;
+    text-decoration: none;
+    padding-left: 32px;
+    padding-right: 32px
+}
+
+.headimg {
+    border-radius: 50%
+}
+
+.my {
+    width: 60%;
+    margin: 0 auto;
+    display: block;
+    margin: 16px;
+    max-width: 220px;
+    min-width: 128px;
+    margin-top: 48px;
+    box-shadow: 0 0 16px rgba(0,0,0,.75)
+}
+
+.box {
+    min-height: calc(100% - 179)
+}
+
+.post-box {
+    padding: 16px 20px 24px;
+    border-bottom: 1px solid rgba(0,0,0,.07);
+    cursor: pointer;
+    border-left: 0 solid rgba(66,66,66,.85);
+    transition-duration: .3s
+}
+
+.post-box:hover {
+    transition-duration: .3s;
+    border-left: 5px solid rgba(66,66,66,.85)
+}
+
+.menu {
+    overflow-y: hidden;
+    border: 0!important
+}
+
+.menubar table {
+    font-size: 14px;
+    font-weight: 400;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif!important;
+    margin-bottom: 0;
+    overflow-y: hidden
+}
+
+.menubar table tr td {
+    padding: 0;
+    border-top: 0
+}
+
+.post-box table {
+    width: 100%;
+    font-weight: 400;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif!important
+}
+
+.post-box .writer {
+    width: 150px
+}
+
+.post-box .writer p {
+    margin-block-start: 4px;
+    margin-block-end: 4px
+}
+
+.post-box h4 code {
+    font-size: 12px
+}
+
+.post-box table p {
+    font-size: 14px
+}
+
+.login-name {
+    font-size: 22px
+}
+
+.login-name a {
+    color: #000;
+    text-decoration: none
+}
+
+.login-name a:hover {
+    color: #822219
+}
+
+.postlist {
+    min-height: 100%
+}
+
+.postlist .content {
+    padding: 16px
+}
+
+.footer {
+    width: 100%;
+    height: 150px;
+    background: #424242;
+    color: #fff
+}
+
+.footer .ft-copyright {
+    width: 100%;
+    height: 100%
+}
+
+.footer .ft-copyright tr {
+    height: 100%
+}
+
+.footer .ft-copyright tr td {
+    color: #fff;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif!important;
+    font-weight: 400;
+    font-size: 14px;
+    padding-top: 16px
+}
+
+.footer .ft-copyright tr td p {
+    padding-left: 32px;
+    padding-right: 32px
+}
+
+.viewpost {
+    min-height: 100%
+}
+
+.viewpost .content {
+    padding: 32px;
+    padding-top: 0
+}
+
+.thread img {
+    vertical-align: text-bottom!important;
+    max-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    max-height: 170px!important
+}
+
+.thread table {
+    display: block;
+    width: 100%;
+    overflow: auto;
+    margin-bottom: 8px
+}
+
+.thread table tr {
+    background-color: #fff;
+    border-top: 1px solid #c6cbd1
+}
+
+.thread table tr:nth-child(2n) {
+    background-color: #f6f8fa
+}
+
+.thread table th,.thread table td {
+    padding: 6px 13px;
+    border: 1px solid #dfe2e5;
+    font-size: 14px
+}
+
+.thread pre {
+    margin-bottom: 16px
+}
+
+.threadtitle {
+    width: 100%
+}
+
+.threadtitle tr td {
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif!important;
+    font-weight: 400
+}
+
+.threadtitle tr td img {
+    border-radius: 50%;
+    vertical-align: top;
+    height: 70px
+}
+
+.threadtitle tr td h3 {
+    margin-top: 12px!important
+}
+
+.threadtitle tr td p {
+    font-size: 14px
+}
+
+.reply {
+    width: 100%;
+    min-height: 128px;
+    max-height: 256px;
+    min-width: 100%;
+    max-width: 100%
+}
+
+.signature {
+    width: 100%;
+    min-height: 128px;
+    max-height: 256px;
+    min-width: 100%;
+    max-width: 100%;
+    overflow-y: auto
+}
+
+.signature img {
+    max-height: 100%
+}
+
+.signdisplay {
+    width: 100%;
+    max-height: 180px;
+    overflow: hidden
+}
+
+.reply-txt {
+    position: relative;
+    top: 3px;
+    margin-right: 8px
+}
+
+#chatlist table {
+    width: 100%
+}
+
+#chatlist table tr {
+    margin: 8px
+}
+
+#chatlist table tr .headimg {
+    width: 80px;
+    vertical-align: top;
+    padding-bottom: 8px
+}
+
+#chatlist table tr .headimg img {
+    border-radius: 50%;
+    transition-duration: 1s
+}
+
+#chatlist table tr .headimg img:hover {
+    transform: rotate(360deg);
+    transition-delay: .2s;
+    transition-duration: 1s;
+    box-shadow: 0 0 16px rgba(0,0,0,.3)
+}
+
+#chatlist {
+    display: none;
+    filter: blur(5px)
+}
+
+#chatlist .chat-content {
+    font-size: 15px;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif
+}
+
+.chat-content {
+    word-break: break-all
+}
+
+.chat-content img {
+    vertical-align: text-bottom!important;
+    max-width: 100%!important;
+    margin-top: 8px
+}
+
+.chat-content table {
+    display: block;
+    width: 100%;
+    overflow: auto;
+    margin-bottom: 8px
+}
+
+.chat-content table tr {
+    background-color: #fff;
+    border-top: 1px solid #c6cbd1
+}
+
+.chat-content table tr:nth-child(2n) {
+    background-color: #f6f8fa
+}
+
+.chat-content table th,.chat-content table td {
+    padding: 6px 13px;
+    border: 1px solid #dfe2e5
+}
+
+.newpost {
+    width: 100%;
+    min-height: 320px;
+    max-height: 200%;
+    min-width: 100%;
+    max-width: 100%
+}
+
+.admin-reply {
+    vertical-align: top;
+    width: 110px;
+    font-size: 14px;
+    text-align: center
+}
+
+.selectnode {
+    /*padding-top: 16px;*/
+    /*padding-bottom: 0;*/
+    padding-left: 32px;
+    padding-right: 32px
+}
+
+.post-a {
+    color: #000;
+    text-decoration: none!important
+}
+
+.to_top {
+    background-image: url(https://cdn.tcotp.cn:4443/images/reimu.png);
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    width: 150px;
+    height: 215px;
+    position: fixed;
+    bottom: -32px;
+    right: 0;
+    z-index: 1;
+    cursor: pointer!important;
+    opacity: .2;
+    transition-duration: .5s
+}
+
+.to_top:hover {
+    opacity: 1
+}
+
+.admin-control {
+    width: 45px;
+    text-align: center
+}
+
+.nodename {
+    font-size: 12px
+}
+
+#content {
+    font-family: ĺžŽč˝Żééť,Consolas,monospace
+}
+
+.hljs {
+    background: 0 0!important
+}
+
+pre {
+    border: none!important
+}
+
+blockquote {
+    font-size: 15px!important
+}
+
+.nodeslist {
+    margin-bottom: 0!important
+}
+
+.nodeslist tr td {
+    padding: 0!important;
+    border-top: 0!important
+}
+
+.nodeslistdiv {
+    padding-bottom: 8px
+}
+
+.nodeslistdiv::-webkit-scrollbar {
+    height: 6px
+}
+
+.nodelistdiv {
+    height: 36px;
+    overflow: hidden;
+    transition-duration: .5s
+}
+
+.nodelistdiv:hover {
+    height: 72px
+}
+
+.nodelistdiv button {
+    margin-top: 2px;
+    margin-right: 4px
+}
+
+.imageload {
+    display: none;
+    filter: blur(5px);
+    opacity: 0
+}
+
+.min-writer {
+    display: none
+}
+
+.thread[itemprop=articleBody] img {
+    max-height: unset!important
+}
+
+.thread[itemprop=articleBody] img:hover {
+    box-shadow: 0 0 16px rgba(0,0,0,.2);
+    cursor: pointer
+}
+
+@media screen and (max-width:768px) {
+    .footerstr {
+        display: none
+    }
+
+    .to_top {
+        display: none
+    }
+
+    .writer {
+        display: none
+    }
+
+    .writeimg {
+        display: none
+    }
+
+    .admin-reply {
+        display: none
+    }
+
+    .pcreplyhead {
+        width: 65px!important
+    }
+
+    .pcreplyhead img {
+        width: 50px
+    }
+
+    .min-writer {
+        display: inline
+    }
+
+    .topbar .logo .description {
+        display: block;
+        margin-left: 0
+    }
+
+    .viewpost .content {
+        padding: 0
+    }
+}
+
+.topbar .logo .name {
+    font-weight: 100
+}
+
+@media screen and (max-width:600px) {
+    .nodelistdiv:hover {
+        height: 108px
+    }
+}
+
+.form-control:focus {
+    border-color: #1b92d3;
+    outline: 0;
+    box-shadow: 0 0 8px rgba(27, 146, 211, 0.6)
+}
+
+

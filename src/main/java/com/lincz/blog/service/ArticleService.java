@@ -3,11 +3,9 @@ package com.lincz.blog.service;
 import com.lincz.blog.entity.Account;
 import com.lincz.blog.entity.Article;
 import com.lincz.blog.entity.Category;
-import com.lincz.blog.entity.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ArticleService {
@@ -32,19 +30,21 @@ public interface ArticleService {
 
     Page<Article> paginateGetArticlesByAccount(Account account, Pageable pageable);
 
+    Page<Article> paginateGetArticlesByUsername(String username, Pageable pageable);
+
+    Page<Article> paginateGetArticlesByTitleContianing(String keyword, Pageable pageable);
+
     Page<Article> paginateGetArticlesByAccountAndPublish(Account account, boolean publish, Pageable pageable);
 
     Page<Article> paginateGetArticlesByCategoryAndPublish(Category category, boolean publish, Pageable pageable);
 
     Page<Article> paginateGetArticlesByCategory(Category category, Pageable pageable);
 
-    Page<Article> paginateGetArticlesByTags(Tag tag, Pageable pageable);
-
     boolean isArticleExists(Long articleId);
 
     boolean isArticleExistsAndPublish(Long articleId, boolean publish);
 
-    List<Article> getArticlesByStick(boolean stick);
+    Page<Article> getArticlesByStick(boolean stick, Pageable pageable);
 
     List<Article> getRecent10ArticlesByAccount(Account account);
 

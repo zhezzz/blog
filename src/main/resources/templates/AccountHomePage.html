@@ -5,6 +5,9 @@
     <title>用户文章</title>
 </head>
 <body>
+<div class="container">
+    <div th:replace="common/common :: header"></div>
+</div>
 
 <tr th:each="article:${articleList}">
     <td th:text="${article.getArticleId()}"></td>

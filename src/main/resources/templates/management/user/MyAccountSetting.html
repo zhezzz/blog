@@ -56,11 +56,10 @@
 
 
 <div th:replace="common/management :: script"></div>
+<script type="text/javascript" th:src="@{/static/js/fileinput/plugins/piexif.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/fileinput/fileinput.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/fileinput/locales/zh.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/fileinput/themes/fas/theme.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/js/fileinput/plugins/piexif.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/js/fileinput/plugins/piexif.js}"></script>
 <script th:inline="javascript">
     var accountId = [[${account.getAccountId()}]];
     var contextPath = [[${#request.getContextPath()}]];
@@ -82,7 +81,12 @@
         msgErrorClass: 'alert alert-block alert-danger',
         defaultPreviewContent: '<img src="/static/img/default-avatar.jpg"><h6 class="text-muted">点击选择头像</h6>',
         // layoutTemplates: {main2: '{preview} ' + ' {remove} {browse}'},
-        allowedFileExtensions: ["jpg", "png", "gif"]
+        allowedFileExtensions: ["jpg", "png", "gif"],
+        maxImageWidth: 50,
+        maxImageHeight: 50,
+        resizePreference: 'width',
+        resizeImage: true
+
     });
 
     function updateAccountInfo() {

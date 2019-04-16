@@ -44,11 +44,20 @@ public class ArticleController {
     @GetMapping(value = "/management")
     @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
     public ModelAndView articleManagementPage(
-            @PageableDefault(sort = {"articleId"}, direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false) Boolean publish) {
-        Page<Article> articlePage;
-        if (publish == null) {
-            articlePage = articleService.paginateGetAllArticles(pageable);
-        } else {
+            @PageableDefault(sort = {"articleId"}, direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false) Boolean publish, @RequestParam(required = false) Boolean stick, @RequestParam(required = false) String searchtype, @RequestParam(required = false) String keyword) {
+        Page<Article> articlePage = articleService.paginateGetAllArticles(pageable);
+        if (publish == null && stick == null) {
+            if ("title".equalsIgnoreCase(searchtype)) {
+                articlePage = articleService.paginateGetArticlesByTitleContianing(keyword, pageable);
+            }
+            if ("username".equalsIgnoreCase(searchtype)) {
+                articlePage = articleService.paginateGetArticlesByUsername(keyword, pageable);
+            }
+        }
+        if (publish == null && stick != null) {
+            articlePage = articleService.getArticlesByStick(stick, pageable);
+        }
+        if (publish != null && stick == null) {
             articlePage = articleService.paginateGetArticlesByPublish(publish, pageable);
         }
         List<Article> articleList = articlePage.get().collect(Collectors.toList());
@@ -101,7 +110,7 @@ public class ArticleController {
     public ModelAndView postArticleView() {
         String currentUsername = request.getUserPrincipal().getName();
         Account currentAccount = accountService.getAccountByUsername(currentUsername);
-        Article article = new Article("标题", "请在此编写文章。",false);
+        Article article = new Article("标题", "请在此编写文章。", false);
         article.setAccount(currentAccount);
         article.setPageView(Long.valueOf(0));
         articleService.createArticle(article);

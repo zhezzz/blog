@@ -65,6 +65,7 @@ public class CommentContrller {
     // 发表评论
     @PostMapping(value = "/{articleId}")
     @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
+    //TODO 前台json
     public ModelAndView postComment(@PathVariable Long articleId, @RequestBody Comment commentDTO) {
         Article article = articleService.getArticleByArticleId(articleId);
         String currentUsername = request.getUserPrincipal().getName();

@@ -1,10 +1,7 @@
 package com.lincz.blog.controller;
 
 import com.lincz.blog.entity.*;
-import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
-import com.lincz.blog.service.CategoryService;
-import com.lincz.blog.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +9,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -68,7 +64,7 @@ public class MainController {
     @GetMapping(value = "/overview")
     public ModelAndView overview() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("ManagementOverview");
+        modelAndView.setViewName("management/ManagementOverview");
         return modelAndView;
     }
 
