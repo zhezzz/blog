@@ -2,19 +2,56 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <title>用户文章</title>
+    <title th:text="${account.getUsername()} + '的主页'"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/front.css}">
 </head>
 <body>
 <div class="container">
     <div th:replace="common/common :: header"></div>
+    <table class="threadtitle">
+        <tr>
+            <td style="width: 90px;" class="writeimg">
+                <img th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${account.getAvatar()}"
+                     class="hdimg">
+            </td>
+            <td>
+                <h3 itemprop="name" th:text="${account.getUsername()}"></h3>
+                <p>
+                    <span th:text="' 注册于：' + ${account.getCreateDate().toString().replace('T','  ')} + ' 发布文章数量：' + ${@articleServiceImpl.getArticleQuantityByPublishTrueAndAccount(account)} + ' 回复量：' + ${@commentServiceImpl.getCommentQuantityMonthlyByAccount(account).size()}"></span>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <hr>
+    <div class="row" id="articles">
+        <div class="col-sm-9 postlist">
+            <a th:each="article : ${articleList}" th:href="${#request.getContextPath()} + '/article/details/' + ${article.getArticleId()}" class='post-a'>
+                <div class='post-box'>
+                    <table>
+                        <tr>
+                            <td>
+                                <h4 th:text="${article.getTitle()}"></h4>
+                                <p th:text="${#strings.abbreviate(article.getRawContent(),100)}"></p>
+                            </td>
+                            <td class='writer'>
+                                <p><a th:href="${#request.getContextPath()} + '/account/homepage/' + ${article.getAccount().getAccountId()}" target='_blank' th:text="${article.getAccount().getUsername()}"></a></p>
+                                <em><i class="fas fa-clock"></i></em><p th:text="${article.getCreateDate().toString().replace('T','  ')}"></p>
+                                <em><i class="fas fa-eye"></i></em><p th:text="${article.getPageView()}"></p>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </a>
+            <div th:replace="common/common :: pagination (page=${articlePage},addition='#articles')"></div>
+        </div>
+        <div th:replace="common/common :: aside"></div>
+    </div>
+    <footer th:replace="common/common :: footer"></footer>
 </div>
-
-<tr th:each="article:${articleList}">
-    <td th:text="${article.getArticleId()}"></td>
-    <td th:text="${#strings.abbreviate(article.getTitle(),30)}"></td>
-    <td th:text="${#strings.abbreviate(article.getRawContent(),100)}"></td>
-    <br>
-</tr>
-
+<script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/fontawesome/all.min.js}"></script>
 </body>
 </html>

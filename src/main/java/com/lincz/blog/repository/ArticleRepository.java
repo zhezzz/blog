@@ -36,13 +36,12 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Page<Article> findAllByAccount_Username(String username, Pageable pageable);
 
+    Long countAllByAccountAndCreateDateBetween(Account account, LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime);
 
-    Long countAllByAccount(Account account);
+    Long countAllByCreateDateBetween(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime);
 
     Long countAllByAccountAndPublish(Account account, boolean publish);
 
     Long countAllByCategory(Category category);
-
-    Long countAllByPublish(boolean publish);
 
 }

@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.Month;
+import java.util.Map;
 
 public interface AccountService extends UserDetailsService {
 
@@ -36,4 +38,6 @@ public interface AccountService extends UserDetailsService {
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
     boolean isAccountExists(Long accountId);
+
+    Map<Month, Long> getAccountQuantityMonthly();
 }

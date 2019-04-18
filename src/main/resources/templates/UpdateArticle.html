@@ -8,7 +8,6 @@
 </head>
 <body>
 <div class="container">
-<!--    <input type="text" id="title" th:value="${article.getTitle()}">-->
     <div class="form-group">
         <label for="title">标题</label>
         <input type="text" class="form-control" id="title" th:value="${article.getTitle()}">
@@ -28,8 +27,6 @@
     </div>
     <textarea id="editor">
     </textarea>
-
-<!--    <input id="publish" type="checkbox" checked="checked">公开-->
     <button type="submit" id="submit" onclick="submit()">保存</button>
 </div>
 
@@ -102,8 +99,6 @@
             }
         })
     }
-
-
 </script>
 </body>
 </html>

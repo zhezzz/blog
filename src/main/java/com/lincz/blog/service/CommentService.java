@@ -6,7 +6,10 @@ import com.lincz.blog.entity.Comment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
+import java.util.Map;
 
 public interface CommentService {
 
@@ -27,5 +30,9 @@ public interface CommentService {
     boolean isCommentExists(Long commentId);
 
     List<Comment> getRecent10CommentsByAccount(Account account);
+
+    Map<Month, Long> getCommentQuantityMonthlyByAccount(Account account);
+
+    Map<Month, Long> getCommentQuantityMonthly();
 
 }

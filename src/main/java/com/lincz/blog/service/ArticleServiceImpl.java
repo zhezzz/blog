@@ -11,13 +11,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     ArticleRepository articleRepository;
+
+//    @PersistenceUnit
+//    private EntityManagerFactory entityManagerFactory;
 
     @Override
     public Article createArticle(Article article) {
@@ -90,7 +98,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<Article> paginateGetArticlesByTitleContianing(String keyword, Pageable pageable) {
-        return articleRepository.findAllByTitleContaining(keyword,pageable);
+        return articleRepository.findAllByTitleContaining(keyword, pageable);
     }
 
     @Override
@@ -141,9 +149,77 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.findTop10ByAccountOrderByCreateDateDesc(account);
     }
 
+    @Override
+    public Map<Month, Long> getArticleQuantityMonthlyByAccount(Account account) {
+        Map<Month, Long> accountArticlesLineChart = new LinkedHashMap<>();
+        LocalDateTime now = LocalDateTime.now();
+        int years = now.getYear();
+        int month = now.getMonthValue();
+        for (int i = 1; i <= month; i++) {
+            LocalDateTime monthStartLocalDateTime = LocalDateTime.of(years, Month.of(i), 1, 0, 0, 0, 0);
+            LocalDateTime monthEndLocalDateTime = monthStartLocalDateTime.plusMonths(1).minusDays(monthStartLocalDateTime.getDayOfMonth()).plusHours(23).plusMinutes(59).plusSeconds(59).plusNanos(999999999);
+            accountArticlesLineChart.put(Month.of(i), articleRepository.countAllByAccountAndCreateDateBetween(account, monthStartLocalDateTime, monthEndLocalDateTime));
+        }
+        return accountArticlesLineChart;
+    }
+
+    @Override
+    public Map<Month, Long> getArticleQuantityMonthly() {
+        Map<Month, Long> articlesLineChart = new LinkedHashMap<>();
+        LocalDateTime now = LocalDateTime.now();
+        int years = now.getYear();
+        int month = now.getMonthValue();
+        for (int i = 1; i <= month; i++) {
+            LocalDateTime monthStartLocalDateTime = LocalDateTime.of(years, Month.of(i), 1, 0, 0, 0, 0);
+            LocalDateTime monthEndLocalDateTime = monthStartLocalDateTime.plusMonths(1).minusDays(monthStartLocalDateTime.getDayOfMonth()).plusHours(23).plusMinutes(59).plusSeconds(59).plusNanos(999999999);
+            articlesLineChart.put(Month.of(i), articleRepository.countAllByCreateDateBetween(monthStartLocalDateTime, monthEndLocalDateTime));
+        }
+        return articlesLineChart;
+    }
+
+    @Override
+    public Long getArticleQuantityByPublishTrueAndAccount(Account account) {
+        return articleRepository.countAllByAccountAndPublish(account, true);
+    }
+
+    @Override
+    public Map<String, Long> getArticleQuantityByCategory(List<Category> categoryList) {
+        Map<String, Long> categoryPieChart = new LinkedHashMap<>();
+        for (Category category : categoryList) {
+            if (!articleRepository.countAllByCategory(category).equals(Long.valueOf(0))){
+                categoryPieChart.put(category.getCategoryName(), articleRepository.countAllByCategory(category));
+            }
+        }
+        return categoryPieChart;
+    }
+
+    @Override
+    public Long getArticleQuantity() {
+        return articleRepository.count();
+    }
+
+
 //    @Override
 //    public Page<Article> paginateGetArticlesByPublishAndCreateDateAfterOrOrderByPageView(boolean publish, LocalDateTime localDateTime, Pageable pageable) {
 //        articleRepository.findAllByPublishAndCreateDateAfterOrOrderByPageViewDesc(publish, localDateTime, pageable);
 //        return null;
+//    }
+
+//    @Override
+//    public Page<Article> fullTextSearch(Pageable pageable,String keyword) {
+//        EntityManager em = entityManagerFactory.createEntityManager();
+//        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(em);
+//        em.getTransaction().begin();
+//        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
+//                .buildQueryBuilder().forEntity( Article.class ).get();
+//        org.apache.lucene.search.Query luceneQuery = queryBuilder
+//                .keyword()
+//                .onFields("title","summary","rawContent")
+//                .matching("data")
+//                .createQuery();
+//        javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Article.class);
+//        List<Article> resultList = persistenceQuery.getResultList();
+//        Page<Article>  result = new PageImpl<>(resultList,pageable,null == resultList ? 0 : resultList.size());
+//        return result;
 //    }
 }

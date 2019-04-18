@@ -50,8 +50,9 @@
                             </td>
                             <td class='writer'>
                                 <p><a th:href="${#request.getContextPath()} + '/account/homepage/' + ${article.getAccount().getAccountId()}" target='_blank' th:text="${article.getAccount().getUsername()}"></a></p>
-                                <p th:text="${article.getCreateDate().toString().replace('T','  ')}"></p>
-                                <p th:text="${article.getPageView()}"><em><i class="fas fa-eye"></i></em></p>&nbsp;&nbsp;
+                                <i class="fas fa-clock"></i><span th:text="${article.getCreateDate().toString().replace('T','  ')}"></span>
+                                <br>
+                                <i class="fas fa-eye"></i><span th:text="${article.getPageView()}"></span>&nbsp;&nbsp;
                             </td>
                         </tr>
                     </table>

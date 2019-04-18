@@ -51,9 +51,9 @@ public class AccountController {
     @PreAuthorize("hasAnyRole('ROOT')")
     public ModelAndView accountManagementPage(@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false) Boolean enable) {
         Page<Account> accountPage;
-        if (enable == null){
+        if (enable == null) {
             accountPage = accountService.paginateGetAllAccount(pageable);
-        }else{
+        } else {
             accountPage = accountService.paginateGetAccountsByEnable(enable, pageable);
         }
         List<Account> accountList = accountPage.get().collect(Collectors.toList());
@@ -82,11 +82,12 @@ public class AccountController {
     @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public ModelAndView getAccountHomePame(@PathVariable Long accountId) {
         Account account = accountService.getAccountByAccountId(accountId);
-        List<Article> recentArticlesList = articleService.getRecent10ArticlesByAccount(account);
-        List<Comment> recentCommentsList = commentService.getRecent10CommentsByAccount(account);
+        Page<Article> articlePage = articleService.paginateGetArticlesByAccountAndPublish(account, true, Pageable.unpaged());
+        List<Article> articleList = articlePage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject(recentArticlesList);
-        modelAndView.addObject(recentCommentsList);
+        modelAndView.addObject("account",account);
+        modelAndView.addObject("articleList", articleList);
+        modelAndView.addObject("articlePage", articlePage);
         modelAndView.setViewName("AccountHomePage");
         return modelAndView;
     }

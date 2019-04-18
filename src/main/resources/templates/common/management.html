@@ -56,7 +56,7 @@
                         </div>
                     </li>
                     <div class="dropdown-divider"></div>
-                    <li><a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()}">
+                    <li><a th:href="${#request.getContextPath()} + '/account/homepage/' + ${account.getAccountId()}">
                         <i class="fas fa-home"></i> 我的主页</a>
                     </li>
                     <div class="dropdown-divider"></div>
@@ -103,20 +103,6 @@
                 <i class="fas fa-comment"></i> 个人评论管理
             </a>
         </li>
-
-
-        <!--        <li class="active">-->
-        <!--            <a href="#homeSubmenu" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">-->
-        <!--                <i class=" m-r-10"></i> Home-->
-        <!--            </a>-->
-        <!--            <ul class="collapse list-unstyled" id="homeSubmenu" data-parent="#accordion">-->
-        <!--                <li><a>Home 1</a></li>-->
-        <!--                <li><a>Home 2</a></li>-->
-        <!--                <li><a>Home 3</a></li>-->
-        <!--            </ul>-->
-        <!--        </li>-->
-
-
         <li>
             <a th:href="${#request.getContextPath()} + '/account/mymanagement'">
                 <i class="fas fa-user-cog"></i> 个人账号设置
@@ -157,32 +143,35 @@
                 </div>
                 <div class="table-responsive">
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-2">
                             <select class="form-control" id="articleStatusSelector"
                                     onchange="window.location.href=this.options[selectedIndex].value">
                                 <option th:value="${#request.getRequestURI()}"
-                                        th:attrappend="${#request.getParameter('publish') == null} ? 'selected'">全部文章
+                                        th:selected="${#request.getParameter('publish') == null}">全部文章
                                 </option>
                                 <option th:value="${#request.getRequestURI()} + '?publish=true'"
-                                        th:attrappend="${#request.getParameter('publish') == true} ? 'selected'">公开文章
+                                        th:selected="${#request.getParameter('publish') == 'true'}">公开文章
                                 </option>
                                 <option th:value="${#request.getRequestURI()} + '/?publish=false'"
-                                        th:attrappend="${#request.getParameter('publish') == false} ? 'selected'">不公开文章
+                                        th:selected="${#request.getParameter('publish') == 'false'}">不公开文章
                                 </option>
                                 <option sec:authorize="hasAnyRole('ROOT','ADMIN')"
-                                        th:value="${#request.getRequestURI()} + '?stick=true"
-                                        th:attrappend="${#request.getParameter('stick') == true} ? 'selected'">置顶文章
+                                        th:value="${#request.getRequestURI()} + '?stick=true'"
+                                        th:selected="${#request.getParameter('stick') == 'true'}">置顶文章
                                 </option>
                             </select>
                         </div>
-                        <div class="col-sm-4" sec:authorize="hasAnyRole('ROOT','ADMIN')">
-                            <form th:action="${#request.getRequestURI()} + '/article/management'" method="get">
-                                <select class="form-control" id="searchTypeSelector" name="searchtype">
-                                    <option th:value="title">搜索标题</option>
-                                    <option th:value="username">搜索作者</option>
-                                </select>
-                                <input type="text" class="form-control" id="search" placeholder="关键字" name="keyword">
-                                <button type="submit" class="btn btn-light"><i class="fas fa-search"></i></button>
+                        <div class="col-sm-10" sec:authorize="hasAnyRole('ROOT','ADMIN')">
+                            <form th:action="${#request.getRequestURI()}" method="get">
+                                <div class="form-row">
+                                    <select class="form-control col" id="searchTypeSelector" name="searchtype">
+                                        <option th:value="title">搜索标题</option>
+                                        <option th:value="username">搜索作者</option>
+                                    </select>
+                                    <input type="text" class="form-control col" id="search" placeholder="关键字"
+                                           name="keyword">
+                                    <button type="submit" class="btn btn-light"><i class="fas fa-search"></i></button>
+                                </div>
                             </form>
                         </div>
                     </div>

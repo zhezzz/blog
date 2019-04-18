@@ -10,7 +10,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -69,5 +73,33 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> getRecent10CommentsByAccount(Account account) {
         return commentRepository.findTop10ByAccountOrderByCreateDateDesc(account);
+    }
+
+    @Override
+    public Map<Month, Long> getCommentQuantityMonthlyByAccount(Account account) {
+        Map<Month, Long> accountCommentsLineChart = new LinkedHashMap<>();
+        LocalDateTime now = LocalDateTime.now();
+        int years = now.getYear();
+        int month = now.getMonthValue();
+        for (int i = 1; i <= month ; i++) {
+            LocalDateTime monthStartLocalDateTime = LocalDateTime.of(years,Month.of(i),1,0,0,0,0);
+            LocalDateTime monthEndLocalDateTime = monthStartLocalDateTime.plusMonths(1).minusDays(monthStartLocalDateTime.getDayOfMonth()).plusHours(23).plusMinutes(59).plusSeconds(59).plusNanos(999999999);
+            accountCommentsLineChart.put(Month.of(i), commentRepository.countAllByAccountAndCreateDateBetween(account, monthStartLocalDateTime, monthEndLocalDateTime));
+        }
+        return accountCommentsLineChart;
+    }
+
+    @Override
+    public Map<Month, Long> getCommentQuantityMonthly() {
+        Map<Month, Long> commentsLineChart = new LinkedHashMap<>();
+        LocalDateTime now = LocalDateTime.now();
+        int years = now.getYear();
+        int month = now.getMonthValue();
+        for (int i = 1; i <= month ; i++) {
+            LocalDateTime monthStartLocalDateTime = LocalDateTime.of(years,Month.of(i),1,0,0,0,0);
+            LocalDateTime monthEndLocalDateTime = monthStartLocalDateTime.plusMonths(1).minusDays(monthStartLocalDateTime.getDayOfMonth()).plusHours(23).plusMinutes(59).plusSeconds(59).plusNanos(999999999);
+            commentsLineChart.put(Month.of(i), commentRepository.countAllByCreateDateBetween(monthStartLocalDateTime, monthEndLocalDateTime));
+        }
+        return commentsLineChart;
     }
 }

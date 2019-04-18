@@ -18,7 +18,7 @@
     </div>
     <hr>
     <div class="row">
-        <div class="selectnode col-sm-9">
+        <div class="selectnode col-sm-7">
             <div class="nodelistdiv">
                 <a class="btn btn-light" th:each="category : ${@categoryServiceImpl.getAllCategory()}"
                    th:href="${#request.getContextPath()} + '/category/' + ${category.getCategoryId()} + '/articles'"
@@ -27,16 +27,18 @@
             </div>
         </div>
         <div class="col-sm-1 text-sm-right">
-            <button type="button" class="btn btn-light" data-toggle="collapse" data-target="#searchCollapse"
+            <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#searchCollapse"
                     aria-expanded="false" aria-controls="searchCollapse"><i class="fas fa-search"></i></button>
         </div>
 
-        <div class="col-sm-2 text-sm-right">
+        <div class="col-sm-4 text-sm-right">
             <a th:if="${#request.getUserPrincipal()} == null" class="btn btn-sm btn-outline-secondary"
                th:href="${#request.getContextPath()} + '/login'">登录</a>
             欢迎，<a th:if="${#request.getUserPrincipal()} != null" class="btn btn-sm btn-secondary"
                   th:href="${#request.getContextPath()} + '/overview'"
                   th:text="${#request.getUserPrincipal().getName()}"></a>
+            <a th:if="${#request.getUserPrincipal()} != null" class="btn btn-sm btn-primary"
+               th:href="${#request.getContextPath()} + '/article/post'">发布新文章</a>
         </div>
     </div>
     <div class="collapse" id="searchCollapse">
@@ -47,7 +49,7 @@
                         <input type="text" class="form-control" id="search" placeholder="搜索">
                     </div>
                     <div class="col-2">
-                        <button type="submit" class="btn btn-light"><i class="fas fa-search"></i></button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
                     </div>
                 </div>
             </form>
@@ -59,22 +61,22 @@
 <aside th:fragment="aside" class="col-sm-3">
     <div class="p-4 mb-3 bg-light rounded">
         <h4 class="font-italic">关于此站</h4>
-        <p class="mb-0">本站为<em>南风博客</em>, 网络并非法外之地，吹水可以，但不能违法。</p>
+        <p class="mb-0">本站为<em>正规博客</em>, 网络并非法外之地，吹水可以，但不能违法。</p>
     </div>
 
     <div class="p-4">
         <h4 class="font-italic">Elsewhere</h4>
         <ol class="list-unstyled">
-            <li><a>GitHub</a></li>
-            <li><a>Twitter</a></li>
-            <li><a>Facebook</a></li>
+            <li><a href="www.github.com">GitHub</a></li>
+            <li><a href="www.csdn.net">CSDN</a></li>
+            <li><a href="stackoverflow.com">Stack Overflow</a></li>
         </ol>
     </div>
 </aside>
 
 <footer th:fragment="footer" class="footer mt-auto py-3 blog-footer bg-light">
     <div class="container">
-        <span class="text-muted">南风博客，copyrightXXXXXX.</span>
+        <span class="text-muted">南风博客，copyright©.</span>
     </div>
 </footer>
 

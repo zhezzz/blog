@@ -259,34 +259,34 @@ body {
     padding: 16px
 }
 
-.footer {
-    width: 100%;
-    height: 150px;
-    background: #424242;
-    color: #fff
-}
+/*.footer {*/
+/*    width: 100%;*/
+/*    height: 150px;*/
+/*    background: #424242;*/
+/*    color: #fff*/
+/*}*/
 
-.footer .ft-copyright {
-    width: 100%;
-    height: 100%
-}
+/*.footer .ft-copyright {*/
+/*    width: 100%;*/
+/*    height: 100%*/
+/*}*/
 
-.footer .ft-copyright tr {
-    height: 100%
-}
+/*.footer .ft-copyright tr {*/
+/*    height: 100%*/
+/*}*/
 
-.footer .ft-copyright tr td {
-    color: #fff;
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif!important;
-    font-weight: 400;
-    font-size: 14px;
-    padding-top: 16px
-}
+/*.footer .ft-copyright tr td {*/
+/*    color: #fff;*/
+/*    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif!important;*/
+/*    font-weight: 400;*/
+/*    font-size: 14px;*/
+/*    padding-top: 16px*/
+/*}*/
 
-.footer .ft-copyright tr td p {
-    padding-left: 32px;
-    padding-right: 32px
-}
+/*.footer .ft-copyright tr td p {*/
+/*    padding-left: 32px;*/
+/*    padding-right: 32px*/
+/*}*/
 
 .viewpost {
     min-height: 100%

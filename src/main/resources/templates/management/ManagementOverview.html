@@ -9,12 +9,33 @@
      th:with="account=${@accountServiceImpl.getAccountByUsername(#request.getUserPrincipal().getName())}">
     <div th:replace="common/management :: sidebar"></div>
     <div class="container-fluid content-area">
-        <div class="row">
-            <div class="col-6">
-
+        <div>
+            <div class="row">
+                <div class="col-6">
+                    <div id="accountArticleChart"></div>
+                </div>
+                <div class="col-6">
+                    <div id="accountCommentChart"></div>
+                </div>
             </div>
-            <div class="col-6">
-
+        </div>
+        <div sec:authorize="hasAnyRole('ROOT','ADMIN')">
+            <hr>
+            <div class="row">
+                <div class="col-6">
+                    <div id="allArticleChart"></div>
+                </div>
+                <div class="col-6">
+                    <div id="allCommentChart"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div id="accountChart"></div>
+                </div>
+                <div class="col-6">
+                    <div id="categoryChart"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -23,6 +44,194 @@
 <script type="text/javascript" th:src="@{/static/js/highcharts/highcharts.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/highcharts/highcharts-3d.js}"></script>
 <script th:inline="javascript">
+    var chart = Highcharts.chart('accountArticleChart', {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: '我的文章数量统计'
+        },
+        xAxis: {
+            categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+        },
+        yAxis: {
+            title: {
+                text: '数量 (篇)'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    // 开启数据标签
+                    enabled: true
+                },
+                // 关闭鼠标跟踪，对应的提示框、点击事件会失效
+                enableMouseTracking: true
+            }
+        },
+        series: [{
+            name: '我的文章',
+            data: [[${accountArticlesLineChartArray}]]
+        }]
+    });
+
+    var chart = Highcharts.chart('accountCommentChart', {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: '我的发布的评论统计'
+        },
+        xAxis: {
+            categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+        },
+        yAxis: {
+            title: {
+                text: '数量 (条)'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    // 开启数据标签
+                    enabled: true
+                },
+                // 关闭鼠标跟踪，对应的提示框、点击事件会失效
+                enableMouseTracking: true
+            }
+        },
+        series: [{
+            name: '我的评论',
+            data: [[${accountCommentsLineChartArray}]]
+        }]
+    });
+</script>
+<script th:inline="javascript" sec:authorize="hasAnyRole('ROOT','ADMIN')">
+    var chart = Highcharts.chart('allArticleChart', {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: '每月发布文章统计'
+        },
+        xAxis: {
+            categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+        },
+        yAxis: {
+            title: {
+                text: '数量 (篇)'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    // 开启数据标签
+                    enabled: true
+                },
+                // 关闭鼠标跟踪，对应的提示框、点击事件会失效
+                enableMouseTracking: true
+            }
+        },
+        series: [{
+            name: '所有文章',
+            data: [[${articlesLineChartArray}]]
+        }]
+    });
+
+    var chart = Highcharts.chart('allCommentChart', {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: '每月新增评论统计'
+        },
+        xAxis: {
+            categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+        },
+        yAxis: {
+            title: {
+                text: '数量 (条)'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    // 开启数据标签
+                    enabled: true
+                },
+                // 关闭鼠标跟踪，对应的提示框、点击事件会失效
+                enableMouseTracking: true
+            }
+        },
+        series: [{
+            name: '所有文章',
+            data: [[${commentsLineChartArray}]]
+        }]
+    });
+
+    var chart = Highcharts.chart('accountChart', {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: '每月新增账号统计'
+        },
+        xAxis: {
+            categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+        },
+        yAxis: {
+            title: {
+                text: '数量 (个)'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    // 开启数据标签
+                    enabled: true
+                },
+                // 关闭鼠标跟踪，对应的提示框、点击事件会失效
+                enableMouseTracking: true
+            }
+        },
+        series: [{
+            name: '所有账号',
+            data: [[${accountsLineChartArray}]]
+        }]
+    });
+
+    Highcharts.chart('categoryChart', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: '各分类文章占比'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: '占比',
+            colorByPoint: true,
+            data: [[${categoryRatiosArray}]]
+        }]
+    });
 </script>
 </body>
 </html>

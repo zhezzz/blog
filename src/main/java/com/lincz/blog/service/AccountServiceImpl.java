@@ -13,6 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -109,5 +113,19 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public boolean isAccountExists(Long accountId) {
         return accountRepository.existsById(accountId);
+    }
+
+    @Override
+    public Map<Month, Long> getAccountQuantityMonthly() {
+        Map<Month, Long> accountsLineChart = new LinkedHashMap<>();
+        LocalDateTime now = LocalDateTime.now();
+        int years = now.getYear();
+        int month = now.getMonthValue();
+        for (int i = 1; i <= month; i++) {
+            LocalDateTime monthStartLocalDateTime = LocalDateTime.of(years, Month.of(i), 1, 0, 0, 0, 0);
+            LocalDateTime monthEndLocalDateTime = monthStartLocalDateTime.plusMonths(1).minusDays(monthStartLocalDateTime.getDayOfMonth()).plusHours(23).plusMinutes(59).plusSeconds(59).plusNanos(999999999);
+            accountsLineChart.put(Month.of(i), accountRepository.countAllByCreateDateBetween(monthStartLocalDateTime, monthEndLocalDateTime));
+        }
+        return accountsLineChart;
     }
 }
