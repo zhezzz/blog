@@ -33,7 +33,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
     implementation('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
     implementation('org.springframework.boot:spring-boot-starter-web')
-    implementation('org.springframework.boot:spring-boot-starter-aop')
+//    implementation('org.springframework.boot:spring-boot-starter-aop')
 //    providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
     implementation('org.springframework.session:spring-session-jdbc')
 //    implementation('org.hibernate:hibernate-search-orm:5.10.5.Final')
