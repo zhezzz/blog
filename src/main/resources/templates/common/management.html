@@ -61,15 +61,6 @@
                     </li>
                     <div class="dropdown-divider"></div>
                     <li>
-                        <a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()} + '?tab=article'">
-                            <i class="fas fa-file-alt"></i> 我的文章</a>
-                    </li>
-                    <li>
-                        <a th:href="${#request.getContextPath()} + '/account/' + ${account.getAccountId()} + '?tab=comment'">
-                            <i class="fas fa-comments"></i> 我的评论</a>
-                    </li>
-                    <div class="dropdown-divider"></div>
-                    <li>
                         <a th:href="${#request.getContextPath()} + '/logout'">
                             <i class="fas fa-sign-out-alt"></i> 登出</a>
                     </li>

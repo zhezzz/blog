@@ -130,7 +130,6 @@ public class AccountController {
     }
 
     // 修改头像
-    //todo resize
     @PostMapping(value = "/{accountId}/avatar")
     @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public Response updateAccountAvatar(@PathVariable Long accountId, @RequestParam(value = "avatar") MultipartFile avatar) throws IOException {

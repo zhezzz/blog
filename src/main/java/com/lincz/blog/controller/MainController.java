@@ -45,21 +45,20 @@ public class MainController {
 
     @GetMapping(value = "/index")
     public ModelAndView index(
-            @PageableDefault(sort = {"articleId"}, direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false) String type) {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime currentMonthStartTime = now.minusDays(now.getDayOfMonth() - 1).minusHours(now.getHour()).minusMinutes(now.getMinute()).minusSeconds(now.getSecond()).minusNanos(now.getNano() + 1);
+            @PageableDefault(sort = {"articleId"}, direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false) String search) {
         Page<Article> stickArticlePage = articleService.getArticlesByStick(true, pageable);
         List<Article> stickArticleList = stickArticlePage.get().collect(Collectors.toList());
-        Page<Article> articlePage = articleService.paginateGetArticlesByPublish(true, pageable);
+        Page<Article> articlePage;
         ModelAndView modelAndView = new ModelAndView();
-        if (type == null) {
+        if (search != null) {
+            articlePage = articleService.paginateGetArticlesByRawContentContianingOrTitleContianing(search,pageable);
+        }else {
             articlePage = articleService.paginateGetArticlesByPublish(true, pageable);
         }
-        if ("popular".equalsIgnoreCase(type)) {
-            //TODO
-//            articlePage = articleService.paginateGetArticlesByPublishAndCreateDateAfterOrOrderByPageView(true, currentMonthStartTime, pageable);
+        List<Article> articleList = null;
+        if (!articlePage.isEmpty()){
+            articleList = articlePage.get().collect(Collectors.toList());
         }
-        List<Article> articleList = articlePage.get().collect(Collectors.toList());
         modelAndView.setViewName("Index");
         modelAndView.addObject("articlePage", articlePage);
         modelAndView.addObject("articleList", articleList);
@@ -93,7 +92,7 @@ public class MainController {
         String currentUsername = request.getUserPrincipal().getName();
         Account currentAccount = accountService.getAccountByUsername(currentUsername);
         Map<Month, Long> accountArticlesLineChart = articleService.getArticleQuantityMonthlyByAccount(currentAccount);
-        Map<Month, Long> accountCommentsLineChart = commentService.getCommentQuantityMonthlyByAccount(currentAccount);
+        Map<Month, Long> accountCommentsLineChart = commentService.getMyCommentQuantityMonthlyByAccount(currentAccount);
 
         Map<Month, Long> articlesLineChart = articleService.getArticleQuantityMonthly();
         Map<String, Long> categoryPieChart = articleService.getArticleQuantityByCategory(categoryService.getAllCategory());

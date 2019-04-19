@@ -52,7 +52,7 @@
                                 <p><a th:href="${#request.getContextPath()} + '/account/homepage/' + ${article.getAccount().getAccountId()}" target='_blank' th:text="${article.getAccount().getUsername()}"></a></p>
                                 <i class="fas fa-clock"></i><span th:text="${article.getCreateDate().toString().replace('T','  ')}"></span>
                                 <br>
-                                <i class="fas fa-eye"></i><span th:text="${article.getPageView()}"></span>&nbsp;&nbsp;
+                                <i class="fas fa-eye"></i><span th:text="${article.getPageView()}"></span> &nbsp;<i class="fas fa-comments"></i><span th:text="${@commentServiceImpl.getCommentQuantityByArticle(article)}"></span>
                             </td>
                         </tr>
                     </table>

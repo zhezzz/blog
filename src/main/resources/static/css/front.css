@@ -117,7 +117,7 @@ body {
 }
 
 .topbar {
-    background-image: url(/content/ZeroDream/images/banner.jpg?s=1);
+    background-image: url(../img/topbar.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: bottom

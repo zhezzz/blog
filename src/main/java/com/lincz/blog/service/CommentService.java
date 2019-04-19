@@ -31,8 +31,13 @@ public interface CommentService {
 
     List<Comment> getRecent10CommentsByAccount(Account account);
 
-    Map<Month, Long> getCommentQuantityMonthlyByAccount(Account account);
+    Map<Month, Long> getMyCommentQuantityMonthlyByAccount(Account account);
 
     Map<Month, Long> getCommentQuantityMonthly();
+
+    Long getCommentQuantityByArticle(Article article);
+
+    Map<Month, Long> getReceiveCommentQuantityMonthlyByAccount(Account account, List<Article> articleList);
+
 
 }

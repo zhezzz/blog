@@ -65,7 +65,7 @@
         <label for="username" class="sr-only">用户名</label>
         <input oninput="this.value=this.value.replace(/[^\w\u4e00-\u9fa5]/g,'')"
                th:classappend="(${#request.getParameter('occupy')} == 'yes')? 'is-invalid':''" type="text" id="username"
-               name="username" class="form-control" placeholder="用户名(1-10个字母、数字或下划线)" minlength="1" maxlength="10"
+               name="username" class="form-control" placeholder="用户名(汉字、字母、数字或下划线)" minlength="1" maxlength="10"
                required autofocus>
         <div th:if="${#request.getParameter('occupy')} == 'yes'" class="invalid-feedback">
             用户名被占用，请换一个!
@@ -80,10 +80,46 @@
         <input type="password" id="password" name="password" class="form-control" placeholder="密码(4到12个字符)"
                minlength="4" maxlength="12" required>
     </div>
+    <input hidden="hidden" type="text" name="role" value="USER">
+    <input hidden="hidden" type="text" name="avatar" value="default-avatar.jpg">
+    <input hidden="hidden" type="checkbox" name="accountNonExpired" checked>
+    <input hidden="hidden" type="checkbox" name="accountNonLocked" checked>
+    <input hidden="hidden" type="checkbox" name="credentialsNonExpired" checked>
+    <input hidden="hidden" type="checkbox" name="enabled" checked>
     <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
 </form>
 
 <script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>
+<script th:inline="javascript">
+    var contextPath = [[${#request.getContextPath()}]];
+    function register() {
+        var accountData = {
+            username: $("#username").val(),
+            email: $("#email").val(),
+            password: $("#password").val(),
+            avatar: 'default-avatar.jpg',
+            role: 'USER',
+            accountNonExpired: true,
+            accountNonLocked: true,
+            credentialsNonExpired: true,
+            enabled:true
+        }
+        $.ajax({
+            type: "POST",
+            url: contextPath + '/account',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(accountData),
+            success: function (data) {
+                window.location.href= contextPath + '/index';
+            }
+            // error: function (data) {
+            //     window.location.href= contextPath + '/index';
+            // }
+        })
+    }
+
+</script>
 </body>
 </html>

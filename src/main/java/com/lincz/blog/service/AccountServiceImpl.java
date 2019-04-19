@@ -88,6 +88,7 @@ public class AccountServiceImpl implements AccountService {
         }
         avatar.transferTo(new File(file.toString() + "/" + avatarFileName));
         account.setAvatar(avatarFileName);
+        accountRepository.save(account);
     }
 
     @Override

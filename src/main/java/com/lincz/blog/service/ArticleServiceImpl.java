@@ -38,7 +38,7 @@ public class ArticleServiceImpl implements ArticleService {
         String rawContent = Jsoup.parse(articleDTO.getContent()).text();
         articleDTO.setRawContent(rawContent);
         article.setTitle(articleDTO.getTitle());
-        article.setContent(articleDTO.getContent().replaceAll("<img", "<img class=\"img-fluid"));
+        article.setContent(articleDTO.getContent());
         article.setRawContent(articleDTO.getRawContent());
         article.setPublish(articleDTO.isPublish());
         article.setCategory(articleDTO.getCategory());
@@ -79,6 +79,7 @@ public class ArticleServiceImpl implements ArticleService {
     public void increasePageView(Long articleId) {
         Article article = articleRepository.findById(articleId).orElse(null);
         article.setPageView(article.getPageView() + 1);
+        articleRepository.save(article);
     }
 
     @Override
@@ -92,6 +93,16 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public List<Article> paginateGetArticlesByAccount(Account account) {
+        return articleRepository.findAll();
+    }
+
+    @Override
+    public Map<Month, Long> getArticlePageviewQuantityByAccount(Account account, List<Article> articleList) {
+        return null;
+    }
+
+    @Override
     public Page<Article> paginateGetArticlesByUsername(String username, Pageable pageable) {
         return articleRepository.findAllByAccount_Username(username, pageable);
     }
@@ -99,6 +110,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Page<Article> paginateGetArticlesByTitleContianing(String keyword, Pageable pageable) {
         return articleRepository.findAllByTitleContaining(keyword, pageable);
+    }
+
+    @Override
+    public Page<Article> paginateGetArticlesByRawContentContianingOrTitleContianing(String keyword, Pageable pageable) {
+        return articleRepository.findAllByRawContentContainingOrTitleContaining(keyword, keyword, pageable);
     }
 
     @Override
@@ -186,7 +202,7 @@ public class ArticleServiceImpl implements ArticleService {
     public Map<String, Long> getArticleQuantityByCategory(List<Category> categoryList) {
         Map<String, Long> categoryPieChart = new LinkedHashMap<>();
         for (Category category : categoryList) {
-            if (!articleRepository.countAllByCategory(category).equals(Long.valueOf(0))){
+            if (!articleRepository.countAllByCategory(category).equals(Long.valueOf(0))) {
                 categoryPieChart.put(category.getCategoryName(), articleRepository.countAllByCategory(category));
             }
         }
@@ -198,8 +214,7 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.count();
     }
 
-
-//    @Override
+    //    @Override
 //    public Page<Article> paginateGetArticlesByPublishAndCreateDateAfterOrOrderByPageView(boolean publish, LocalDateTime localDateTime, Pageable pageable) {
 //        articleRepository.findAllByPublishAndCreateDateAfterOrOrderByPageViewDesc(publish, localDateTime, pageable);
 //        return null;

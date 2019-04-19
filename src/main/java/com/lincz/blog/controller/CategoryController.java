@@ -44,7 +44,7 @@ public class CategoryController {
     }
 
     // 添加分类
-    @PostMapping(value = "/")
+    @PostMapping(value = "")
     @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
     public Category addCategory(@RequestBody Category categoryDTO) {
         return categoryService.createCategory(categoryDTO);

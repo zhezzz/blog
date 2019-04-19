@@ -1,6 +1,7 @@
 package com.lincz.blog.service;
 
 import com.lincz.blog.entity.Account;
+import com.lincz.blog.entity.Article;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,4 +41,5 @@ public interface AccountService extends UserDetailsService {
     boolean isAccountExists(Long accountId);
 
     Map<Month, Long> getAccountQuantityMonthly();
+
 }

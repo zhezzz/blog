@@ -7,8 +7,7 @@
 <body>
 
 <div th:fragment="header">
-    <div class="topbar row"
-         th:style="'background-image: url(https://www.zerobbs.net/content/ZeroDream/images/banner.jpg?s=1);'">
+    <div class="topbar row">
         <div class="logo">
             <p>
                 <span class="name">SouthWind</span>
@@ -18,6 +17,9 @@
     </div>
     <hr>
     <div class="row">
+        <div class="col-sm-1">
+            <a class="btn btn-sm btn-dark" th:href="${#request.getContextPath()} + '/index'">首页</a>
+        </div>
         <div class="selectnode col-sm-7">
             <div class="nodelistdiv">
                 <a class="btn btn-light" th:each="category : ${@categoryServiceImpl.getAllCategory()}"
@@ -31,22 +33,23 @@
                     aria-expanded="false" aria-controls="searchCollapse"><i class="fas fa-search"></i></button>
         </div>
 
-        <div class="col-sm-4 text-sm-right">
+        <div class="col-sm-3 text-sm-right">
             <a th:if="${#request.getUserPrincipal()} == null" class="btn btn-sm btn-outline-secondary"
                th:href="${#request.getContextPath()} + '/login'">登录</a>
-            欢迎，<a th:if="${#request.getUserPrincipal()} != null" class="btn btn-sm btn-secondary"
+            <a th:if="${#request.getUserPrincipal()} != null" class="btn btn-sm btn-secondary"
                   th:href="${#request.getContextPath()} + '/overview'"
                   th:text="${#request.getUserPrincipal().getName()}"></a>
+            <a class="btn btn-sm btn-outline-secondary" th:href="${#request.getContextPath()} + '/register'">注册</a>
             <a th:if="${#request.getUserPrincipal()} != null" class="btn btn-sm btn-primary"
                th:href="${#request.getContextPath()} + '/article/post'">发布新文章</a>
         </div>
     </div>
     <div class="collapse" id="searchCollapse">
         <div class="card card-body">
-            <form th:action="${#request.getContextPath()} + ''" method="get">
+            <form th:action="${#request.getContextPath()} + '/index'" method="get">
                 <div class="form-row">
                     <div class="col-10">
-                        <input type="text" class="form-control" id="search" placeholder="搜索">
+                        <input type="text" class="form-control" name="search" id="search" placeholder="搜索">
                     </div>
                     <div class="col-2">
                         <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
@@ -65,7 +68,7 @@
     </div>
 
     <div class="p-4">
-        <h4 class="font-italic">Elsewhere</h4>
+        <h4 class="font-italic">友情链接</h4>
         <ol class="list-unstyled">
             <li><a href="www.github.com">GitHub</a></li>
             <li><a href="www.csdn.net">CSDN</a></li>
@@ -75,9 +78,7 @@
 </aside>
 
 <footer th:fragment="footer" class="footer mt-auto py-3 blog-footer bg-light">
-    <div class="container">
-        <span class="text-muted">南风博客，copyright©.</span>
-    </div>
+    <span class="text-muted">南风博客，copyright©.</span>
 </footer>
 
 

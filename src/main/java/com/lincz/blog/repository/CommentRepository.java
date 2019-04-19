@@ -22,8 +22,11 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Long countCommentsByAccount(Account account);
 
+    Long countAllByArticle(Article article);
+
     Long countAllByAccountAndCreateDateBetween(Account account, LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime);
 
     Long countAllByCreateDateBetween(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime);
 
+    Long countAllByArticleAndCreateDateBetween(Article article, LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime);
 }

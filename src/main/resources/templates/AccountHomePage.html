@@ -19,7 +19,7 @@
             <td>
                 <h3 itemprop="name" th:text="${account.getUsername()}"></h3>
                 <p>
-                    <span th:text="' 注册于：' + ${account.getCreateDate().toString().replace('T','  ')} + ' 发布文章数量：' + ${@articleServiceImpl.getArticleQuantityByPublishTrueAndAccount(account)} + ' 回复量：' + ${@commentServiceImpl.getCommentQuantityMonthlyByAccount(account).size()}"></span>
+                    <span th:text="' 注册于：' + ${account.getCreateDate().toString().replace('T','  ')} + ' 发布文章数量：' + ${@articleServiceImpl.getArticleQuantityByPublishTrueAndAccount(account)} + ' 回复量：' + ${@commentServiceImpl.getMyCommentQuantityMonthlyByAccount(account).size()}"></span>
                 </p>
             </td>
         </tr>
@@ -37,8 +37,9 @@
                             </td>
                             <td class='writer'>
                                 <p><a th:href="${#request.getContextPath()} + '/account/homepage/' + ${article.getAccount().getAccountId()}" target='_blank' th:text="${article.getAccount().getUsername()}"></a></p>
-                                <em><i class="fas fa-clock"></i></em><p th:text="${article.getCreateDate().toString().replace('T','  ')}"></p>
-                                <em><i class="fas fa-eye"></i></em><p th:text="${article.getPageView()}"></p>&nbsp;&nbsp;
+                                <i class="fas fa-clock"></i><span th:text="${article.getCreateDate().toString().replace('T','  ')}"></span>
+                                <br>
+                                <i class="fas fa-eye"></i><span th:text="${article.getPageView()}"></span>&nbsp;&nbsp;<i class="fas fa-comments"></i><span th:text="${@commentServiceImpl.getCommentQuantityByArticle(article)}"></span>
                             </td>
                         </tr>
                     </table>

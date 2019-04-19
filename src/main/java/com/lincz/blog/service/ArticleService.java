@@ -6,7 +6,6 @@ import com.lincz.blog.entity.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
 import java.util.Map;
@@ -33,9 +32,13 @@ public interface ArticleService {
 
     Page<Article> paginateGetArticlesByAccount(Account account, Pageable pageable);
 
+    List<Article> paginateGetArticlesByAccount(Account account);
+
     Page<Article> paginateGetArticlesByUsername(String username, Pageable pageable);
 
     Page<Article> paginateGetArticlesByTitleContianing(String keyword, Pageable pageable);
+
+    Page<Article> paginateGetArticlesByRawContentContianingOrTitleContianing(String keyword, Pageable pageable);
 
     Page<Article> paginateGetArticlesByAccountAndPublish(Account account, boolean publish, Pageable pageable);
 
@@ -62,5 +65,9 @@ public interface ArticleService {
     Map<String ,Long> getArticleQuantityByCategory(List<Category> categoryList);
 
     Long getArticleQuantity();
+
+    Map<Month, Long> getArticlePageviewQuantityByAccount(Account account, List<Article> articleList);
+
+//    Map<Month, Long> getArticlePageviewQuantity(List<Article> articleList);
 
 }

@@ -17,6 +17,9 @@
                 <div class="col-6">
                     <div id="accountCommentChart"></div>
                 </div>
+<!--                <div class="col-6">-->
+<!--                    <div id="accountReceviceCommentChart"></div>-->
+<!--                </div>-->
             </div>
         </div>
         <div sec:authorize="hasAnyRole('ROOT','ADMIN')">
@@ -143,7 +146,7 @@
             type: 'line'
         },
         title: {
-            text: '每月新增评论统计'
+            text: '每月发布评论统计'
         },
         xAxis: {
             categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']

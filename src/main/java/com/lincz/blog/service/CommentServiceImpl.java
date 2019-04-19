@@ -76,7 +76,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Map<Month, Long> getCommentQuantityMonthlyByAccount(Account account) {
+    public Map<Month, Long> getMyCommentQuantityMonthlyByAccount(Account account) {
         Map<Month, Long> accountCommentsLineChart = new LinkedHashMap<>();
         LocalDateTime now = LocalDateTime.now();
         int years = now.getYear();
@@ -102,4 +102,29 @@ public class CommentServiceImpl implements CommentService {
         }
         return commentsLineChart;
     }
+
+    @Override
+    public Long getCommentQuantityByArticle(Article article) {
+        return commentRepository.countAllByArticle(article);
+    }
+
+    @Override
+    public Map<Month, Long> getReceiveCommentQuantityMonthlyByAccount(Account account, List<Article> articleList) {
+        Map<Month, Long> commentsLineChart = new LinkedHashMap<>();
+        LocalDateTime now = LocalDateTime.now();
+        int years = now.getYear();
+        int month = now.getMonthValue();
+        for (int i = 1; i <= month ; i++) {
+            LocalDateTime monthStartLocalDateTime = LocalDateTime.of(years,Month.of(i),1,0,0,0,0);
+            LocalDateTime monthEndLocalDateTime = monthStartLocalDateTime.plusMonths(1).minusDays(monthStartLocalDateTime.getDayOfMonth()).plusHours(23).plusMinutes(59).plusSeconds(59).plusNanos(999999999);
+            Long sum = 0L;
+            for (Article article : articleList){
+
+                sum = sum + commentRepository.countAllByArticleAndCreateDateBetween(article, monthStartLocalDateTime, monthEndLocalDateTime);
+            }
+            commentsLineChart.put(Month.of(i), sum);
+        }
+        return commentsLineChart;
+    }
+
 }

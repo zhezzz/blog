@@ -25,7 +25,7 @@ public class Article {
     @OrderBy("commentId desc")
     private Set<Comment> comments;
 
-    // @NotNull
+    @NotNull
     @ManyToOne
     private Category category;
 

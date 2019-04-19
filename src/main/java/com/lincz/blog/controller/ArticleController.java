@@ -113,6 +113,9 @@ public class ArticleController {
         Article article = new Article("标题", "请在此编写文章。", false);
         article.setAccount(currentAccount);
         article.setPageView(Long.valueOf(0));
+        article.setRawContent("请在此编写文章");
+        article.setStick(false);
+        article.setCategory(categoryService.getCategoryByCategoryId(Long.valueOf(1)));
         articleService.createArticle(article);
         ModelAndView modelAndView = new ModelAndView("redirect:/article/update/" + article.getArticleId());
         return modelAndView;
