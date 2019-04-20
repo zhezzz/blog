@@ -48,7 +48,7 @@
                     <img th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${comment.getAccount().getAvatar()}"
                          class="mr-3 avatar" alt="头像">
                     <div class="media-body">
-                        <a th:href="${#request.getContextPath()} + '/account/' + ${comment.getAccount().getAccountId()}">
+                        <a th:href="${#request.getContextPath()} + '/account/homepage/' + ${comment.getAccount().getAccountId()}">
                             <h5 class="mt-0 mb-1" th:text="${comment.getAccount().getUsername()}"></h5></a>
                         <p th:text="${comment.getContent()}"></p>
                     </div>

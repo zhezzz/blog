@@ -37,8 +37,7 @@
             <a th:if="${#request.getUserPrincipal()} == null" class="btn btn-sm btn-outline-secondary"
                th:href="${#request.getContextPath()} + '/login'">登录</a>
             <a th:if="${#request.getUserPrincipal()} != null" class="btn btn-sm btn-secondary"
-                  th:href="${#request.getContextPath()} + '/overview'"
-                  th:text="${#request.getUserPrincipal().getName()}"></a>
+                  th:href="${#request.getContextPath()} + '/overview'">个人管理</a>
             <a class="btn btn-sm btn-outline-secondary" th:href="${#request.getContextPath()} + '/register'">注册</a>
             <a th:if="${#request.getUserPrincipal()} != null" class="btn btn-sm btn-primary"
                th:href="${#request.getContextPath()} + '/article/post'">发布新文章</a>

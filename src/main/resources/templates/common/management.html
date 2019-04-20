@@ -73,12 +73,6 @@
 
 <nav th:fragment="sidebar" id="sidebar" class="nav-sidebar">
     <ul class="list-unstyled components" id="accordion">
-        <div class="user-profile">
-            <div>
-                <!--                <div><img th:src="" alt="user-img" class="img-circle"></div>-->
-            </div>
-        </div>
-
         <li>
             <a th:href="${#request.getContextPath()} + '/overview'">
                 <i class="fas fa-globe"></i> 总览
@@ -130,7 +124,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header m-b-15">
-                    <h4>文章管理</h4>
+                    <h4 th:if="${#request.getRequestURI().contains('mymanagement')}">个人文章管理</h4>
+                    <h4 th:if="${#request.getRequestURI().contains('management')}">文章管理</h4>
                 </div>
                 <div class="table-responsive">
                     <div class="row">
@@ -253,7 +248,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header m-b-15">
-                    <h4>文章管理</h4>
+                    <h4 th:if="${#request.getRequestURI().contains('mymanagement')}">个人评论管理</h4>
+                    <h4 th:if="${#request.getRequestURI().contains('management')}">评论管理</h4>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
