@@ -49,12 +49,12 @@ public class AccountController {
     // 获取账户信息修改界面
     @GetMapping(value = "/management")
     @PreAuthorize("hasAnyRole('ROOT')")
-    public ModelAndView accountManagementPage(@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false) Boolean enable) {
+    public ModelAndView accountManagementPage(@PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false) Boolean enabled) {
         Page<Account> accountPage;
-        if (enable == null) {
+        if (enabled == null) {
             accountPage = accountService.paginateGetAllAccount(pageable);
         } else {
-            accountPage = accountService.paginateGetAccountsByEnable(enable, pageable);
+            accountPage = accountService.paginateGetAccountsByEnable(enabled, pageable);
         }
         List<Account> accountList = accountPage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();

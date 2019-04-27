@@ -29,23 +29,21 @@
             </div>
 
             <div class="col-sm-4">
-                <form>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email" required
-                               th:value="${account.getEmail()}">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" name="email" id="email" required
+                           th:value="${account.getEmail()}">
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" class="form-control" name="password" id="password" required minlength="4" max="12" placeholder="必填">
+                </div>
+                <div class="form-group">
+                    <hr>
+                    <div class="text-center">
+                        <button class="btn btn-primary" onclick="updateAccountInfo()">提交修改</button>
                     </div>
-                    <div class="form-group">
-                        <label for="password">密码</label>
-                        <input type="password" class="form-control" name="password" id="password" required>
-                    </div>
-                    <div class="form-group">
-                        <hr>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary" onclick="updateAccountInfo()">提交修改</button>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
 
         </div>
@@ -82,33 +80,36 @@
         defaultPreviewContent: '<img src="/static/img/default-avatar.jpg"><h6 class="text-muted">点击选择头像</h6>',
         // layoutTemplates: {main2: '{preview} ' + ' {remove} {browse}'},
         allowedFileExtensions: ["jpg", "png", "gif"],
-        maxImageWidth: 50,
-        maxImageHeight: 50,
+        maxImageWidth: 70,
+        maxImageHeight: 70,
         resizePreference: 'width',
         resizeImage: true
 
     });
 
     function updateAccountInfo() {
-        var accountData = {
-            email: $("#email").val(),
-            password: $("#password").val()
-        }
-        $.ajax({
-            type: "PUT",
-            url: contextPath + '/account/' + accountId + '/status',
-            dataType: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify(accountData),
-            success: function (data) {
-                window.location.reload();
-            },
-            error: function (data) {
-                window.location.reload();
+        if ($("#password").val() != '' || $("#password").val() != undefined || $("#password").val() != null){
+            if ($("#password").val().length >= 4 && $("#password").val().length <= 12) {
+                var accountData = {
+                    email: $("#email").val(),
+                    password: $("#password").val()
+                }
+                $.ajax({
+                    type: "PUT",
+                    url: contextPath + '/account/' + accountId + '/info',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(accountData),
+                    success: function (data) {
+                        window.location.reload();
+                    },
+                    error: function (data) {
+                        window.location.reload();
+                    }
+                })
             }
-        })
+        }
     }
-
 </script>
 </body>
 </html>

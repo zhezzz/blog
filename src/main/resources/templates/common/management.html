@@ -56,6 +56,9 @@
                         </div>
                     </li>
                     <div class="dropdown-divider"></div>
+                    <li><a th:href="${#request.getContextPath()} + '/index'">
+                        <i class="fas fa-home"></i> 首页</a>
+                    </li>
                     <li><a th:href="${#request.getContextPath()} + '/account/homepage/' + ${account.getAccountId()}">
                         <i class="fas fa-home"></i> 我的主页</a>
                     </li>
@@ -124,8 +127,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header m-b-15">
-                    <h4 th:if="${#request.getRequestURI().contains('mymanagement')}">个人文章管理</h4>
-                    <h4 th:if="${#request.getRequestURI().contains('management')}">文章管理</h4>
+                    <h4 th:if="${#request.getRequestURI().contains('/mymanagement')}">个人文章管理</h4>
+                    <h4 th:if="${#request.getRequestURI().contains('/management')}">文章管理</h4>
                 </div>
                 <div class="table-responsive">
                     <div class="row">
@@ -147,7 +150,8 @@
                                 </option>
                             </select>
                         </div>
-                        <div class="col-sm-10" sec:authorize="hasAnyRole('ROOT','ADMIN')">
+                        <div class="col-sm-10" sec:authorize="hasAnyRole('ROOT','ADMIN')"
+                             th:if="${#request.getRequestURI().contains('/management')}">
                             <form th:action="${#request.getRequestURI()}" method="get">
                                 <div class="form-row">
                                     <select class="form-control col" id="searchTypeSelector" name="searchtype">
@@ -166,7 +170,7 @@
                             <th>文章id</th>
                             <th>所属分类</th>
                             <th>标题</th>
-                            <th>作者</th>
+                            <th th:if="${#request.getRequestURI().contains('/management')}">作者</th>
                             <th>发布时间</th>
                             <th>最近修改时间</th>
                             <th>状态</th>
@@ -177,7 +181,8 @@
                             <td th:text="${article.getArticleId()}"></td>
                             <td th:text="${article.getCategory().getCategoryName()}"></td>
                             <td th:text="${#strings.abbreviate(article.getTitle(),35)}"></td>
-                            <td th:text="${article.getAccount().getUsername()}"></td>
+                            <td th:if="${#request.getRequestURI().contains('/management')}"
+                                th:text="${article.getAccount().getUsername()}"></td>
                             <td th:text="${article.getCreateDate().toString().replace('T',' ')}"></td>
                             <td th:text="${article.getLastModifiedDate().toString().replace('T',' ')}"></td>
                             <td th:text="(${article.isPublish()} ? '公开' : '不公开') + (${article.isStick()} ? '-置顶' : '')"></td>
@@ -188,11 +193,13 @@
                                 <a th:if="${article.isPublish()} == true"
                                    th:onclick="setPublish(false,[[${article.getArticleId()}]]);"
                                    class="btn btn-sm btn-outline-secondary"><i class="fas fa-lock"></i> 不公开</a>
-                                <a sec:authorize="hasAnyRole('ROOT','ADMIN')" th:if="${article.isStick()} == false"
+                                <a sec:authorize="hasAnyRole('ROOT','ADMIN')"
+                                   th:if="${(article.isStick() == false) && (#request.getRequestURI().contains('/management'))}"
                                    class="btn btn-sm btn-outline-secondary"
                                    th:onclick="setStick(true,[[${article.getArticleId()}]]);">
                                     <i class="fas fa-arrow-alt-circle-up"></i> 置顶</a>
-                                <a sec:authorize="hasAnyRole('ROOT','ADMIN')" th:if="${article.isStick()} == true"
+                                <a sec:authorize="hasAnyRole('ROOT','ADMIN')"
+                                   th:if="${(article.isStick() == true) && (#request.getRequestURI().contains('/management'))}"
                                    class="btn btn-sm btn-outline-secondary"
                                    th:onclick="setStick(false,[[${article.getArticleId()}]]);">
                                     <i class="fas fa-arrow-alt-circle-down"></i> 取消置顶</a>
@@ -248,8 +255,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header m-b-15">
-                    <h4 th:if="${#request.getRequestURI().contains('mymanagement')}">个人评论管理</h4>
-                    <h4 th:if="${#request.getRequestURI().contains('management')}">评论管理</h4>
+                    <h4 th:if="${#request.getRequestURI().contains('/mymanagement')}">个人评论管理</h4>
+                    <h4 th:if="${#request.getRequestURI().contains('/management')}">评论管理</h4>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
@@ -257,7 +264,7 @@
                             <th>评论id</th>
                             <th>所属文章</th>
                             <th>内容</th>
-                            <th>作者</th>
+                            <th th:if="${#request.getRequestURI().contains('/management')}">作者</th>
                             <th>发布时间</th>
                             <th>最近修改时间</th>
                             <th>操作</th>
@@ -266,7 +273,8 @@
                             <td th:text="${comment.getCommentId()}"></td>
                             <td th:text="${comment.getArticle().getTitle()}"></td>
                             <td th:text="${#strings.abbreviate(comment.getContent(),35)}"></td>
-                            <td th:text="${comment.getAccount().getUsername()}"></td>
+                            <td th:if="${#request.getRequestURI().contains('/management')}"
+                                th:text="${comment.getAccount().getUsername()}"></td>
                             <td th:text="${comment.getCreateDate().toString().replace('T',' ')}"></td>
                             <td th:text="${comment.getLastModifiedDate().toString().replace('T',' ')}"></td>
                             <td>

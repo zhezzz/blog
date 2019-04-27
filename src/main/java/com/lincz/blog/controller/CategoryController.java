@@ -72,8 +72,9 @@ public class CategoryController {
         Page<Article> articlePage = articleService.paginateGetArticlesByCategory(category, pageable);
         List<Article> articleList = articlePage.get().collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("");
-        modelAndView.addObject(articleList);
+        modelAndView.setViewName("Index");
+        modelAndView.addObject("articleList", articleList);
+        modelAndView.addObject("articlePage", articlePage);
         return modelAndView;
     }
 

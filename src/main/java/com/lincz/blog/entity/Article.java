@@ -1,9 +1,9 @@
 package com.lincz.blog.entity;
 
-import com.hankcs.lucene.HanLPAnalyzer;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
+//import com.hankcs.lucene.HanLPAnalyzer;
+//import org.hibernate.search.annotations.Analyzer;
+//import org.hibernate.search.annotations.Field;
+//import org.hibernate.search.annotations.Indexed;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
