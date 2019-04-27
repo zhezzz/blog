@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/front.css}">
     <title>服务器内部错误</title>
 </head>
 <body>
-<h1>服务器内部错误</h1>
+<div class="container text-center">
+    <div th:replace="common/common :: header"></div>
+    <h1 class="text-center">服务器内部错误</h1>
+    <footer th:replace="common/common :: footer"></footer>
+</div>
 </body>
 </html>

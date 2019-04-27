@@ -18,7 +18,7 @@ apply plugin: 'io.spring.dependency-management'
 
 
 group = 'com.lincz'
-version = '0.0.1-SNAPSHOT'
+version = '1.0'
 sourceCompatibility = 1.8
 
 repositories {
@@ -37,6 +37,7 @@ dependencies {
 //    providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
     implementation('org.springframework.session:spring-session-jdbc')
 //    implementation('org.hibernate:hibernate-search-orm:5.10.5.Final')
+//    implementation('com.hankcs.nlp:hanlp-lucene-plugin:1.1.6')
     implementation('org.jsoup:jsoup:1.11.3')
 //    implementation('org.hibernate:hibernate-search-elasticsearch:5.10.5.Final')
 //    implementation('org.springframework.boot:spring-boot-starter-data-elasticsearch')

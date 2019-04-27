@@ -4,18 +4,23 @@ import com.lincz.blog.entity.Account;
 import com.lincz.blog.entity.Article;
 import com.lincz.blog.entity.Category;
 import com.lincz.blog.repository.ArticleRepository;
+//import org.hibernate.search.jpa.FullTextEntityManager;
+//import org.hibernate.search.query.dsl.QueryBuilder;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
 @Service
@@ -33,7 +38,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article updateArticle(Long articleId, Article articleDTO) {
+    public Article updateArticle(Long articleId, Article articleDTO) throws InterruptedException{
         Article article = articleRepository.findById(articleId).orElse(null);
         String rawContent = Jsoup.parse(articleDTO.getContent()).text();
         articleDTO.setRawContent(rawContent);
@@ -42,7 +47,11 @@ public class ArticleServiceImpl implements ArticleService {
         article.setRawContent(articleDTO.getRawContent());
         article.setPublish(articleDTO.isPublish());
         article.setCategory(articleDTO.getCategory());
-        return articleRepository.save(article);
+        articleRepository.save(article);
+//        EntityManager em = entityManagerFactory.createEntityManager();
+//        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(em);
+//        fullTextEntityManager.createIndexer().startAndWait();
+        return article;
     }
 
     @Override
@@ -214,27 +223,24 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.count();
     }
 
-    //    @Override
+//    @Override
 //    public Page<Article> paginateGetArticlesByPublishAndCreateDateAfterOrOrderByPageView(boolean publish, LocalDateTime localDateTime, Pageable pageable) {
 //        articleRepository.findAllByPublishAndCreateDateAfterOrOrderByPageViewDesc(publish, localDateTime, pageable);
 //        return null;
 //    }
 
 //    @Override
-//    public Page<Article> fullTextSearch(Pageable pageable,String keyword) {
+//    public Page<Article> fullTextSearch(Pageable pageable, String keyword) {
 //        EntityManager em = entityManagerFactory.createEntityManager();
 //        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(em);
 //        em.getTransaction().begin();
-//        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
-//                .buildQueryBuilder().forEntity( Article.class ).get();
-//        org.apache.lucene.search.Query luceneQuery = queryBuilder
-//                .keyword()
-//                .onFields("title","summary","rawContent")
-//                .matching("data")
-//                .createQuery();
+//        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Article.class).get();
+//        org.apache.lucene.search.Query luceneQuery = queryBuilder.keyword().onFields("title", "rawContent").matching(keyword).createQuery();
 //        javax.persistence.Query persistenceQuery = fullTextEntityManager.createFullTextQuery(luceneQuery, Article.class);
 //        List<Article> resultList = persistenceQuery.getResultList();
-//        Page<Article>  result = new PageImpl<>(resultList,pageable,null == resultList ? 0 : resultList.size());
+//        em.getTransaction().commit();
+//        em.close();
+//        Page<Article> result = new PageImpl<>(resultList, pageable, null == resultList ? 0 : resultList.size());
 //        return result;
 //    }
 }

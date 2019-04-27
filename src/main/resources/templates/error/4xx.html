@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/front.css}">
     <title>请求错误</title>
 </head>
 <body>
-<h1>请求错误</h1>
+<div class="container">
+    <div th:replace="common/common :: header"></div>
+    <h1 class="text-center">请求错误</h1>
+    <footer th:replace="common/common :: footer"></footer>
+</div>
 </body>
 </html>

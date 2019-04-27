@@ -135,7 +135,7 @@ public class ArticleController {
     // 修改文章
     @PutMapping(value = "/{articleId}")
     @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
-    public void updateArticle(@PathVariable Long articleId, @RequestBody Article articleDTO) {
+    public void updateArticle(@PathVariable Long articleId, @RequestBody Article articleDTO) throws InterruptedException{
         Category category = categoryService.getCategoryByCategoryId(articleDTO.getCategory().getCategoryId());
         articleDTO.setCategory(category);
         articleService.updateArticle(articleId, articleDTO);

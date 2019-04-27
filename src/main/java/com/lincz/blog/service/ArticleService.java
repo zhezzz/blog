@@ -14,7 +14,7 @@ public interface ArticleService {
 
     Article createArticle(Article article);
 
-    Article updateArticle(Long articleId, Article articleDTO);
+    Article updateArticle(Long articleId, Article articleDTO) throws InterruptedException;
 
     Article updateArticleStick(Long articleId, Article articleDTO);
 
@@ -69,5 +69,7 @@ public interface ArticleService {
     Map<Month, Long> getArticlePageviewQuantityByAccount(Account account, List<Article> articleList);
 
 //    Map<Month, Long> getArticlePageviewQuantity(List<Article> articleList);
+
+//    Page<Article> fullTextSearch(Pageable pageable,String keyword);
 
 }
