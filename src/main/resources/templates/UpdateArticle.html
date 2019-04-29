@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/static/css/front.css}">
+<head th:replace="common/common :: commonhead (~{::title},~{})">
     <title>修改文章</title>
 </head>
 <body>
@@ -34,13 +30,9 @@
     </div>
 </div>
 
-
-<script th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
+<div th:replace="common/common :: script"></div>
 <script type="text/javascript" th:src="@{/static/js/ckeditor/ckeditor.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/ckeditor/translations/zh-cn.js}"></script>
-<script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/js/fontawesome/all.min.js}"></script>
 <script th:inline="javascript">
     var content = [[${article.getContent()}]];
     var articleId = [[${article.getArticleId()}]];

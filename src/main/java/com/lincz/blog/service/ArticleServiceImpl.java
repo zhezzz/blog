@@ -74,9 +74,12 @@ public class ArticleServiceImpl implements ArticleService {
         articleRepository.deleteById(articleId);
         File dir = new File("/root/data/article/image/" + articleId);
         File[] files = dir.listFiles();
-        for (File file : files) {
-            file.delete();
+        if (files.length != 0){
+            for (File file : files) {
+                file.delete();
+            }
         }
+        dir.delete();
     }
 
     @Override

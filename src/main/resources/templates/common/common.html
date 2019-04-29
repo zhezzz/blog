@@ -5,6 +5,21 @@
     <title>Title</title>
 </head>
 <body>
+<head th:fragment="commonhead (title,links)">
+    <meta charset="UTF-8">
+    <title th:replace="${title}">前台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/front.css}">
+    <th:block th:replace="${links}"/>
+</head>
+
+
+<th:block th:fragment="script">
+    <script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/fontawesome/all.min.js}"></script>
+</th:block>
 
 <div th:fragment="header">
     <div class="topbar row">
@@ -20,7 +35,7 @@
         <div class="col-sm-1">
             <a class="btn btn-sm btn-dark" th:href="${#request.getContextPath()} + '/index'">首页</a>
         </div>
-        <div class="selectnode col-sm-7">
+        <div class="selectnode col-sm-6">
             <div class="nodelistdiv">
                 <a class="btn btn-light" th:each="category : ${@categoryServiceImpl.getAllCategory()}"
                    th:href="${#request.getContextPath()} + '/category/' + ${category.getCategoryId()} + '/articles'"
@@ -33,11 +48,13 @@
                     aria-expanded="false" aria-controls="searchCollapse"><i class="fas fa-search"></i></button>
         </div>
 
-        <div class="col-sm-3 text-sm-right">
+        <div class="col-sm-4 text-sm-right">
             <a th:if="${#request.getUserPrincipal()} == null" class="btn btn-sm btn-outline-secondary"
                th:href="${#request.getContextPath()} + '/login'">登录</a>
+            <a th:if="${#request.getUserPrincipal()} != null" class="btn btn-sm btn-outline-secondary"
+               th:href="${#request.getContextPath()} + '/logout'">登出</a>
             <a th:if="${#request.getUserPrincipal()} != null" class="btn btn-sm btn-secondary"
-                  th:href="${#request.getContextPath()} + '/overview'">个人管理</a>
+               th:href="${#request.getContextPath()} + '/overview'">个人管理</a>
             <a class="btn btn-sm btn-outline-secondary" th:href="${#request.getContextPath()} + '/register'">注册</a>
             <a th:if="${#request.getUserPrincipal()} != null" class="btn btn-sm btn-primary"
                th:href="${#request.getContextPath()} + '/article/post'">发布新文章</a>
@@ -63,15 +80,15 @@
 <aside th:fragment="aside" class="col-sm-3">
     <div class="p-4 mb-3 bg-light rounded">
         <h4 class="font-italic">关于此站</h4>
-        <p class="mb-0">本站为<em>正规博客</em>, 网络并非法外之地，吹水可以，但不能违法。</p>
+        <p class="mb-0">本博客为<em>正规博客</em>, 吹水可以，勿谈国事。</p>
     </div>
 
     <div class="p-4">
         <h4 class="font-italic">友情链接</h4>
         <ol class="list-unstyled">
-            <li><a href="www.github.com">GitHub</a></li>
-            <li><a href="www.csdn.net">CSDN</a></li>
-            <li><a href="stackoverflow.com">Stack Overflow</a></li>
+            <li><a href="https://www.github.com" target="_blank">GitHub</a></li>
+            <li><a href="https://www.csdn.net" target="_blank">CSDN</a></li>
+            <li><a href="https://stackoverflow.com" target="_blank">Stack Overflow</a></li>
         </ol>
     </div>
 </aside>

@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head>
-    <meta charset="UTF-8">
+<head th:replace="common/common :: commonhead (~{::title},~{})">
     <title th:text="${account.getUsername()} + '的主页'"></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/static/css/front.css}">
 </head>
 <body>
 <div class="container">
@@ -51,8 +47,6 @@
     </div>
     <footer th:replace="common/common :: footer"></footer>
 </div>
-<script type="text/javascript" th:src="@{/static/js/jquery/jquery-3.3.1.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/js/bootstrap/bootstrap.bundle.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/js/fontawesome/all.min.js}"></script>
+<div th:replace="common/common :: script"></div>
 </body>
 </html>

@@ -42,7 +42,7 @@
         <ul class="navbar-nav ml-auto navbar-top-links">
             <li class="dropdown">
                 <a class="dropdown-toggle profile-pic" data-toggle="dropdown" aria-expanded="false"> <img
-                        th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${account.getAccountId()} + '.png'"
+                        th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${account.getAvatar()}"
                         alt="user-img" width="36" class="img-circle">
                     <b th:text="${account.getUsername()}" class="d-none d-sm-inline-block"></b>
                 </a>

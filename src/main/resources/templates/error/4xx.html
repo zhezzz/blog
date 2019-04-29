@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/static/css/front.css}">
+<head th:replace="common/common :: commonhead (~{::title},~{})">
     <title>请求错误</title>
 </head>
 <body>
@@ -13,5 +9,6 @@
     <h1 class="text-center">请求错误</h1>
     <footer th:replace="common/common :: footer"></footer>
 </div>
+<div th:replace="common/common :: script"></div>
 </body>
 </html>
