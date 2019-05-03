@@ -39,7 +39,7 @@ public interface CommentService {
 
     Long getCommentQuantityByArticle(Article article);
 
-    Map<Month, Long> getReceiveCommentQuantityMonthlyByAccount(Account account, List<Article> articleList);
+    Map<Month, Long> getReceiveCommentQuantityMonthly(List<Article> articleList);
 
 
 }

@@ -18,6 +18,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Page<Article> findAllByAccount(Account account, Pageable pageable);
 
+    List<Article> findAriclesByAccount(Account account);
+
     List<Article> findTop10ByAccountOrderByCreateDateDesc(Account account);
 
     Page<Article> findAllByCategory(Category category, Pageable pageable);

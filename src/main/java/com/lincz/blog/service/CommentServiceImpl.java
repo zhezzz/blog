@@ -40,7 +40,6 @@ public class CommentServiceImpl implements CommentService {
         for (Article article : articleList) {
             commentList.addAll(commentRepository.findCommentsByArticle(article));
         }
-
         return new PageImpl<>(commentList, pageable, Long.valueOf(articleList.size()));
     }
 
@@ -120,20 +119,25 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Map<Month, Long> getReceiveCommentQuantityMonthlyByAccount(Account account, List<Article> articleList) {
+    public Map<Month, Long> getReceiveCommentQuantityMonthly(List<Article> articleList) {
         Map<Month, Long> commentsLineChart = new LinkedHashMap<>();
+        List<Comment> commentList = new ArrayList<>();
+        for (Article article : articleList) {
+            commentList.addAll(commentRepository.findCommentsByArticle(article));
+        }
         LocalDateTime now = LocalDateTime.now();
         int years = now.getYear();
         int month = now.getMonthValue();
         for (int i = 1; i <= month; i++) {
+            Long count  = Long.valueOf(0);
             LocalDateTime monthStartLocalDateTime = LocalDateTime.of(years, Month.of(i), 1, 0, 0, 0, 0);
             LocalDateTime monthEndLocalDateTime = monthStartLocalDateTime.plusMonths(1).minusDays(monthStartLocalDateTime.getDayOfMonth()).plusHours(23).plusMinutes(59).plusSeconds(59).plusNanos(999999999);
-            Long sum = 0L;
-            for (Article article : articleList) {
-
-                sum = sum + commentRepository.countAllByArticleAndCreateDateBetween(article, monthStartLocalDateTime, monthEndLocalDateTime);
+            for (Comment comment : commentList){
+                if (comment.getCreateDate().isAfter(monthStartLocalDateTime) && comment.getCreateDate().isBefore(monthEndLocalDateTime)){
+                    count++;
+                }
             }
-            commentsLineChart.put(Month.of(i), sum);
+            commentsLineChart.put(Month.of(i),count);
         }
         return commentsLineChart;
     }

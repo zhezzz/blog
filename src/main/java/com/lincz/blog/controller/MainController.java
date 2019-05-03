@@ -95,6 +95,8 @@ public class MainController {
         Long articleQuantity = articleService.getArticleQuantity();
         String currentUsername = request.getUserPrincipal().getName();
         Account currentAccount = accountService.getAccountByUsername(currentUsername);
+        List<Article> articleList = articleService.getArticlesByAccount(currentAccount);
+        Map<Month, Long> accountReceiveCommentsLineChart = commentService.getReceiveCommentQuantityMonthly(articleList);
         Map<Month, Long> accountArticlesLineChart = articleService.getArticleQuantityMonthlyByAccount(currentAccount);
         Map<Month, Long> accountCommentsLineChart = commentService.getMyCommentQuantityMonthlyByAccount(currentAccount);
 
@@ -103,6 +105,8 @@ public class MainController {
         Map<Month, Long> commentsLineChart = commentService.getCommentQuantityMonthly();
         Map<Month, Long> accountsLineChart = accountService.getAccountQuantityMonthly();
 
+        Long[] accountReceiveCommentsLineChartArray = new Long[accountArticlesLineChart.size()];
+        accountReceiveCommentsLineChart.forEach((k,v) -> {accountReceiveCommentsLineChartArray[k.getValue() - 1] = v;});
         Long[] accountArticlesLineChartArray = new Long[accountArticlesLineChart.size()];
         accountArticlesLineChart.forEach((k,v) -> {accountArticlesLineChartArray[k.getValue() - 1] = v;});
         Long[] accountCommentsLineChartArray = new Long[accountCommentsLineChart.size()];
@@ -124,6 +128,7 @@ public class MainController {
         modelAndView.setViewName("management/ManagementOverview");
         modelAndView.addObject("accountArticlesLineChartArray", accountArticlesLineChartArray);
         modelAndView.addObject("accountCommentsLineChartArray", accountCommentsLineChartArray);
+        modelAndView.addObject("accountReceiveCommentsLineChartArray", accountReceiveCommentsLineChartArray);
         modelAndView.addObject("articlesLineChartArray", articlesLineChartArray);
         modelAndView.addObject("commentsLineChartArray", commentsLineChartArray);
         modelAndView.addObject("accountsLineChartArray", accountsLineChartArray);
