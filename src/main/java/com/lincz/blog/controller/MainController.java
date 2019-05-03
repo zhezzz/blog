@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,19 +44,24 @@ public class MainController {
 
     @GetMapping(value = "/index")
     public ModelAndView index(
-            @PageableDefault(sort = {"articleId"}, direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false) String search) {
+            @PageableDefault(sort = {"articleId"}, direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false) String search, @RequestParam(required = false) String type) {
         Page<Article> stickArticlePage = articleService.getArticlesByStick(true, pageable);
-        List<Article> stickArticleList = stickArticlePage.get().collect(Collectors.toList());
+        List<Article> stickArticleList = stickArticlePage.getContent();
         Page<Article> articlePage;
         ModelAndView modelAndView = new ModelAndView();
+        articlePage = articleService.paginateGetArticlesByPublish(true, pageable);
         if (search != null) {
             articlePage = articleService.paginateGetArticlesByRawContentContianingOrTitleContianing(search,pageable);
-        }else {
+        }
+        if (search == null){
             articlePage = articleService.paginateGetArticlesByPublish(true, pageable);
+        }
+        if ("hot".equalsIgnoreCase(type)){
+            articlePage = articleService.getHotArticles(pageable);
         }
         List<Article> articleList = null;
         if (!articlePage.isEmpty()){
-            articleList = articlePage.get().collect(Collectors.toList());
+            articleList = articlePage.getContent();
         }
         modelAndView.setViewName("Index");
         modelAndView.addObject("articlePage", articlePage);

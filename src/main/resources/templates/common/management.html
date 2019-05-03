@@ -92,6 +92,11 @@
             </a>
         </li>
         <li>
+            <a th:href="${#request.getContextPath()} + '/comment/receivemanagement'">
+                <i class="fas fa-comments"></i> 收到的评论管理
+            </a>
+        </li>
+        <li>
             <a th:href="${#request.getContextPath()} + '/account/mymanagement'">
                 <i class="fas fa-user-cog"></i> 个人账号设置
             </a>
@@ -257,6 +262,7 @@
                 <div class="card-header m-b-15">
                     <h4 th:if="${#request.getRequestURI().contains('/mymanagement')}">个人评论管理</h4>
                     <h4 th:if="${#request.getRequestURI().contains('/management')}">评论管理</h4>
+                    <h4 th:if="${#request.getRequestURI().contains('/receivemanagement')}">收到的评论管理</h4>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
@@ -264,7 +270,7 @@
                             <th>评论id</th>
                             <th>所属文章</th>
                             <th>内容</th>
-                            <th th:if="${#request.getRequestURI().contains('/management')}">作者</th>
+                            <th th:if="${#request.getRequestURI().contains('/management') || #request.getRequestURI().contains('/receivemanagement')}">作者</th>
                             <th>发布时间</th>
                             <th>最近修改时间</th>
                             <th>操作</th>
@@ -273,7 +279,7 @@
                             <td th:text="${comment.getCommentId()}"></td>
                             <td th:text="${comment.getArticle().getTitle()}"></td>
                             <td th:text="${#strings.abbreviate(comment.getContent(),35)}"></td>
-                            <td th:if="${#request.getRequestURI().contains('/management')}"
+                            <td th:if="${#request.getRequestURI().contains('/management') || #request.getRequestURI().contains('/receivemanagement')}"
                                 th:text="${comment.getAccount().getUsername()}"></td>
                             <td th:text="${comment.getCreateDate().toString().replace('T',' ')}"></td>
                             <td th:text="${comment.getLastModifiedDate().toString().replace('T',' ')}"></td>
@@ -282,12 +288,13 @@
                                    data-target="#deleteCommentModal"
                                    th:onclick="setComment([[${comment.getCommentId()}]],'');">
                                     <i class="fas fa-trash-alt"></i> 删除</a>
-                                <a class="btn btn-sm btn-outline-secondary" data-toggle="modal"
+                                <a th:if="${#request.getRequestURI().contains('/management') || #request.getRequestURI().contains('/mymanagement')}"
+                                   class="btn btn-sm btn-outline-secondary" data-toggle="modal"
                                    data-target="#updateCommentModal"
                                    th:onclick="setComment([[${comment.getCommentId()}]],[[${comment.getContent()}]]);">
                                     <i class="fas fa-edit"></i> 修改</a>
-                                <a th:href="${#request.getContextPath()} + '/article/details/' + ${comment.getArticle().getArticleId()}"
-                                   class="btn btn-sm btn-outline-secondary">
+                                <a th:href="${#request.getContextPath()} + '/article/details/' + ${comment.getArticle().getArticleId()} + '#comments'"
+                                   class="btn btn-sm btn-outline-secondary" target="_Blank">
                                     <i class="fas fa-external-link-square-alt"></i> 查看</a>
                             </td>
                         </tr>

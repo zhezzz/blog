@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-    Page<Article> findAllByPublish(boolean publish, Pageable pageable);
+    Page<Article> findAllByPublish(Boolean publish, Pageable pageable);
 
     Page<Article> findAllByAccount(Account account, Pageable pageable);
 
@@ -22,17 +22,19 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Page<Article> findAllByCategory(Category category, Pageable pageable);
 
-    Page<Article> findAllByAccountAndPublish(Account account, boolean publish, Pageable pageable);
+    Page<Article> findAllByAccountAndPublish(Account account, Boolean publish, Pageable pageable);
 
-    Page<Article> findAllByCategoryAndPublish(Category category, boolean publish, Pageable pageable);
+    Page<Article> findAllByCategoryAndPublish(Category category, Boolean publish, Pageable pageable);
 
-    Page<Article> findAllByStick(boolean stick, Pageable pageable);
+    Page<Article> findAllByStick(Boolean stick, Pageable pageable);
 
     List<Article> findAllByCreateDateBetween(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime);
 
     List<Article> findAllByAccountAndCreateDateBetween(Account account, LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime);
 
     Page<Article> findAllByCreateDateBetween(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime, Pageable pageable);
+
+    Page<Article> findAllByPublishTrueAndCreateDateBetweenOrderByPageViewDesc(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime, Pageable pageable);
 
     Page<Article> findAllByTitleContaining(String keyword, Pageable pageable);
 
@@ -44,7 +46,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Long countAllByCreateDateBetween(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime);
 
-    Long countAllByAccountAndPublish(Account account, boolean publish);
+    Long countAllByAccountAndPublish(Account account, Boolean publish);
 
     Long countAllByCategory(Category category);
 

@@ -20,6 +20,6 @@ public interface CategoryService {
 
     Category updateCategory(Long categoryId, Category categoryDTO);
 
-    boolean isCategoryExists(Long categoryId);
+    Boolean isCategoryExists(Long categoryId);
 
 }

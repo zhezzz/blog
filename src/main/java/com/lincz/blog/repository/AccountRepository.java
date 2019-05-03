@@ -15,7 +15,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Account findAccountByEmail(String email);
 
-    Page<Account> findAllByEnabled(boolean enable, Pageable pageable);
+    Page<Account> findAllByEnabled(Boolean enable, Pageable pageable);
 
     Long countAllByCreateDateBetween(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime);
 

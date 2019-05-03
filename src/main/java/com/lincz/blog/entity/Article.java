@@ -60,16 +60,16 @@ public class Article {
     private Long pageView;
 
     @NotNull
-    private boolean publish;
+    private Boolean publish;
 
     @NotNull
-    private boolean stick;//置顶
+    private Boolean stick;//置顶
 
     protected Article() {
 
     }
 
-    public Article(@NotNull String title, @NotNull String content, @NotNull boolean publish) {
+    public Article(@NotNull String title, @NotNull String content, @NotNull Boolean publish) {
         this.title = title;
         this.content = content;
         this.publish = publish;
@@ -155,19 +155,19 @@ public class Article {
         this.pageView = pageView;
     }
 
-    public boolean isPublish() {
+    public Boolean isPublish() {
         return publish;
     }
 
-    public void setPublish(boolean publish) {
+    public void setPublish(Boolean publish) {
         this.publish = publish;
     }
 
-    public boolean isStick() {
+    public Boolean isStick() {
         return stick;
     }
 
-    public void setStick(boolean stick) {
+    public void setStick(Boolean stick) {
         this.stick = stick;
     }
 

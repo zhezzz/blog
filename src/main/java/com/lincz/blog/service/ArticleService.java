@@ -28,11 +28,11 @@ public interface ArticleService {
 
     Page<Article> paginateGetAllArticles(Pageable pageable);
 
-    Page<Article> paginateGetArticlesByPublish(boolean publish, Pageable pageable);
+    Page<Article> paginateGetArticlesByPublish(Boolean publish, Pageable pageable);
 
     Page<Article> paginateGetArticlesByAccount(Account account, Pageable pageable);
 
-    List<Article> paginateGetArticlesByAccount(Account account);
+    List<Article> getArticlesByAccount(Account account);
 
     Page<Article> paginateGetArticlesByUsername(String username, Pageable pageable);
 
@@ -40,21 +40,23 @@ public interface ArticleService {
 
     Page<Article> paginateGetArticlesByRawContentContianingOrTitleContianing(String keyword, Pageable pageable);
 
-    Page<Article> paginateGetArticlesByAccountAndPublish(Account account, boolean publish, Pageable pageable);
+    Page<Article> paginateGetArticlesByAccountAndPublish(Account account, Boolean publish, Pageable pageable);
 
-    Page<Article> paginateGetArticlesByCategoryAndPublish(Category category, boolean publish, Pageable pageable);
+    Page<Article> paginateGetArticlesByCategoryAndPublish(Category category, Boolean publish, Pageable pageable);
 
     Page<Article> paginateGetArticlesByCategory(Category category, Pageable pageable);
 
-    boolean isArticleExists(Long articleId);
+    Boolean isArticleExists(Long articleId);
 
-    boolean isArticleExistsAndPublish(Long articleId, boolean publish);
+    Boolean isArticleExistsAndPublish(Long articleId, Boolean publish);
 
-    Page<Article> getArticlesByStick(boolean stick, Pageable pageable);
+    Page<Article> getArticlesByStick(Boolean stick, Pageable pageable);
+
+    Page<Article> getHotArticles(Pageable pageable);
 
     List<Article> getRecent10ArticlesByAccount(Account account);
 
-//    Page<Article> paginateGetArticlesByPublishAndCreateDateAfterOrOrderByPageView(boolean publish, LocalDateTime localDateTime, Pageable pageable);
+//    Page<Article> paginateGetArticlesByPublishAndCreateDateAfterOrOrderByPageView(Boolean publish, LocalDateTime localDateTime, Pageable pageable);
 
     Map<Month, Long> getArticleQuantityMonthlyByAccount(Account account);
 

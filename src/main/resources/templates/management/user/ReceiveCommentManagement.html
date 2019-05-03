@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="common/management :: managementhead (~{::title},~{})">
+    <title>收到的评论管理</title>
+</head>
+<body>
+<div th:replace="common/management :: headerbar"></div>
+<div class="wrapper">
+    <div th:replace="common/management :: sidebar"></div>
+    <div th:replace="common/management :: commentTable (commentList=${commentList},commentPage=${commentPage})"></div>
+</div>
+<div th:replace="common/management :: script"></div>
+<script th:inline="javascript">
+    var commentId;
+
+    function setComment(id, content) {
+        commentId = id;
+        document.getElementById('comment-content').value = content;
+    }
+
+    var contextPath = [[${#request.getContextPath()}]];
+
+    function updateComment() {
+        var commentContent = document.getElementById('comment-content').value;
+        var commentData = {
+            content: commentContent
+        }
+        $.ajax({
+            type: "PUT",
+            url: contextPath + '/comment/' + commentId,
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(commentData),
+            success: function (data) {
+                window.location.reload();
+            },
+            error: function (data) {
+                window.location.reload();
+            }
+        })
+
+    }
+
+    function deleteComment() {
+        $.ajax({
+            type: "DELETE",
+            url: contextPath + '/comment/' + commentId,
+            success: function (data) {
+                window.location.reload();
+            }
+        })
+    }
+</script>
+</body>
+</html>

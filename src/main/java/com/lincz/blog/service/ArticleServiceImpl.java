@@ -72,7 +72,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void deleteArticleByArticleId(Long articleId) {
         articleRepository.deleteById(articleId);
-        File dir = new File("/root/data/article/image/" + articleId);
+        File dir = new File("/tmp/data/article/image/" + articleId);
         File[] files = dir.listFiles();
         if (files.length != 0){
             for (File file : files) {
@@ -105,7 +105,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> paginateGetArticlesByAccount(Account account) {
+    public List<Article> getArticlesByAccount(Account account) {
         return articleRepository.findAll();
     }
 
@@ -130,7 +130,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<Article> paginateGetArticlesByPublish(boolean publish, Pageable pageable) {
+    public Page<Article> paginateGetArticlesByPublish(Boolean publish, Pageable pageable) {
         Page<Article> articles = articleRepository.findAllByPublish(publish, pageable);
         return articles;
     }
@@ -141,22 +141,22 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public boolean isArticleExists(Long articleId) {
+    public Boolean isArticleExists(Long articleId) {
         return articleRepository.existsById(articleId);
     }
 
     @Override
-    public Page<Article> paginateGetArticlesByAccountAndPublish(Account account, boolean publish, Pageable pageable) {
+    public Page<Article> paginateGetArticlesByAccountAndPublish(Account account, Boolean publish, Pageable pageable) {
         return articleRepository.findAllByAccountAndPublish(account, publish, pageable);
     }
 
     @Override
-    public Page<Article> paginateGetArticlesByCategoryAndPublish(Category category, boolean publish, Pageable pageable) {
+    public Page<Article> paginateGetArticlesByCategoryAndPublish(Category category, Boolean publish, Pageable pageable) {
         return articleRepository.findAllByCategoryAndPublish(category, publish, pageable);
     }
 
     @Override
-    public boolean isArticleExistsAndPublish(Long articleId, boolean publish) {
+    public Boolean isArticleExistsAndPublish(Long articleId, Boolean publish) {
         if (!articleRepository.existsById(articleId)) {
             return false;
         }
@@ -168,8 +168,17 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<Article> getArticlesByStick(boolean stick, Pageable pageable) {
+    public Page<Article> getArticlesByStick(Boolean stick, Pageable pageable) {
         return articleRepository.findAllByStick(stick, pageable);
+    }
+
+    @Override
+    public Page<Article> getHotArticles(Pageable pageable) {
+        LocalDateTime now = LocalDateTime.now();
+        int years = now.getYear();
+        int month = now.getMonthValue();
+        LocalDateTime monthStartLocalDateTime = LocalDateTime.of(years, Month.of(month), 1, 0, 0, 0, 0);
+        return articleRepository.findAllByPublishTrueAndCreateDateBetweenOrderByPageViewDesc(monthStartLocalDateTime,now,pageable);
     }
 
     @Override
@@ -227,7 +236,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
 //    @Override
-//    public Page<Article> paginateGetArticlesByPublishAndCreateDateAfterOrOrderByPageView(boolean publish, LocalDateTime localDateTime, Pageable pageable) {
+//    public Page<Article> paginateGetArticlesByPublishAndCreateDateAfterOrOrderByPageView(Boolean publish, LocalDateTime localDateTime, Pageable pageable) {
 //        articleRepository.findAllByPublishAndCreateDateAfterOrOrderByPageViewDesc(publish, localDateTime, pageable);
 //        return null;
 //    }

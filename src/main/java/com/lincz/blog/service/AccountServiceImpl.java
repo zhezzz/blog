@@ -33,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Page<Account> paginateGetAccountsByEnable(boolean enable, Pageable pageable) {
+    public Page<Account> paginateGetAccountsByEnable(Boolean enable, Pageable pageable) {
         return accountRepository.findAllByEnabled(enable, pageable);
     }
 
@@ -70,19 +70,19 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account createAccount(Account accountDTO) {
-        Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail(), "default-avatar.jpg", "USER", true, true, true, true);
+        Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail(), "default-avatar.jpg", "USER", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE);
         return accountRepository.save(account);
     }
 
     @Override
     public void updateAccountAvatar(Long accountId, MultipartFile avatar) throws IOException {
         Account account = accountRepository.findById(accountId).orElse(null);
-        File oldFile = new File("/root/data/account/avatar/" + account.getAvatar());
+        File oldFile = new File("/tmp/data/account/avatar/" + account.getAvatar());
         if (oldFile.exists()){
             oldFile.delete();
         }
         String avatarFileName = accountId + avatar.getOriginalFilename().substring(avatar.getOriginalFilename().lastIndexOf("."));
-        File file = new File("/root/data/account/avatar");
+        File file = new File("/tmp/data/account/avatar");
         if (!file.exists()) {
             file.mkdirs();
         }
@@ -94,7 +94,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteAccountByAccountId(Long accountId) {
         Account account = accountRepository.findById(accountId).orElse(null);
-        File file = new File("/root/data/account/avatar/" + account.getAvatar());
+        File file = new File("/tmp/data/account/avatar/" + account.getAvatar());
         if (file.exists()){
             file.delete();
         }
@@ -112,7 +112,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public boolean isAccountExists(Long accountId) {
+    public Boolean isAccountExists(Long accountId) {
         return accountRepository.existsById(accountId);
     }
 

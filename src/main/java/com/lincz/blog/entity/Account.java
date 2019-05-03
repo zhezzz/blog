@@ -57,21 +57,21 @@ public class Account implements UserDetails {
     private Set<Comment> comments;
 
     @NotNull
-    private boolean accountNonExpired;
+    private Boolean accountNonExpired;
 
     @NotNull
-    private boolean accountNonLocked;
+    private Boolean accountNonLocked;
 
     @NotNull
-    private boolean credentialsNonExpired;
+    private Boolean credentialsNonExpired;
 
     @NotNull
-    private boolean enabled;
+    private Boolean enabled;
 
     protected Account() {
     }
 
-    public Account(@NotNull(message = "用户名不能为空") @Length(min = 2, max = 10) String username, @NotNull(message = "密码不能为空") @Length(min = 4, max = 12) String password, @NotNull(message = "电子邮箱地址不能为空") @Email String email, @NotNull String avatar, @NotNull String role, @NotNull boolean accountNonExpired, @NotNull boolean accountNonLocked, @NotNull boolean credentialsNonExpired, @NotNull boolean enabled) {
+    public Account(@NotNull(message = "用户名不能为空") @Length(min = 2, max = 10) String username, @NotNull(message = "密码不能为空") @Length(min = 4, max = 12) String password, @NotNull(message = "电子邮箱地址不能为空") @Email String email, @NotNull String avatar, @NotNull String role, @NotNull Boolean accountNonExpired, @NotNull Boolean accountNonLocked, @NotNull Boolean credentialsNonExpired, @NotNull Boolean enabled) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -131,37 +131,37 @@ public class Account implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return accountNonExpired;
+        return accountNonExpired.booleanValue();
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return accountNonLocked;
+        return accountNonLocked.booleanValue();
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return credentialsNonExpired;
+        return credentialsNonExpired.booleanValue();
     }
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return enabled.booleanValue();
     }
 
-    public void setAccountNonExpired(boolean accountNonExpired) {
+    public void setAccountNonExpired(Boolean accountNonExpired) {
         this.accountNonExpired = accountNonExpired;
     }
 
-    public void setAccountNonLocked(boolean accountNonLocked) {
+    public void setAccountNonLocked(Boolean accountNonLocked) {
         this.accountNonLocked = accountNonLocked;
     }
 
-    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+    public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
         this.credentialsNonExpired = credentialsNonExpired;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 

@@ -16,7 +16,8 @@
             <div th:each="article : ${stickArticleList}"
                  th:class="${stickArticleList.indexOf(article)} == 0  ? 'carousel-item active':'carousel-item'"
                  data-interval="5000" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()}">
-                <img width="800" height="400" th:src="'/static/img/carousel/' + (${stickArticleList.indexOf(article)} + 1) + '.png'"
+                <img width="800" height="400"
+                     th:src="'/static/img/carousel/' + (${stickArticleList.indexOf(article)} + 1) + '.png'"
                      class="d-block w-100" alt="carousel">
                 <div class="carousel-caption">
                     <h5 th:text="${#strings.abbreviate(article.getTitle(),20)}"></h5>
@@ -34,9 +35,21 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+    <hr>
+    <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${#request.getParameter('type') == null} ? 'active' : ''"
+               th:href="${#request.getContextPath()} + '/index'">最新发布</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${#request.getParameter('type') == 'hot'} ? 'active' : ''"
+               th:href="${#request.getContextPath()} + '/index?type=hot'">本月热门</a>
+        </li>
+    </ul>
     <div class="row" id="articles">
         <div class="col-sm-9 postlist">
-            <a th:each="article : ${articleList}" th:href="${#request.getContextPath()} + '/article/details/' + ${article.getArticleId()}" class='post-a'>
+            <a th:each="article : ${articleList}"
+               th:href="${#request.getContextPath()} + '/article/details/' + ${article.getArticleId()}" class='post-a'>
                 <div class='post-box'>
                     <table>
                         <tr>
@@ -45,10 +58,15 @@
                                 <p th:text="${#strings.abbreviate(article.getRawContent(),100)}"></p>
                             </td>
                             <td class='writer'>
-                                <p><a th:href="${#request.getContextPath()} + '/account/homepage/' + ${article.getAccount().getAccountId()}" target='_blank' th:text="${article.getAccount().getUsername()}"></a></p>
-                                <i class="fas fa-clock"></i><span th:text="${article.getCreateDate().toString().replace('T','  ')}"></span>
+                                <p>
+                                    <a th:href="${#request.getContextPath()} + '/account/homepage/' + ${article.getAccount().getAccountId()}"
+                                       target='_blank' th:text="${article.getAccount().getUsername()}"></a></p>
+                                <i class="fas fa-clock"></i><span
+                                    th:text="${article.getCreateDate().toString().replace('T','  ')}"></span>
                                 <br>
-                                <i class="fas fa-eye"></i><span th:text="${article.getPageView()}"></span> &nbsp;<i class="fas fa-comments"></i><span th:text="${@commentServiceImpl.getCommentQuantityByArticle(article)}"></span>
+                                <i class="fas fa-eye"></i><span th:text="${article.getPageView()}"></span> &nbsp;<i
+                                    class="fas fa-comments"></i><span
+                                    th:text="${@commentServiceImpl.getCommentQuantityByArticle(article)}"></span>
                             </td>
                         </tr>
                     </table>

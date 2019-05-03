@@ -19,6 +19,8 @@ public interface CommentService {
 
     Page<Comment> paginateGetCommetsByArticle(Article article, Pageable pageable);
 
+    Page<Comment> paginateGetReceiveCommets(List<Article> articleList, Pageable pageable);
+
     Comment createComment(Comment commentDTO);
 
     void deleteCommentByCommentId(Long commentId);
@@ -27,7 +29,7 @@ public interface CommentService {
 
     Comment getCommentByCommentId(Long commentId);
 
-    boolean isCommentExists(Long commentId);
+    Boolean isCommentExists(Long commentId);
 
     List<Comment> getRecent10CommentsByAccount(Account account);
 

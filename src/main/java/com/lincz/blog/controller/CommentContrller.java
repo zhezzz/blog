@@ -40,7 +40,7 @@ public class CommentContrller {
     public ModelAndView commentManagementPage(@PageableDefault(sort = {"commentId"}, direction = Sort.Direction.DESC) Pageable pageable) {
         //TODO java.lang.NullPointerException
         Page<Comment> commentPage = commentService.paginateGetAllComments(pageable);
-        List<Comment> commentList = commentPage.get().collect(Collectors.toList());
+        List<Comment> commentList = commentPage.getContent();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("management/admin/CommentManagement");
         modelAndView.addObject("commentPage", commentPage);
@@ -54,9 +54,24 @@ public class CommentContrller {
         String currentUsername = request.getUserPrincipal().getName();
         Account currentAccount = accountService.getAccountByUsername(currentUsername);
         Page<Comment> commentPage = commentService.paginateGetCommetsByAccount(currentAccount, pageable);
-        List<Comment> commentList = commentPage.get().collect(Collectors.toList());
+        List<Comment> commentList = commentPage.getContent();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("management/user/MyCommentManagement");
+        modelAndView.addObject("commentPage", commentPage);
+        modelAndView.addObject("commentList", commentList);
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/receivemanagement")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
+    public ModelAndView myReceiveCommentManagementPage(@PageableDefault(sort = {"commentId"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        String currentUsername = request.getUserPrincipal().getName();
+        Account currentAccount = accountService.getAccountByUsername(currentUsername);
+        List<Article> articleList = articleService.getArticlesByAccount(currentAccount);
+        Page<Comment> commentPage = commentService.paginateGetReceiveCommets(articleList, pageable);
+        List<Comment> commentList = commentPage.getContent();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("management/user/ReceiveCommentManagement");
         modelAndView.addObject("commentPage", commentPage);
         modelAndView.addObject("commentList", commentList);
         return modelAndView;

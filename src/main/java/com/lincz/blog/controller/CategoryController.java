@@ -35,7 +35,7 @@ public class CategoryController {
     @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
     public ModelAndView categoryManagementPage(@PageableDefault(sort = {"categoryId"}, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Category> categoryPage = categoryService.paginateGetAllCategory(pageable);
-        List<Category> categoryList = categoryPage.get().collect(Collectors.toList());
+        List<Category> categoryList = categoryPage.getContent();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("management/admin/CategoryManagement");
         modelAndView.addObject("categoryPage", categoryPage);
@@ -70,7 +70,7 @@ public class CategoryController {
                                               @PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
         Category category = categoryService.getCategoryByCategoryId(categoryId);
         Page<Article> articlePage = articleService.paginateGetArticlesByCategory(category, pageable);
-        List<Article> articleList = articlePage.get().collect(Collectors.toList());
+        List<Article> articleList = articlePage.getContent();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("Index");
         modelAndView.addObject("articleList", articleList);

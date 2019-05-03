@@ -17,7 +17,7 @@ public interface AccountService extends UserDetailsService {
 
     Page<Account> paginateGetAllAccount(Pageable pageable);
 
-    Page<Account> paginateGetAccountsByEnable(boolean enable, Pageable pageable);
+    Page<Account> paginateGetAccountsByEnable(Boolean enable, Pageable pageable);
 
     Account getAccountByUsername(String username);
 
@@ -38,7 +38,7 @@ public interface AccountService extends UserDetailsService {
     @Override
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
-    boolean isAccountExists(Long accountId);
+    Boolean isAccountExists(Long accountId);
 
     Map<Month, Long> getAccountQuantityMonthly();
 

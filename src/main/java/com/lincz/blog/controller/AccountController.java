@@ -7,31 +7,23 @@ import com.lincz.blog.service.AccountService;
 import com.lincz.blog.service.ArticleService;
 import com.lincz.blog.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/account")
 public class AccountController {
-
-    // TODO 设计任意访问的用户主页，还有用户自己管理页面，和admin管理页面类似，验证传入id，跳转404
 
     @Autowired
     private AccountService accountService;
@@ -41,7 +33,6 @@ public class AccountController {
 
     @Autowired
     private CommentService commentService;
-
 
     @Autowired
     private HttpServletRequest request;
@@ -56,7 +47,7 @@ public class AccountController {
         } else {
             accountPage = accountService.paginateGetAccountsByEnable(enabled, pageable);
         }
-        List<Account> accountList = accountPage.get().collect(Collectors.toList());
+        List<Account> accountList = accountPage.getContent();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("management/admin/AccountManagement");
         modelAndView.addObject("accountPage", accountPage);
@@ -83,7 +74,7 @@ public class AccountController {
     public ModelAndView getAccountHomePame(@PathVariable Long accountId) {
         Account account = accountService.getAccountByAccountId(accountId);
         Page<Article> articlePage = articleService.paginateGetArticlesByAccountAndPublish(account, true, Pageable.unpaged());
-        List<Article> articleList = articlePage.get().collect(Collectors.toList());
+        List<Article> articleList = articlePage.getContent();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("account",account);
         modelAndView.addObject("articleList", articleList);
@@ -146,7 +137,7 @@ public class AccountController {
                                         @PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
         Account account = accountService.getAccountByAccountId(accountId);
         Page<Comment> commentPage = commentService.paginateGetCommetsByAccount(account, pageable);
-        List<Comment> commentList = commentPage.get().collect(Collectors.toList());
+        List<Comment> commentList = commentPage.getContent();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("AccountComments");
         modelAndView.addObject(commentList);
@@ -159,7 +150,7 @@ public class AccountController {
                                         @PageableDefault(sort = {"createDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
         Account account = accountService.getAccountByAccountId(accountId);
         Page<Article> articlePage = articleService.paginateGetArticlesByAccount(account, pageable);
-        List<Article> articleList = articlePage.get().collect(Collectors.toList());
+        List<Article> articleList = articlePage.getContent();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("AccountHomePage");
         modelAndView.addObject(articleList);

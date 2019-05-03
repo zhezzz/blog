@@ -60,7 +60,7 @@ public class ArticleController {
         if (publish != null && stick == null) {
             articlePage = articleService.paginateGetArticlesByPublish(publish, pageable);
         }
-        List<Article> articleList = articlePage.get().collect(Collectors.toList());
+        List<Article> articleList = articlePage.getContent();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("management/admin/ArticleManagement");
         modelAndView.addObject("articleList", articleList);
@@ -81,7 +81,7 @@ public class ArticleController {
         } else {
             articlePage = articleService.paginateGetArticlesByAccountAndPublish(currentAccount, publish, pageable);
         }
-        List<Article> articleList = articlePage.get().collect(Collectors.toList());
+        List<Article> articleList = articlePage.getContent();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("management/user/MyArticleManagement");
         modelAndView.addObject("articleList", articleList);
@@ -94,7 +94,7 @@ public class ArticleController {
     public ModelAndView articleDetails(@PathVariable Long articleId, @PageableDefault(sort = {"commentId"}, direction = Sort.Direction.DESC) Pageable pageable) {
         Article article = articleService.getArticleByArticleId(articleId);
         Page<Comment> commentPage = commentService.paginateGetCommetsByArticle(article, pageable);
-        List<Comment> commentList = commentPage.get().collect(Collectors.toList());
+        List<Comment> commentList = commentPage.getContent();
         articleService.increasePageView(articleId);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("ArticleDetails");
@@ -110,7 +110,7 @@ public class ArticleController {
     public ModelAndView postArticleView() {
         String currentUsername = request.getUserPrincipal().getName();
         Account currentAccount = accountService.getAccountByUsername(currentUsername);
-        Article article = new Article("标题", "请在此编写文章。", false);
+        Article article = new Article("标题", "请在此编写文章。", Boolean.FALSE);
         article.setAccount(currentAccount);
         article.setPageView(Long.valueOf(0));
         article.setRawContent("请在此编写文章");
@@ -179,14 +179,14 @@ public class ArticleController {
                 || originalFileName.endsWith(".GIF")) {
             String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
             String fileName = UUID.randomUUID().toString() + extension;
-            File file = new File("/root/data/article/image/" + articleId);
+            File file = new File("/tmp/data/article/image/" + articleId);
             if (!file.exists()) {
                 file.mkdirs();
             }
             imageFile.transferTo(new File(file.toString() + "/" + fileName));
-            return new Response(true, request.getContextPath() + "/data/article/image/" + articleId + "/" + fileName);
+            return new Response(Boolean.TRUE, request.getContextPath() + "/data/article/image/" + articleId + "/" + fileName);
         } else {
-            return new Response(false, null);
+            return new Response(Boolean.FALSE, null);
         }
     }
 
