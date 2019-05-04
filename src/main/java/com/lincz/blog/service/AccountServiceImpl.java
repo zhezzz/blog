@@ -70,7 +70,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account createAccount(Account accountDTO) {
-        Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail(), "default-avatar.jpg", "USER", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE);
+        Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword(), accountDTO.getEmail(), "defaultavatar.jpg", "USER", Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE);
         return accountRepository.save(account);
     }
 

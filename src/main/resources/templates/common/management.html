@@ -185,7 +185,7 @@
                         <tr th:each="article : ${articleList}">
                             <td th:text="${article.getArticleId()}"></td>
                             <td th:text="${article.getCategory().getCategoryName()}"></td>
-                            <td th:text="${#strings.abbreviate(article.getTitle(),35)}"></td>
+                            <td th:text="${#strings.abbreviate(article.getTitle(),15)}"></td>
                             <td th:if="${#request.getRequestURI().contains('/management')}"
                                 th:text="${article.getAccount().getUsername()}"></td>
                             <td th:text="${article.getCreateDate().toString().replace('T',' ')}"></td>
@@ -278,7 +278,7 @@
                         <tr th:each="comment : ${commentList}">
                             <td th:text="${comment.getCommentId()}"></td>
                             <td th:text="${comment.getArticle().getTitle()}"></td>
-                            <td th:text="${#strings.abbreviate(comment.getContent(),35)}"></td>
+                            <td th:text="${#strings.abbreviate(comment.getContent(),15)}"></td>
                             <td th:if="${#request.getRequestURI().contains('/management') || #request.getRequestURI().contains('/receivemanagement')}"
                                 th:text="${comment.getAccount().getUsername()}"></td>
                             <td th:text="${comment.getCreateDate().toString().replace('T',' ')}"></td>
