@@ -106,7 +106,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Article> getArticlesByAccount(Account account) {
-        return articleRepository.findAll();
+        return articleRepository.findAriclesByAccount(account);
     }
 
     @Override

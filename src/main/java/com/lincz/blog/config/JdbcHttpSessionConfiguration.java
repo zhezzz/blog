@@ -8,5 +8,4 @@ import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHtt
 @EnableJdbcHttpSession
 public class JdbcHttpSessionConfiguration {
 
-
 }
