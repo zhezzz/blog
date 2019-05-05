@@ -92,7 +92,7 @@ a:hover {
 body {
     min-height: 100%;
     font-weight: 400;
-    font-family: ĺžŽč˝Żééť,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif!important;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif!important;
     background-color: #f1f1f1;
     overflow-x: hidden;
     background-repeat: no-repeat;
@@ -104,16 +104,16 @@ body {
 .container {
     min-height: 100%;
     box-shadow: 0 0 16px rgba(0,0,0,.35);
-    min-height: 1024;
+    min-height: 1024px;
     background-color: #fff
 }
 
 .container:after {
-    ăăcontent: "";
-    ăăvisibility: hidden;
-    ăădisplay: block;
-    ăăclear: both;
-    ăăheight: 0
+    content: "";
+    visibility: hidden;
+    display: block;
+    clear: both;
+    height: 0
 }
 
 .topbar {

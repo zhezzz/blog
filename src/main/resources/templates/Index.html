@@ -15,10 +15,12 @@
         <div class="carousel-inner">
             <div th:each="article : ${stickArticleList}"
                  th:class="${stickArticleList.indexOf(article)} == 0  ? 'carousel-item active':'carousel-item'"
-                 data-interval="5000" th:href="${#request.getContextPath()} + '/article/' + ${article.getArticleId()}">
-                <img width="800" height="400"
-                     th:src="'/static/img/carousel/' + (${stickArticleList.indexOf(article)} + 1) + '.png'"
-                     class="d-block w-100" alt="carousel">
+                 data-interval="5000">
+                <a th:href="${#request.getContextPath()} + '/article/details/' + ${article.getArticleId()}">
+                    <img width="800" height="400"
+                         th:src="'/static/img/carousel/' + (${stickArticleList.indexOf(article)} + 1) + '.png'"
+                         class="d-block w-100" alt="carousel">
+                </a>
                 <div class="carousel-caption">
                     <h3 th:text="${#strings.abbreviate(article.getTitle(),30)}"></h3>
                     <p th:text="${#strings.abbreviate(article.getRawContent(),100)}"></p>
