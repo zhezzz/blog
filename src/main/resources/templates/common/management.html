@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/management.css}">
+    <link rel="shortcut icon" th:href="@{/static/favicon.ico}">
     <th:block th:replace="${links}"/>
 </head>
 
@@ -151,7 +152,8 @@
                                 </option>
                                 <option sec:authorize="hasAnyRole('ROOT','ADMIN')"
                                         th:value="${#request.getRequestURI()} + '?stick=true'"
-                                        th:selected="${#request.getParameter('stick') == 'true'}">置顶文章
+                                        th:selected="${#request.getParameter('stick') == 'true'}"
+                                        th:if="${#request.getRequestURI().contains('/management')}">置顶文章
                                 </option>
                             </select>
                         </div>

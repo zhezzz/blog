@@ -20,8 +20,8 @@
                      th:src="'/static/img/carousel/' + (${stickArticleList.indexOf(article)} + 1) + '.png'"
                      class="d-block w-100" alt="carousel">
                 <div class="carousel-caption">
-                    <h5 th:text="${#strings.abbreviate(article.getTitle(),20)}"></h5>
-                    <p th:text="${#strings.abbreviate(article.getRawContent(),80)}"></p>
+                    <h3 th:text="${#strings.abbreviate(article.getTitle(),30)}"></h3>
+                    <p th:text="${#strings.abbreviate(article.getRawContent(),100)}"></p>
                 </div>
             </div>
 

@@ -15,7 +15,7 @@
             <td>
                 <h3 itemprop="name" th:text="${account.getUsername()}"></h3>
                 <p>
-                    <span th:text="' 注册于：' + ${account.getCreateDate().toString().replace('T','  ')} + ' 发布文章数量：' + ${@articleServiceImpl.getArticleQuantityByPublishTrueAndAccount(account)} + ' 回复量：' + ${@commentServiceImpl.getMyCommentQuantityMonthlyByAccount(account).size()}"></span>
+                    <span th:text="' 注册于：' + ${account.getCreateDate().toString().replace('T','  ')} + ' 发布文章数量：' + ${@articleServiceImpl.getArticleQuantityByPublishTrueAndAccount(account)}"></span>
                 </p>
             </td>
         </tr>

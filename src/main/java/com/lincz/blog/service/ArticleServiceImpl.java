@@ -72,14 +72,16 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void deleteArticleByArticleId(Long articleId) {
         articleRepository.deleteById(articleId);
-        File dir = new File("/tmp/data/article/image/" + articleId);
-        File[] files = dir.listFiles();
-        if (files.length != 0){
-            for (File file : files) {
-                file.delete();
+        File dir = new File("/tmp/data/article/" + articleId + "/image");
+        if (dir.exists()){
+            File[] files = dir.listFiles();
+            if (files.length != 0){
+                for (File file : files) {
+                    file.delete();
+                }
             }
+            dir.delete();
         }
-        dir.delete();
     }
 
     @Override

@@ -3,9 +3,7 @@
 <head th:replace="common/common :: commonhead (~{::title},~{})">
     <title th:text="${article.getTitle()} + ' -- 南风博客'"></title>
 </head>
-
 <body>
-
 <div class="container">
     <div th:replace="common/common :: header"></div>
     <div class="row viewpost">
@@ -40,22 +38,24 @@
                 <button type="submit" class="btn btn-primary mb-2">发布</button>
             </form>
             <ul class="list-unstyled">
-                <li class="media" th:each="comment : ${commentList}">
-                    <img th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${comment.getAccount().getAvatar()}"
-                         class="mr-3 avatar" alt="头像">
-                    <div class="media-body">
-                        <a th:href="${#request.getContextPath()} + '/account/homepage/' + ${comment.getAccount().getAccountId()}">
-                            <h5 class="mt-0 mb-1" th:text="${comment.getAccount().getUsername()}"></h5></a>
-                        <p th:text="${comment.getContent()}"></p>
-                    </div>
-                </li>
+                <div th:each="comment : ${commentList}">
+                    <hr>
+                    <li class="media">
+                        <img th:src="${#request.getContextPath()} + '/data/account/avatar/' + ${comment.getAccount().getAvatar()}"
+                             class="mr-3 avatar" alt="头像">
+                        <div class="media-body">
+                            <a th:href="${#request.getContextPath()} + '/account/homepage/' + ${comment.getAccount().getAccountId()}">
+                                <h5 class="mt-0 mb-1" th:text="${comment.getAccount().getUsername()}"></h5></a>
+                            <p th:text="${comment.getContent()}"></p>
+                        </div>
+                    </li>
+                </div>
+
             </ul>
             <div th:replace="common/common :: pagination (page=${commentPage},addition='#comments')"></div>
         </div>
         <div th:replace="common/common :: aside"></div>
     </div>
-
-
     <footer th:replace="common/common :: footer"></footer>
 </div>
 <div th:replace="common/common :: script"></div>

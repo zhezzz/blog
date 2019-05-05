@@ -178,12 +178,12 @@ public class ArticleController {
                 || originalFileName.endsWith(".GIF")) {
             String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
             String fileName = UUID.randomUUID().toString() + extension;
-            File file = new File("/tmp/data/article/image/" + articleId);
+            File file = new File("/tmp/data/article/" + articleId + "/image");
             if (!file.exists()) {
                 file.mkdirs();
             }
             imageFile.transferTo(new File(file.toString() + "/" + fileName));
-            return new Response(Boolean.TRUE, request.getContextPath() + "/data/article/image/" + articleId + "/" + fileName);
+            return new Response(Boolean.TRUE, request.getContextPath() + "/data/article/" + articleId + "/image/" + fileName);
         } else {
             return new Response(Boolean.FALSE, null);
         }
