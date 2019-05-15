@@ -37,7 +37,6 @@ public class CommentContrller {
     @GetMapping(value = "/management")
     @PreAuthorize("hasAnyRole('ROOT','ADMIN')")
     public ModelAndView commentManagementPage(@PageableDefault(sort = {"commentId"}, direction = Sort.Direction.DESC) Pageable pageable) {
-        //TODO java.lang.NullPointerException
         Page<Comment> commentPage = commentService.paginateGetAllComments(pageable);
         List<Comment> commentList = commentPage.getContent();
         ModelAndView modelAndView = new ModelAndView();

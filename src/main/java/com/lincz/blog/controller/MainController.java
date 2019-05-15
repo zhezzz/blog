@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -90,6 +91,7 @@ public class MainController {
 
     //管理员：今年每月发布文章总数折线图，分类下文章数量饼图，每月评论数折线图，每月新增账号折线图---访问量 折线图？
     @GetMapping(value = "/overview")
+    @PreAuthorize("hasAnyRole('ROOT','ADMIN','USER')")
     public ModelAndView overview() {
         Long articleQuantity = articleService.getArticleQuantity();
         String currentUsername = request.getUserPrincipal().getName();
